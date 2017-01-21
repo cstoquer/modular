@@ -1,6 +1,5 @@
 var moduleManager = require('./moduleManager');
 var connectors    = require('./connectors');
-var ROOT          = require('./root');
 var constants     = require('./constants');
 var createDiv     = require('domUtils').createDiv;
 
@@ -39,8 +38,9 @@ function Connector(module, id, descriptor) {
 module.exports = Connector;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Connector.prototype.connectorClassName = 'connectorNone'; // cssClassName
-Connector.prototype.color = ROOT.COLOR.NONE;
+Connector.prototype.connectorClassName = 'connector'; // cssClassName
+Connector.prototype.color = '#2da8ff';
+Connector.prototype.type  = 'none';
 connectors.register(Connector, 'input', 'none');
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Connector.prototype.connect = function (connector) {
@@ -53,6 +53,6 @@ Connector.prototype.disconnect = function (connector) {
 
 Connector.prototype.isCompatible = function (connector) {
 	if (connector === this) return false;
-	// TODO
+	if (this.type !== connector.type) return false;
 	return true;
 };

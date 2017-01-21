@@ -1,8 +1,5 @@
 var domUtils     = require('domUtils');
 var audioContext = require('./core/audioContext');
-var connectors   = require('./core/connectors');
-var Connector    = require('./core/Connector');
-var ROOT         = require('./core/root');
 
 // remove pixelbox canvas
 domUtils.removeDom($screen.canvas, document.body);
@@ -33,65 +30,13 @@ function loadAudioBuffer(path, cb) {
 	});
 }
 
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-var AUDIO_CABLE_COLOR = '#fd870e';
-
-function AudioInConnector(module, id, connectorDescription) {
-	Connector.call(this, module, id, connectorDescription);
-	var endPoint = connectorDescription.endPoint.split('.');
-	this.endPoint = module;
-	for (var i = 0; i < endPoint.length; i++) {
-		this.endPoint = this.endPoint[endPoint[i]];
-	}
-}
-inherits(AudioInConnector, Connector);
-AudioInConnector.prototype.connectorClassName = 'audioIn';
-AudioInConnector.prototype.color = AUDIO_CABLE_COLOR;
-connectors.register(AudioInConnector, 'input', 'audio');
-
-AudioInConnector.prototype.connect = function (connector) {
-	Connector.prototype.connect.call(this, connector);
-	// TODO: check connector type
-	// TODO: enable to be connected to another inEvent for daisy chain
-	connector.endPoint.connect(this.endPoint);
-};
-
-AudioInConnector.prototype.disconnect = function (connector) {
-	try {
-		connector.endPoint.disconnect(this.endPoint);
-	} catch (e) {
-
-	}
-};
+loadAudioBuffer('audio/crystal.mp3', function (error, buffer) {
+	window.testBuffer = buffer;
+})
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function AudioOutConnector(module, id, connectorDescription) {
-	Connector.call(this, module, id, connectorDescription);
-	var endPoint = connectorDescription.endPoint.split('.');
-	this.endPoint = module;
-	for (var i = 0; i < endPoint.length; i++) {
-		this.endPoint = this.endPoint[endPoint[i]];
-	}
-}
-inherits(AudioOutConnector, Connector);
-AudioOutConnector.prototype.connectorClassName = 'audioOut';
-AudioOutConnector.prototype.color = AUDIO_CABLE_COLOR;
-connectors.register(AudioOutConnector, 'output', 'audio');
-
-AudioOutConnector.prototype.connect = function (connector) {
-	Connector.prototype.connect.call(this, connector);
-	// TODO: check connector type
-	// TODO: enable to be connected to another inEvent for daisy chain
-	this.endPoint.connect(connector.endPoint);
-};
-
-AudioOutConnector.prototype.disconnect = function (connector) {
-	try {
-		this.endPoint.disconnect(connector.endPoint);
-	} catch (e) {
-
-	}
-};
+require('./core/AudioConnector');
+require('./core/EventConnector');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 require('./modules/TestModule');
@@ -100,8 +45,8 @@ require('./modules/LFO');
 require('./modules/Gain');
 require('./modules/Panner');
 require('./modules/ModPanner');
+require('./modules/Sampler');
+require('./modules/Filter');
 require('./modules/Context');
-
-
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

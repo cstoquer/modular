@@ -1,11 +1,13 @@
-var constants     = require('./constants');
-var connectors    = require('./connectors');
-var moduleManager = require('./moduleManager');
-var Knob          = require('./Knob');
 var domUtils      = require('domUtils');
 var createDiv     = domUtils.createDiv;
 var createDom     = domUtils.createDom;
 var removeDom     = domUtils.removeDom;
+var constants     = require('./constants');
+var connectors    = require('./connectors');
+var moduleManager = require('./moduleManager');
+var Knob          = require('./Knob');
+var Button        = require('./Button');
+
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Main abstract class for modules. Handle UI display.
@@ -38,7 +40,8 @@ function Module(params) {
 	for (var id in this.descriptor.params) {
 		var control = this.descriptor.params[id];
 		switch (control.type) {
-			case 'knob': this['$$' + id] = new Knob(this, id, control); break;
+			case 'knob':   this['$$' + id] = new Knob(this, id, control); break;
+			case 'button': this['$$' + id] = new Button(this, id, control); break;
 		}
 	}
 

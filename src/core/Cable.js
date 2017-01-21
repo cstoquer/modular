@@ -1,6 +1,5 @@
 var constants = require('./constants');
 var ctx = require('./overlay').ctx;
-var ROOT = require('./root');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Cable
@@ -11,7 +10,7 @@ var ROOT = require('./root');
 function Cable(a, b, c) {
 	this.endPointA = a;
 	this.endPointB = b;
-	this.color     = c || ROOT.COLOR.A;
+	this.color     = c || '#555';
 	this.id        = this.getId(a, b);
 
 	this.x = 0; // start point x

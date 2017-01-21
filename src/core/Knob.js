@@ -39,7 +39,7 @@ function Knob(module, id, descriptor) {
 	dom.style.top  = (this.y * constants.CONNECTOR_GRID_SIZE + 2) + 'px';
 	this._mark     = createDiv('knob knobMark', dom);
 	if (descriptor.label) createDiv('label knobLabel', dom).innerText = descriptor.label;
-	dom.connector  = this;
+	// dom.connector  = this;
 
 	this.setValue();
 

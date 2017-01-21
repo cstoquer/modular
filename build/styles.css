@@ -96,16 +96,12 @@ body {
 .selected { background-color: #FFF }
 
 .module {
-	font-size: 10px;
+	font-size: 11px;
 	/*cursor: pointer;*/
 	position: absolute;
 	border: 1px;
-	/*border-image: url("../img/mod-bg.png") 1 1 1 1 fill;*/
 	background-color: #CCC;
-	border-top:    solid #FFF 2px;
-	border-left:   solid #FFF 2px;
-	border-bottom: solid #666 2px;
-	border-right:  solid #666 2px;
+	border: outset 2px #e8eae9;
 }
 
 .module:hover { 
@@ -116,36 +112,9 @@ body {
 
 .dummy {
 	position:     absolute;
-	border:       4px;
-	/*border-image: url("../img/mod-dummy.png") 4 4 round;*/
-	border: dashed #F00 3px;
+	border: dashed #F00 4px;
 	z-index:      9999;
 }
-
-.R0 { border-image: url("../img/mod-bgR0.png") 1 1 1 1 fill; }
-.R1 { border-image: url("../img/mod-bgR1.png") 1 1 1 1 fill; }
-.R2 { border-image: url("../img/mod-bgR2.png") 1 1 1 1 fill; }
-.R3 { border-image: url("../img/mod-bgR3.png") 1 1 1 1 fill; }
-.Y0 { border-image: url("../img/mod-bgY0.png") 1 1 1 1 fill; }
-.Y1 { border-image: url("../img/mod-bgY1.png") 1 1 1 1 fill; }
-.Y2 { border-image: url("../img/mod-bgY2.png") 1 1 1 1 fill; }
-.Y3 { border-image: url("../img/mod-bgY3.png") 1 1 1 1 fill; }
-.G0 { border-image: url("../img/mod-bgG0.png") 1 1 1 1 fill; }
-.G1 { border-image: url("../img/mod-bgG1.png") 1 1 1 1 fill; }
-.G2 { border-image: url("../img/mod-bgG2.png") 1 1 1 1 fill; }
-.G3 { border-image: url("../img/mod-bgG3.png") 1 1 1 1 fill; }
-.C0 { border-image: url("../img/mod-bgC0.png") 1 1 1 1 fill; }
-.C1 { border-image: url("../img/mod-bgC1.png") 1 1 1 1 fill; }
-.C2 { border-image: url("../img/mod-bgC2.png") 1 1 1 1 fill; }
-.C3 { border-image: url("../img/mod-bgC3.png") 1 1 1 1 fill; }
-.B0 { border-image: url("../img/mod-bgB0.png") 1 1 1 1 fill; }
-.B1 { border-image: url("../img/mod-bgB1.png") 1 1 1 1 fill; }
-.B2 { border-image: url("../img/mod-bgB2.png") 1 1 1 1 fill; }
-.B3 { border-image: url("../img/mod-bgB3.png") 1 1 1 1 fill; }
-.P0 { border-image: url("../img/mod-bgP0.png") 1 1 1 1 fill; }
-.P1 { border-image: url("../img/mod-bgP1.png") 1 1 1 1 fill; }
-.P2 { border-image: url("../img/mod-bgP2.png") 1 1 1 1 fill; }
-.P3 { border-image: url("../img/mod-bgP3.png") 1 1 1 1 fill; }
 
 .connector {
 	position: absolute;
@@ -154,12 +123,25 @@ body {
 	height:   11px;
 }
 
-.connectorNone { background-image: url("../img/out-Y.png"); }
+.eventOut   { background-image: url("../img/out-Y.png"); }
 .eventIn    { background-image: url("../img/in-Y.png");  }
 .audioOut   { background-image: url("../img/out-R.png"); }
 .audioIn    { background-image: url("../img/in-R.png");  }
 .controlOut { background-image: url("../img/out-B.png"); }
 .controlIn  { background-image: url("../img/in-B.png");  }
+
+.moduleButton {
+	width:    20px;
+	height:   20px;
+	position: absolute;
+	border-radius: 30px;
+	border: 2px solid #616161;
+	background-color: #999;
+}
+
+.moduleButton:hover { 
+	background-color: #FF0;
+}
 
 
 .knob {

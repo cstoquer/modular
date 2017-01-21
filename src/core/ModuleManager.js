@@ -2,7 +2,6 @@ var ctx       = require('./overlay').ctx;
 var overCtx   = require('./overlay').overCtx;
 var constants = require('./constants');
 var Cable     = require('./Cable');
-var ROOT      = require('./root');
 var domUtils  = require('domUtils');
 var createDiv = domUtils.createDiv;
 var createDom = domUtils.createDom;
@@ -279,7 +278,10 @@ ModuleManager.prototype.startConnection = function (sourceConnector, e) {
 		var dom = d.elementFromPoint(e.clientX, e.clientY);
 		var targetConnector = dom.connector;
 		if (!targetConnector) return;
+
+		// check that connection is valid
 		if (targetConnector === sourceConnector) return;
+		if (targetConnector && targetConnector.isCompatible && !targetConnector.isCompatible(sourceConnector)) return;
 
 		// check that connection don't already exist
 		var forwardId  = Cable.prototype.getId(targetConnector, sourceConnector);
