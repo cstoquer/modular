@@ -1,6 +1,8 @@
 body {
 	font-family: verdana;
 	background-color: #7F7F7F;
+	background-repeat: repeat;
+	background-image: url("../img/background.png");
 }
 
 body {
@@ -25,35 +27,42 @@ body {
 	display: none;
 }
 
-.background {
-	position: absolute;
-	z-index:  -1;
-	top:      0;
-	left:     0;
-	width:    100%;
-	height:   100%;
-	background-repeat: repeat;
-	background-image: url("../img/background.png");
-}
-
 .connectorMenu {
 	position: absolute;
-	z-index:  7;
+	cursor: pointer;
+	z-index:  1000;
 	display:  none;
 	background-color: rgba(255, 255, 255, 0.8);
 	padding: 2px;
+	border: solid #AAA 3px;
 	border-radius: 4px;
+}
+
+.connectorMenuEntry {
+	font-size: 12px;
+
+}
+
+.connectorMenuEntry:hover { 
+	background-color: #FF0;
+}
+
+.handle {
+	height: 10px;
+	padding: 1px;
+	background-color: #AAA;
+    border-radius: 2px;
 }
 
 .library {
 	position: absolute;
-	z-index:  8;
-	right:    0;
-	top:      0;
-	background-color: #CCC;
-	width: 100px;
-	height: 100%;
-	box-shadow: 0px 0px 10px #333;
+    z-index: 8;
+    background-color: #CCC;
+    /*width: 100px;*/
+    box-shadow: 1px 1px 10px #666d63;
+    border-radius: 4px;
+    border: solid #666 2px;
+    padding: 2px;
 }
 
 .libraryList {
@@ -65,6 +74,7 @@ body {
 	border: 1px;
 	border-radius: 3px;
 	z-index: 10;
+	padding: 1px;
 }
 
 .moduleEntry:hover {
@@ -89,7 +99,7 @@ body {
 	position: absolute;
 	top:      0;
 	left:     0;
-	z-index:  99;
+	z-index:  9999;
 	pointer-events: none;
 }
 
@@ -113,7 +123,7 @@ body {
 .dummy {
 	position:     absolute;
 	border: dashed #F00 4px;
-	z-index:      9999;
+	z-index:      999;
 }
 
 .connector {

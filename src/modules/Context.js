@@ -12,7 +12,7 @@ inherits(Context, Module);
 Context.prototype.descriptor = {
 	name: 'Context',
 	size: 1,
-	inputs:  { destination: { type: 'audio', x:3,  y:0, endPoint: 'node.destination', label: 'DEST' } },
+	inputs:  { DEST: { type: 'audio', x:3,  y:0, endPoint: 'node.destination', label: 'DEST' } },
 	outputs: {},
 	params:  {}
 };

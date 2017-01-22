@@ -14,10 +14,10 @@ ModPanner.prototype.descriptor = {
 	name: 'ModPan',
 	size: 2,
 	inputs:  { 
-		source: { type: 'audio', x:3.5,  y:0, endPoint: 'node', label: 'IN' },
-		pan:    { type: 'audio', x:0.0,  y:1, endPoint: 'node.pan', label: 'PAN' },
+		IN: { type: 'audio', x:3.5,  y:0, endPoint: 'node', label: 'IN' },
+		pan: { type: 'audio', x:0.0,  y:1, endPoint: 'node.pan', label: 'PAN' },
 	},
-	outputs: { destination:  { type: 'audio', x:3.5,  y:1,   endPoint: 'node', label: 'OUT' } },
+	outputs: { OUT: { type: 'audio', x:3.5,  y:1,   endPoint: 'node', label: 'OUT' } },
 	params:  {}
 };
 

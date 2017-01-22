@@ -19,7 +19,6 @@ function Filter(params) {
 	this.type = 0;
 	this.node.type = FILTER_TYPE_ENUM[this.type];
 	
-	console.log(this.node)
 	Module.call(this, params);
 }
 inherits(Filter, Module);
@@ -34,11 +33,11 @@ Filter.prototype.switchType = function () {
 Filter.prototype.descriptor = {
 	name: 'Filter',
 	size: 4,
-	inputs:  { source:       { type: 'audio', x:0.5,  y:3, endPoint: 'node', label: 'IN' } },
-	outputs: { destination:  { type: 'audio', x:3.0,  y:3,   endPoint: 'node', label: 'OUT' } },
+	inputs:  { IN:  { type: 'audio', x:0.5,  y:3, endPoint: 'node', label: 'IN' } },
+	outputs: { OUT: { type: 'audio', x:3.0,  y:3,   endPoint: 'node', label: 'OUT' } },
 	params:  {
 		cutoff:   { type: 'knob', x: 2.0, y: 0.6, min: 10.0, max: 8000.0, endPoint: 'node.frequency', value: 'value', label: 'CUT' },
-		resonace: { type: 'knob', x: 4.0, y: 0.6, min: 0.01, max: 40.0, endPoint: 'node.Q', value: 'value', label: 'REZ' },
+		resonace: { type: 'knob', x: 4.0, y: 0.6, min: 0.00, max: 40.0, endPoint: 'node.Q', value: 'value', label: 'REZ' },
 		type:     { type: 'button', x: 0, y: 1.0, endPoint: 'switchType' }
 	}
 };

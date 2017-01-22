@@ -7,10 +7,10 @@ var ctx = require('./overlay').ctx;
  *
  * @author Cedric Stoquer
  */
-function Cable(a, b, c) {
+function Cable(a, b, color) {
 	this.endPointA = a;
 	this.endPointB = b;
-	this.color     = c || '#555';
+	this.color     = color || '#555';
 	this.id        = this.getId(a, b);
 
 	this.x = 0; // start point x

@@ -27,7 +27,7 @@ TestModule.prototype.doStuff = function (data) {
 };
 
 TestModule.prototype.pushButton = function () {
-	this.$b.emit('#' + (~~(Math.random() * 4096)).toString(16));
+	this.$B.emit('#' + (~~(Math.random() * 4096)).toString(16));
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -35,10 +35,10 @@ TestModule.prototype.descriptor = {
 	name: 'TestModule',
 	size: 5,
 	inputs: {
-		a:  { type: 'event', x:0.2,  y:1, label: 'A', endPoint: 'doStuff' },
+		A: { type: 'event', x:0.2,  y:1, label: 'A', endPoint: 'doStuff' },
 	},
 	outputs: {
-		b:  { type: 'event', x:3.2,  y:1, label: 'B' }
+		B: { type: 'event', x:3.2,  y:1, label: 'B' }
 	},
 	params:  {
 		a: { type: 'knob',   x: 0.1, y: 2.3, label: 'KNB' },

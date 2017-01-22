@@ -13,8 +13,8 @@ inherits(Panner, Module);
 Panner.prototype.descriptor = {
 	name: 'Pan',
 	size: 2,
-	inputs:  { source:       { type: 'audio', x:3.5,  y:0, endPoint: 'node', label: 'IN' } },
-	outputs: { destination:  { type: 'audio', x:3.5,  y:1,   endPoint: 'node', label: 'OUT' } },
+	inputs:  { IN: { type: 'audio', x:3.5,  y:0, endPoint: 'node', label: 'IN' } },
+	outputs: { OUT: { type: 'audio', x:3.5,  y:1,   endPoint: 'node', label: 'OUT' } },
 	params:  { pan: { type: 'knob', x: 1.5, y: 0, min: -1, max: 1, endPoint: 'node.pan', value: 'value' } }
 };
 

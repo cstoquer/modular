@@ -22,8 +22,8 @@ Sampler.prototype.start = function () {
 Sampler.prototype.descriptor = {
 	name: 'Sampler',
 	size: 3,
-	inputs:  { start:        { type: 'event', x:0,  y:1, endPoint: 'start', label: 'TRG' } },
-	outputs: { destination:  { type: 'audio', x:0,  y:2, endPoint: 'node', label: 'OUT' } },
+	inputs:  { start: { type: 'event', x:0,  y:1, endPoint: 'start', label: 'TRG' } },
+	outputs: { OUT:  { type: 'audio', x:0,  y:2, endPoint: 'node', label: 'OUT' } },
 	params:  { rate: { type: 'knob', x: 3.7, y: 0.3, min: 0.1, max: 5, endPoint: 'node.playbackRate', value: 'value', label: 'RATE' } }
 };
 

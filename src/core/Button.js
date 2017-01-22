@@ -15,6 +15,20 @@ function Button(module, id, descriptor) {
 	dom.style.top  = (descriptor.y * constants.CONNECTOR_GRID_SIZE) + 'px';
 	if (descriptor.label) createDiv('label knobLabel', dom).innerText = descriptor.label;
 
+	// init references
+	this.bind(module, id, descriptor);
+
+	// set mouse event
+	var t = this;
+	dom.addEventListener('mousedown', function click(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		t.endPoint.call(t.caller);
+	});
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Button.prototype.bind = function (module, id, descriptor) {
 	// button action
 	var endPointDescription = descriptor.endPoint;
 	if (!endPointDescription) return;
@@ -26,15 +40,10 @@ function Button(module, id, descriptor) {
 	for (var i = 0; i < endPointDescription.length; i++) {
 		endPoint = endPoint[endPointDescription[i]];
 	}
-	var caller = endPoint;
-	endPoint = caller[funcName];
 
-	// set mouse event
-	dom.addEventListener('mousedown', function click(e) {
-		e.stopPropagation();
-		e.preventDefault();
-		endPoint.call(caller);
-	});
-}
+	// bind references
+	this.caller = endPoint;
+	this.endPoint = this.caller[funcName];
+};
 
 module.exports = Button;

@@ -1,7 +1,7 @@
 var moduleManager = require('./moduleManager');
 var domUtils  = require('domUtils');
 var createDiv = domUtils.createDiv;
-var createDom = domUtils.createDom;
+var makeDragable = domUtils.makeDragable;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Library
@@ -9,15 +9,20 @@ var createDom = domUtils.createDom;
  * @author Cedric Stoquer
  */
 function Library() {
-	this.dom  = document.getElementById('library');
+	this.dom = createDiv('library');
+
+	var handle = createDiv('handle', this.dom);
+	makeDragable(handle, this.dom);
+
 	this.modules = createDiv('libraryList', this.dom);
 }
 
-Library.prototype.register = function(module) {
+Library.prototype.register = function(ModuleConstructor) {
 	var button = createDiv('moduleEntry', this.modules);
-	button.textContent = module.prototype.descriptor.name;
-	button.addEventListener('mousedown', function clic(e) {
-		moduleManager.add(new module());
+	button.textContent = ModuleConstructor.prototype.descriptor.name;
+	button.addEventListener('mousedown', function onClick(e) {
+		var module = moduleManager.addModule(new ModuleConstructor());
+		moduleManager.startDrag(module, e);
 	});
 };
 

@@ -5,9 +5,16 @@ var EVENT_CABLE_COLOR = '#2da8ff';
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function EventInput(module, id, descriptor) {
-	Connector.call(this, module, id, descriptor);
 	this.module = module;
+	Connector.call(this, module, id, descriptor);
+}
+inherits(EventInput, Connector);
+EventInput.prototype.connectorClassName = 'eventIn';
+EventInput.prototype.color = EVENT_CABLE_COLOR;
+EventInput.prototype.type  = 'event';
+connectors.register(EventInput, 'input', 'event');
 
+EventInput.prototype.bind = function (module, id, descriptor) {
 	// An event input endPoint is a reference to a function of the module 
 	// that will be called when an event comes in.
 	var endPoint = descriptor.endPoint || '';
@@ -16,19 +23,10 @@ function EventInput(module, id, descriptor) {
 	for (var i = 0; i < endPoint.length; i++) {
 		this.endPoint = this.endPoint[endPoint[i]];
 	}
-}
-inherits(EventInput, Connector);
-EventInput.prototype.connectorClassName = 'eventIn';
-EventInput.prototype.color = EVENT_CABLE_COLOR;
-EventInput.prototype.type  = 'event';
-connectors.register(EventInput, 'input', 'event');
+};
 
 EventInput.prototype.connect = function (connector) {
 	connector.connect(this);
-};
-
-EventInput.prototype.disconnect = function (connector) {
-	connector.disconnect(this);
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

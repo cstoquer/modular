@@ -47,6 +47,8 @@ require('./modules/Panner');
 require('./modules/ModPanner');
 require('./modules/Sampler');
 require('./modules/Filter');
+require('./modules/Delay');
+require('./modules/Volume');
 require('./modules/Context');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

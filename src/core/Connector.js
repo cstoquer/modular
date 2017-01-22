@@ -34,6 +34,8 @@ function Connector(module, id, descriptor) {
 		e.preventDefault();
 		moduleManager.startConnection(t, e);
 	});
+
+	this.bind(module, id, descriptor);
 }
 module.exports = Connector;
 
@@ -43,6 +45,10 @@ Connector.prototype.color = '#2da8ff';
 Connector.prototype.type  = 'none';
 connectors.register(Connector, 'input', 'none');
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Connector.prototype.bind = function (module, id, descriptor) {
+	/* virtual */
+};
+
 Connector.prototype.connect = function (connector) {
 	moduleManager.addCable(this, connector, this.color);
 };

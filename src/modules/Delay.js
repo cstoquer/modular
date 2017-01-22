@@ -3,23 +3,22 @@ var library      = require('../core/library');
 var Module       = require('../core/Module');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Oscillator(params) {
-	this.node = audioContext.createOscillator();
-	this.node.frequency.value = 220.0;
-	// this.node.type = 'square';
-	this.node.start();
+function Delay(params) {
+	this.node = audioContext.createDelay(1);
 	Module.call(this, params);
 }
-inherits(Oscillator, Module);
+inherits(Delay, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Oscillator.prototype.descriptor = {
-	name: 'Oscillator',
+Delay.prototype.descriptor = {
+	name: 'Delay',
 	size: 3,
-	inputs:  { detune: { type: 'audio', x:0,  y:1, endPoint: 'node.detune', label: 'DTN' } },
-	outputs: { OUT: { type: 'audio', x:0,  y:2, endPoint: 'node', label: 'OUT' } },
-	params:  { frequency: { type: 'knob', x: 3.7, y: 0.3, min: 110.0, max: 880.0, endPoint: 'node.frequency', value: 'value', label: 'FREQ' } }
+	inputs:  { IN:  { type: 'audio', x:0.0,  y:1, endPoint: 'node', label: 'IN' } },
+	outputs: { OUT: { type: 'audio', x:3.6,  y:1, endPoint: 'node', label: 'OUT' } },
+	params:  {
+		delay: { type: 'knob', x: 2.0, y: 0.3, min: 0.01, max: 1.0, endPoint: 'node.delayTime', value: 'value', label: 'TIME' },
+	}
 };
 
-library.register(Oscillator);
-module.exports = Oscillator;
+library.register(Delay);
+module.exports = Delay;
