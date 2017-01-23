@@ -10,11 +10,10 @@ function Context() {
 inherits(Context, Module);
 
 Context.prototype.descriptor = {
+	type: 'Context',
 	name: 'Context',
 	size: 1,
-	inputs:  { DEST: { type: 'audio', x:3,  y:0, endPoint: 'node.destination', label: 'DEST' } },
-	outputs: {},
-	params:  {}
+	inputs: { DEST: { type: 'audio', x:3,  y:0, endPoint: 'node.destination', label: 'DEST' } }
 };
 
 library.register(Context);

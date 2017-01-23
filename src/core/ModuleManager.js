@@ -27,6 +27,9 @@ function ModuleManager() {
 
 	// this._deleteMode = false;
 
+	// external references
+	this.moduleLibrary = null;
+
 	this.registerKeyEvents();
 }
 
@@ -63,10 +66,18 @@ ModuleManager.prototype.registerKeyEvents = function () {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-/* Add a module in the pool */
-ModuleManager.prototype.addModule = function (module) {
-	var id = this._idCount++;
-	while (this.modules[this._idCount]) this._idCount++;
+/* Add a module in the pool
+ * @param {Module} module - the module to add
+ * @param {string} [id] - module id, provided only when loading a patch
+ */
+ModuleManager.prototype.addModule = function (module, id) {
+	if (id === undefined) {
+		id = this._idCount++;
+	} else if (this.modules[id]) {
+		console.error('Provided id is already used.');
+	}
+
+	while (this.modules[id]) id = this._idCount++;
 
 	module.id = id;
 	this.modules[id] = module;
@@ -119,7 +130,7 @@ ModuleManager.prototype._addModuleInGrid = function (module, x, y) {
  *
  * @param {Object} module - module to remove
  */
-ModuleManager.prototype.remove = function (module) {
+ModuleManager.prototype.removeModule = function (module) {
 	delete this.modules[module.id];
 	if (module.id < this._idCount) this._idCount = module.id;
 
@@ -141,7 +152,7 @@ ModuleManager.prototype.remove = function (module) {
 ModuleManager.prototype.deleteSelectedModules = function () {
 	var modules = this.selectedModules;
 	for (var i = 0; i < modules.length; i++) {
-		this.remove(modules[i]);
+		this.removeModule(modules[i]);
 	}
 	this.selectedModules = [];
 };
@@ -389,21 +400,125 @@ ModuleManager.prototype.shakeCables = function () {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+/** Removes everything, modules, cables, etc. and leave a blank patch */
+ModuleManager.prototype.clearPatch = function () {
+	// deselect modules
+	this.selectedModules = [];
+
+	// disconnect everything
+	for (var id in this.cables) {
+		this.removeCable(this.cables[id]);
+	}
+
+	// remove all modules
+	for (var id in this.modules) {
+		this.removeModule(this.modules[id]);
+	}
+
+	// reset module id counter
+	this._idCount = 0;
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 ModuleManager.prototype.getPatch = function () {
 	var patch = {
+		_type: 'modularPatch',
+		version: 1,
 		modules: [],
 		cables:  []
 	};
+
 	for (var id in this.modules) {
 		patch.modules.push(this.modules[id].getState());
-		// TODO
+	}
+
+	for (var id in this.cables) {
+		patch.cables.push(id);
 	}
 
 	return patch;
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+/** helper function to create a new instance of a Class with arbitrary arguments */
+function construct(constructor, args) {
+    function Module() {
+        return constructor.apply(this, args);
+    }
+    Module.prototype = constructor.prototype;
+    // TODO: also modify the constructor name
+    return new Module();
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+// TODO: register system for data types
+var DATA_MAP = {
+	BufferData: require('../data/BufferData')
+};
+
+function deserialize(data) {
+	var type = data._type;
+	if (!type) return data;
+	var DataType = DATA_MAP[type];
+	if (!DataType) return data;
+	return DataType.deserialize(data);
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+ModuleManager.prototype.setPatch = function (patch) {
+	if (!patch || !patch._type === 'modularPatch') return console.error('Wrong format');
+	this.clearPatch();
+
+	// Add all modules
+	var modules = patch.modules || [];
+	for (var i = 0; i < modules.length; i++) {
+		var moduleDef = modules[i];
+		var ModuleConstructor = this.moduleLibrary.getModuleConstructor(moduleDef._type);
+		if (!ModuleConstructor) {
+			console.error('Could not create module of type', moduleDef._type);
+			continue;
+		}
+
+		var module;
+		if (moduleDef.arguments) {
+			// deserialize arguments
+			var args = moduleDef.arguments;
+			for (var a = 0; a < args.length; a++) {
+				args[a] = deserialize(args[a]);
+			}
+			// create module
+			module = construct(ModuleConstructor, args);
+		} else {
+			module = new ModuleConstructor();
+		}
+
+		this.addModule(module, moduleDef.id);
+		this._addModuleInGrid(module, moduleDef.x, moduleDef.y);
+
+		module.setState(moduleDef);
+	}
+
+	// Add cables
+	var cables = patch.cables || [];
+
+	for (var i = 0; i < cables.length; i++) {
+		var cable = cables[i];
+		connections = cable.split('--');
+
+		connectionA = connections[0].split(':');
+		connectionB = connections[1].split(':');
+
+		moduleA = this.modules[connectionA[0]];
+		moduleB = this.modules[connectionB[0]];
+
+		connectorA = moduleA['$' + connectionA[1]];
+		connectorB = moduleB['$' + connectionB[1]];
+
+		connectorA.connect(connectorB);
+	}
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 var moduleManager = new ModuleManager();
 module.exports = moduleManager;
 window.moduleManager = moduleManager;
-

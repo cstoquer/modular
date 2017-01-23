@@ -1,44 +1,48 @@
 var domUtils   = require('domUtils');
 var createDiv  = domUtils.createDiv;
+var createDom  = domUtils.createDom;
 var removeDom  = domUtils.removeDom;
 var makeButton = domUtils.makeButton;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+function exportPatch() {
+	var patch = window.moduleManager.getPatch();
+
+	var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(patch));
+	var anchor = createDom('a');
+	anchor.setAttribute("href", dataStr);
+	anchor.setAttribute("download", "patch.json");
+	anchor.click();
+	removeDom(anchor);
+}
+
+function importPatch() {
+	// TODO
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 var MENU_TEMPLATE = [
-	// {
-	// 	label: 'Pixelbox',
-	// 	submenu: [
-	// 		{ label: 'About', click: function () { console.log('About'); } },
-	// 		//--------------------------------------------------------
-	// 		{ type: 'separator' },
-	// 		{ label: 'Import tools' },
-	// 		{ label: 'Update', click: function () { console.log('Update'); } },
-	// 		{ label: 'Quit',   click: function () { console.log('Quit'); }, accelerator: 'CmdOrCtrl+Q' }
-	// 	]
-	// },
 	{
 		label: 'Patch',
 		submenu: [
-			{ label: 'Settings',    click: function () { console.log('Settings'); }   },
+			{ label: 'Load Pacth', click: null },
+			{ label: 'Save Pacth', click: null },
 			//--------------------------------------------------------
 			{ type: 'separator' },
-			{ label: 'Load Pacth', click: null    },
-			{ label: 'Save Pacth', click: null    },
-			// { label: 'Build executable', click: function () { console.log('Executable'); } },
+			{ label: 'Import Patch', click: importPatch },
+			{ label: 'Export Patch', click: exportPatch },
 			//--------------------------------------------------------
 			{ type: 'separator' },
-			{ label: 'Import Patch', click: null     },
-			{ label: 'Export Patch', click: null  },
+			{ label: 'Clear Patch', click: function clearPatch() { window.moduleManager.clearPatch(); } },
 		]
 	},
 	{
 		label: 'View',
 		submenu: [
-			// TODO: automaticaly create from toolbox
-			{ label: 'Modules',       type: 'checkbox', checked: true },
-			{ label: 'Buffers',       type: 'checkbox', checked: true },
-			{ label: 'Controls',      type: 'checkbox', checked: true },
-			{ label: 'Inspector',     type: 'checkbox', checked: true },
+			{ label: 'Modules',   type: 'checkbox', checked: true },
+			{ label: 'Buffers',   type: 'checkbox', checked: true },
+			{ label: 'Controls',  type: 'checkbox', checked: true },
+			{ label: 'Inspector', type: 'checkbox', checked: true },
 			//--------------------------------------------------------
 			// { label: 'Cascade', click: cascadePanels },
 			// { label: 'Close all' },

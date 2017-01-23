@@ -57,11 +57,12 @@ Sampler.prototype.setBuffer = function (event) {
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Sampler.prototype.descriptor = {
+	type: 'Sampler',
 	name: 'Sampler',
 	size: 3,
-	inputs:  { buffer: { type: 'event', x:0,  y:1, endPoint: 'setBuffer', label: 'BUF', singleConnection: true } },
-	outputs: { OUT:  { type: 'audio', x:0,  y:2, endPoint: 'node', label: 'OUT' } },
-	params:  { rate: { type: 'knob', x: 3.7, y: 0.3, min: 0.01, max: 2, endPoint: 'node.playbackRate', value: 'value', label: 'RATE' } }
+	inputs:   { buffer: { type: 'event', x:0,    y:1, endPoint: 'setBuffer', label: 'BUF', singleConnection: true } },
+	outputs:  { OUT:    { type: 'audio', x:0,    y:2, endPoint: 'node',      label: 'OUT' } },
+	controls: { rate:   { type: 'knob',  x: 3.7, y: 0.3, min: 0.01, max: 2, endPoint: 'node.playbackRate', value: 'value', label: 'RATE' } }
 };
 
 library.register(Sampler);

@@ -14,11 +14,12 @@ inherits(LFO, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 LFO.prototype.descriptor = {
+	type: 'LFO',
 	name: 'LFO',
 	size: 3,
-	inputs:  { detune: { type: 'audio', x:0,  y:1, endPoint: 'node.detune', label: 'DTN' } },
-	outputs: { OUT:  { type: 'audio', x:0,  y:2, endPoint: 'node', label: 'OUT' } },
-	params:  { frequency: { type: 'knob', x: 3.7, y: 0.3, min: 0.001, max: 10.0, endPoint: 'node.frequency', value: 'value', label: 'FREQ' } }
+	inputs:  {},
+	outputs: { OUT:    { type: 'audio', x:5,  y:1, endPoint: 'node', label: null } },
+	controls: { frequency: { type: 'knob', x: 2.2, y: 0.3, min: 0.001, max: 10.0, endPoint: 'node.frequency', value: 'value', label: 'FREQ' } }
 };
 
 library.register(LFO);

@@ -6,7 +6,7 @@ var constants     = require('./constants');
 var connectors    = require('./connectors');
 var moduleManager = require('./moduleManager');
 
-var CONTROL_CLASS_BY_TYPE = {
+var CONTROL_BY_TYPE = {
 	knob:   require('./Knob'),
 	button: require('./Button')
 };
@@ -36,50 +36,78 @@ function Module() {
 	dom.addEventListener('mousedown', function mouseStart(e) {
 		moduleManager.startDrag(t, e);
 	});
+
+	// if any, keep constructor arguments for serialization
+	if (arguments.length) {
+		this._arguments = [];
+		for (var i = 0; i < arguments.length; i++) {
+			var argument = arguments[i];
+			if (argument.serialize) {
+				this._arguments.push(argument.serialize());
+			} else {
+				this._arguments.push(argument);
+			}
+		}
+	}
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Module.prototype.descriptor = {
-	name: 'Abstract Module',
-	size: 1,
-	inputs:  {},
-	outputs: {},
-	params:  {}
+	// type:     'type',   // Type of the module for serialization. It should be an unique id 
+	// name:     'name',   // How the module appears in the library UI. if null, it won't be registered
+	// size:     1,        // Height of the module in rack units (see constants.MODULE_HEIGHT)
+	// inputs:   {},       // List of input connectors.  An input  `id` is added as a property `$id`
+	// outputs:  {},       // List of output connectors. An output `id` is added as a property `$id`
+	// controls: {},       // List of controls (Knob, Buttons, etc.) see CONTROL_BY_TYPE
+	// persistent: []      // List of persistent data that has to be saved during module serialization.
+	// tag:        []      // List of tags. Used for filter and search in library
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Module.prototype.createInterface = function () {
-	for (var id in this.descriptor.inputs) {
-		var input = this.descriptor.inputs[id];
-		var ConnectorClass = connectors.getConnector('input', input.type);
-		if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, input);
+	if (this.descriptor.inputs) {
+		for (var id in this.descriptor.inputs) {
+			var input = this.descriptor.inputs[id];
+			var ConnectorClass = connectors.getConnector('input', input.type);
+			if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, input);
+		}
 	}
 
-	for (var id in this.descriptor.outputs) {
-		var output = this.descriptor.outputs[id];
-		var ConnectorClass = connectors.getConnector('output', output.type);
-		if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, output);
+	if (this.descriptor.outputs) {
+		for (var id in this.descriptor.outputs) {
+			var output = this.descriptor.outputs[id];
+			var ConnectorClass = connectors.getConnector('output', output.type);
+			if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, output);
+		}
 	}
 
-	for (var id in this.descriptor.params) {
-		var controlDescriptor = this.descriptor.params[id];
-		var controlClass = CONTROL_CLASS_BY_TYPE[controlDescriptor.type];
-		this['$$' + id] = new controlClass(this, id, controlDescriptor);
+	if (this.descriptor.controls) {
+		for (var id in this.descriptor.controls) {
+			var controlDescriptor = this.descriptor.controls[id];
+			var controlClass = CONTROL_BY_TYPE[controlDescriptor.type];
+			this['$$' + id] = new controlClass(this, id, controlDescriptor);
+		}
 	}
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Module.prototype.rebind = function () {
-	for (var id in this.descriptor.inputs) {
-		if (this['$' + id]) this['$' + id].bind(this, id, this.descriptor.inputs[id]);
+	if (this.descriptor.inputs) {
+		for (var id in this.descriptor.inputs) {
+			if (this['$' + id]) this['$' + id].bind(this, id, this.descriptor.inputs[id]);
+		}
 	}
 
-	for (var id in this.descriptor.outputs) {
-		if (this['$' + id]) this['$' + id].bind(this, id, this.descriptor.outputs[id]);
+	if (this.descriptor.outputs) {
+		for (var id in this.descriptor.outputs) {
+			if (this['$' + id]) this['$' + id].bind(this, id, this.descriptor.outputs[id]);
+		}
 	}
 
-	for (var id in this.descriptor.params) {
-		if (this['$$' + id]) this['$$' + id].bind(this, id, this.descriptor.params[id]);
+	if (this.descriptor.controls) {
+		for (var id in this.descriptor.controls) {
+			if (this['$$' + id]) this['$$' + id].bind(this, id, this.descriptor.controls[id]);
+		}
 	}
 };
 
@@ -119,16 +147,56 @@ Module.prototype.removeCable = function (cable) {
 /** Get module state for patch saving */
 Module.prototype.getState = function () {
 	var state = {
-		_mod: this.constructor.name,
-		id:   this.id,
-		x:    this.x,
-		y:    this.y
+		_type: this.descriptor.type,
+		id:    this.id,
+		x:     this.x,
+		y:     this.y
 	};
-	for (var id in this.descriptor.params) {
-		var paramId = '$$' + id;
-		state[paramId] = this[paramId].getState();
+
+	// constructor arguments
+	if (this._arguments) {
+		state.arguments = this._arguments;
 	}
+
+	// controls (Knob, etc.)
+	if (this.descriptor.controls) {
+		state.controls = {};
+		for (var id in this.descriptor.controls) {
+			if (!this['$$' + id].getState) continue;
+			state.controls[id] = this['$$' + id].getState();
+		}
+	}
+
+	// persistent data (e.g. Filter type)
+	var persistent = this.descriptor.persistent;
+	if (persistent) {
+		state.persistent = [];
+		for (var i = 0; i < persistent.length; i++) {
+			state.persistent.push(this[persistent[i]]);
+		}
+	}
+
 	return state;
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Module.prototype.setState = function (state) {
+	// controls
+	if (state.controls) {
+		for (var id in this.descriptor.controls) {
+			if (!state.controls[id]) continue;
+			this['$$' + id].setState(state.controls[id]);
+		}
+	}
+
+	// persistent data
+	if (state.persistent) {
+		for (var i = 0; i < this.descriptor.persistent.length; i++) {
+			var id = this.descriptor.persistent[i];
+			// TODO: persistent of type 'something.thing'
+			this[id] = state.persistent[i];
+		}
+	}
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
