@@ -1,11 +1,11 @@
 var audioContext = require('../core/audioContext');
-var library      = require('../core/library');
 var Module       = require('../core/Module');
+var library      = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Panner(params) {
+function Panner() {
 	this.node = audioContext.createStereoPanner();
-	Module.call(this, params);
+	Module.call(this);
 }
 inherits(Panner, Module);
 

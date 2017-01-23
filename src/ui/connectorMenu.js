@@ -53,7 +53,7 @@ ConnectorMenu.prototype.addDisconnectEntry = function (cable, title) {
 	dom.addEventListener('mouseenter', function () {
 		cable.color = '#FFF';
 		moduleManager.drawCables();
-	})
+	});
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -74,6 +74,7 @@ ConnectorMenu.prototype.show = function (x, y, connector, cables) {
 
 	// disconnect all
 	var disconnectAll = this.addEntry('Disconnect all');
+	createDiv('connectorMenuSeparator', this.dom);
 
 	var t = this;
 	makeButton(disconnectAll, function () {
@@ -84,7 +85,20 @@ ConnectorMenu.prototype.show = function (x, y, connector, cables) {
 		}
 	});
 
-	// each cable
+	// all cables highlight
+	var originalColors = [];
+	for (var i = 0; i < cables.length; i++) originalColors.push(cables[i].color);
+	disconnectAll.addEventListener('mouseleave', function () {
+		for (var i = 0; i < cables.length; i++) cables[i].color = originalColors[i];
+		moduleManager.drawCables();
+	});
+
+	disconnectAll.addEventListener('mouseenter', function () {
+		for (var i = 0; i < cables.length; i++) cables[i].color = '#FFF';
+		moduleManager.drawCables();
+	});
+
+	// button for each cable
 	for (var i = 0; i < cables.length; i++) {
 		var cable = cables[i];
 		var endPoint = cable.endPointA === connector ? cable.endPointB : cable.endPointA;

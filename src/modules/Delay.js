@@ -1,11 +1,11 @@
 var audioContext = require('../core/audioContext');
-var library      = require('../core/library');
 var Module       = require('../core/Module');
+var library      = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Delay(params) {
+function Delay() {
 	this.node = audioContext.createDelay(1);
-	Module.call(this, params);
+	Module.call(this);
 }
 inherits(Delay, Module);
 

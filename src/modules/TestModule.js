@@ -1,5 +1,5 @@
 var Module  = require('../core/Module');
-var library = require('../core/library');
+var library = require('../ui/moduleLibrary');
 
 var domUtils  = require('domUtils');
 var createDiv = domUtils.createDiv;
@@ -8,8 +8,8 @@ var removeDom = domUtils.removeDom;
 var makeButton = domUtils.makeButton;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function TestModule(params) {
-	Module.call(this, params);
+function TestModule() {
+	Module.call(this);
 
 	// TODO: extract button in a component
 	// var t = this;
@@ -22,13 +22,20 @@ inherits(TestModule, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 TestModule.prototype.doStuff = function (data) {
-	this._title.textContent = data;
-	this._dom.style.backgroundColor = data;
+	if (data._type === 'color') {
+		this._title.textContent = '#' + data.hex;
+		this._dom.style.backgroundColor = '#' + data.hex;
+	}
+};
+
+TestModule.prototype.onConnect = function (connector) {
+	console.log('module has connected', this, connector);
 };
 
 TestModule.prototype.pushButton = function () {
-	this.$B.emit('#' + (~~(Math.random() * 4096)).toString(16));
-}
+	var hex = ('000' + (~~(Math.random() * 4096)).toString(16)).substr(-3);
+	this.$B.emit({ _type: 'color', hex: hex });
+};
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 TestModule.prototype.descriptor = {
@@ -38,7 +45,7 @@ TestModule.prototype.descriptor = {
 		A: { type: 'event', x:0.2,  y:1, label: 'A', endPoint: 'doStuff' },
 	},
 	outputs: {
-		B: { type: 'event', x:3.2,  y:1, label: 'B' }
+		B: { type: 'event', x:3.2,  y:1, label: 'B', onConnect: 'onConnect' }
 	},
 	params:  {
 		a: { type: 'knob',   x: 0.1, y: 2.3, label: 'KNB' },

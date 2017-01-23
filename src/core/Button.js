@@ -1,5 +1,4 @@
 var constants  = require('./constants');
-var map        = require('./utils').map;
 var domUtils   = require('domUtils');
 var createDiv  = domUtils.createDiv;
 
@@ -14,6 +13,7 @@ function Button(module, id, descriptor) {
 	dom.style.left = (descriptor.x * constants.CONNECTOR_GRID_SIZE) + 'px';
 	dom.style.top  = (descriptor.y * constants.CONNECTOR_GRID_SIZE) + 'px';
 	if (descriptor.label) createDiv('label knobLabel', dom).innerText = descriptor.label;
+	this._title = createDiv('moduleButtonTitle', dom);
 
 	// init references
 	this.bind(module, id, descriptor);
@@ -25,6 +25,11 @@ function Button(module, id, descriptor) {
 		e.preventDefault();
 		t.endPoint.call(t.caller);
 	});
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Button.prototype.setTitle = function (text) {
+	this._title.innerText = text;
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

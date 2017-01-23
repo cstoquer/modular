@@ -5,40 +5,13 @@ var audioContext = require('./core/audioContext');
 domUtils.removeDom($screen.canvas, document.body);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function loadData(path, cb) {
-	var xobj = new XMLHttpRequest();
-	xobj.responseType = 'arraybuffer';
-
-	xobj.onreadystatechange = function onXhrStateChange() {
-		if (~~xobj.readyState !== 4) return;
-		if (~~xobj.status !== 200 && ~~xobj.status !== 0) {
-			return cb('xhrError:' + xobj.status);
-		}
-		return cb(null, xobj.response);
-	};
-
-	xobj.open('GET', path, true);
-	xobj.send();
-}
-
-function loadAudioBuffer(path, cb) {
-	loadData(path, function (error, buffer) {
-		if (error) return cb(error);
-		audioContext.decodeAudioData(buffer, function onSuccess(buffer) {
-			return cb(null, buffer);
-		}, cb);
-	});
-}
-
-loadAudioBuffer('audio/crystal.mp3', function (error, buffer) {
-	window.testBuffer = buffer;
-})
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 require('./core/AudioConnector');
 require('./core/EventConnector');
+require('./ui/bufferLibrary');
+require('./ui/menuHeader');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+// TODO: automaticaly require modules from walker
 require('./modules/TestModule');
 require('./modules/Oscillator');
 require('./modules/LFO');

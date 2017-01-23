@@ -12,11 +12,12 @@ function Connector(module, id, descriptor) {
 	var t = this;
 	this.x = descriptor.x;
 	this.y = descriptor.y;
+	this.singleConnection = descriptor.singleConnection === undefined ? false : !!descriptor.singleConnection;
 
 	this.module = module;
 	this.id     = id;
 
-	var dom = this._dom = createDiv('connector ' + this.connectorClassName, module._dom);
+	var dom = this._dom = createDiv('connector ' + this.cssClassName, module._dom);
 	if (descriptor.label) createDiv('label connectorLabel', dom).innerText = descriptor.label;
 
 	if (this.x === undefined) {
@@ -40,9 +41,10 @@ function Connector(module, id, descriptor) {
 module.exports = Connector;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Connector.prototype.connectorClassName = 'connector'; // cssClassName
+Connector.prototype.cssClassName = 'connector';
 Connector.prototype.color = '#2da8ff';
 Connector.prototype.type  = 'none';
+Connector.prototype.way   = 'input';
 connectors.register(Connector, 'input', 'none');
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Connector.prototype.bind = function (module, id, descriptor) {
@@ -50,6 +52,11 @@ Connector.prototype.bind = function (module, id, descriptor) {
 };
 
 Connector.prototype.connect = function (connector) {
+	// check if one of the connector is a single connection
+	if (this.singleConnection)      moduleManager.disconnect(this);
+	if (connector.singleConnection) moduleManager.disconnect(connector);
+
+	// add cable
 	moduleManager.addCable(this, connector, this.color);
 };
 
@@ -60,5 +67,6 @@ Connector.prototype.disconnect = function (connector) {
 Connector.prototype.isCompatible = function (connector) {
 	if (connector === this) return false;
 	if (this.type !== connector.type) return false;
+	if (this.way  === connector.way)  return false;
 	return true;
 };

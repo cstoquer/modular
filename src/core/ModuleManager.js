@@ -1,12 +1,12 @@
-var ctx       = require('./overlay').ctx;
-var overCtx   = require('./overlay').overCtx;
+var ctx       = require('../ui/overlay').ctx;
+var overCtx   = require('../ui/overlay').overCtx;
 var constants = require('./constants');
 var Cable     = require('./Cable');
 var domUtils  = require('domUtils');
 var createDiv = domUtils.createDiv;
 var createDom = domUtils.createDom;
 var removeDom = domUtils.removeDom;
-var connectorMenu = require('./connectorMenu');
+var connectorMenu = require('../ui/connectorMenu');
 
 var JACK_CONNECT_CURSOR = 'url(../img/jack-connect.png) 3 3, auto';
 var JACK_FREE_CURSOR    = 'url(../img/jack-free.png) 2 3, auto';
@@ -39,6 +39,9 @@ ModuleManager.prototype.registerKeyEvents = function () {
 		// console.log(e.keyCode);
 		switch (e.keyCode) {
 			case 8:
+			case 32:
+				ctx.canvas.style.opacity = ctx.canvas.style.opacity ? '' : 0.4;
+				break;
 			case 46:
 				t.deleteSelectedModules();
 				// t._deleteMode = true;
@@ -77,7 +80,7 @@ ModuleManager.prototype.addModule = function (module) {
 ModuleManager.prototype._addModuleInGrid = function (module, x, y) {
 	// set module position inside grid
 	x = x || 0;
-	y = y || 0;
+	y = y || 1;
 
 	if (!this.grid[x]) this.grid[x] = [];
 	var row = this.grid[x];
@@ -235,7 +238,7 @@ ModuleManager.prototype.startDrag = function (module, e) {
 		// put module at position and cleanup dummy
 		removeDom(dummy, null);
 		var x = Math.max(0, ~~Math.round((e.clientX - startX) / constants.MODULE_WIDTH));
-		var y = Math.max(0, ~~Math.round((e.clientY - startY) / constants.MODULE_HEIGHT));
+		var y = Math.max(1, ~~Math.round((e.clientY - startY) / constants.MODULE_HEIGHT));
 		if (x === module.x && y === module.y) return;
 		t.moveModule(module, x, y);
 		t.drawCables();
@@ -323,6 +326,14 @@ ModuleManager.prototype.showDisconnectMenu = function (x, y, connector) {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+ModuleManager.prototype.disconnect = function (connector) {
+	var cables = this.findCables(connector);
+	for (var i = 0; i < cables.length; i++) {
+		this.removeCable(cables[i]);
+	}
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Find all the cables that connect to a particular connector */
 ModuleManager.prototype.findCables = function (connector) {
 	var key = connector.module.id + ':' + connector.id;
@@ -335,7 +346,18 @@ ModuleManager.prototype.findCables = function (connector) {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+ModuleManager.prototype.areConnected = function (connectorA, connectorB) {
+	var keyA = connectorA.module.id + ':' + connectorA.id;
+	var keyB = connectorB.module.id + ':' + connectorB.id;
+	return this.cables[keyA + '--' + keyB] || this.cables[keyB + '--' + keyA];
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 ModuleManager.prototype.addCable = function (connectorA, connectorB, color) {
+	// check if this cable doesn't exist already
+	if (this.areConnected(connectorA, connectorB)) return;
+
+	// add the new cable
 	var cable = new Cable(connectorA, connectorB, color);
 	this.cables[cable.id] = cable;
 	this.drawCables();

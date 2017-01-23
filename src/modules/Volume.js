@@ -1,11 +1,11 @@
 var audioContext = require('../core/audioContext');
-var library      = require('../core/library');
 var Module       = require('../core/Module');
+var library      = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Volume(params) {
+function Volume() {
 	this.node = audioContext.createGain();
-	Module.call(this, params);
+	Module.call(this);
 }
 inherits(Volume, Module);
 

@@ -1,14 +1,14 @@
 var audioContext = require('../core/audioContext');
-var library      = require('../core/library');
 var Module       = require('../core/Module');
+var library      = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Oscillator(params) {
+function Oscillator() {
 	this.node = audioContext.createOscillator();
 	this.node.frequency.value = 220.0;
 	// this.node.type = 'square';
 	this.node.start();
-	Module.call(this, params);
+	Module.call(this);
 }
 inherits(Oscillator, Module);
 

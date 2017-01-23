@@ -16,9 +16,7 @@ var CONTROL_CLASS_BY_TYPE = {
  *
  * @author Cedric Stoquer
  */
-function Module(params) {
-	params = params || {};
-
+function Module() {
 	this.id = null; // id of this module in moduleManager
 	this.x  = null;
 	this.y  = null;
