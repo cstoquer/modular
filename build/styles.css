@@ -1,6 +1,8 @@
 body {
 	font-family: verdana;
 	background-color: #7F7F7F;
+	background-repeat: repeat;
+	background-image: url("../img/background.png");
 }
 
 body {
@@ -25,49 +27,116 @@ body {
 	display: none;
 }
 
-.background {
+.menuHeader {
 	position: absolute;
-	z-index:  -1;
-	top:      0;
-	left:     0;
-	width:    100%;
-	height:   100%;
-	background-repeat: repeat;
-	background-image: url("../img/background.png");
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 15px;
+	background-color: #CCC;
+	z-index: 9999;
+	box-shadow: 1px 1px 6px #616060;
+	font-size: 14px;
+	font-weight: normal;
+}
+
+.menuItem {
+	display: inline-block;
+	padding-right: 7px;
+	padding-left: 7px;
+	padding-top: 0;
+	height: 15px;
+	border-radius: 1px;
+}
+
+.menuItem:hover {
+	background-color: #FF2;
+}
+
+.submenu {
+	position: absolute;
+	background-color: #CCC;
+    border: #999 1px solid;
+    border-radius: 4px;
+	box-shadow: 1px 1px 6px #333;
+}
+
+.submenuItem {
+	padding-right: 7px;
+	padding-left: 7px;
+	padding-top: 2px;
+	height: 17px;
+	border-radius: 4px;
+}
+
+.submenuItem:hover {
+	background-color: #FF2;
+}
+
+.submenuSeparator {
+	width: 100%;
+	height: 1px;
+	background-color: #999;
 }
 
 .connectorMenu {
 	position: absolute;
-	z-index:  7;
+	cursor: pointer;
+	z-index:  1000;
 	display:  none;
 	background-color: rgba(255, 255, 255, 0.8);
 	padding: 2px;
+	border: solid #AAA 3px;
 	border-radius: 4px;
+}
+
+.connectorMenuEntry {
+	font-size: 12px;
+
+}
+
+.connectorMenuSeparator {
+	height: 2px;
+	background-color: #AAA;
+}
+
+.connectorMenuEntry:hover { 
+	background-color: #FF0;
+}
+
+.handle {
+	height: 10px;
+	padding: 1px;
+	background-color: #AAA;
+	border-radius: 2px;
 }
 
 .library {
 	position: absolute;
-	z-index:  8;
-	right:    0;
-	top:      0;
+	top: 30px;
+	z-index: 8;
 	background-color: #CCC;
-	width: 100px;
-	height: 100%;
-	box-shadow: 0px 0px 10px #333;
+	/*width: 100px;*/
+	box-shadow: 1px 1px 10px #666d63;
+	border-radius: 4px;
+	border: solid #666 2px;
+	padding: 2px;
 }
 
 .libraryList {
 
 }
 
-.moduleEntry {
+.libraryEntry {
 	cursor: pointer;
 	border: 1px;
 	border-radius: 3px;
 	z-index: 10;
+	padding: 1px;
 }
 
-.moduleEntry:hover {
+.libraryEntry:hover {
 	transform: scale(1.2, 1.2);
 	background-color: #EEE;
 	box-shadow: 0px 0px 10px #333;
@@ -89,23 +158,21 @@ body {
 	position: absolute;
 	top:      0;
 	left:     0;
-	z-index:  99;
+	z-index:  19999;
 	pointer-events: none;
 }
 
 .selected { background-color: #FFF }
 
 .module {
-	font-size: 10px;
-	/*cursor: pointer;*/
+	font-size: 11px;
+	/*cursor: default;*/
 	position: absolute;
 	border: 1px;
-	/*border-image: url("../img/mod-bg.png") 1 1 1 1 fill;*/
 	background-color: #CCC;
-	border-top:    solid #FFF 2px;
-	border-left:   solid #FFF 2px;
-	border-bottom: solid #666 2px;
-	border-right:  solid #666 2px;
+	border: outset 2px #e8eae9;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .module:hover { 
@@ -113,39 +180,11 @@ body {
 	z-index: 9;
 }
 
-
 .dummy {
 	position:     absolute;
-	border:       4px;
-	/*border-image: url("../img/mod-dummy.png") 4 4 round;*/
-	border: dashed #F00 3px;
-	z-index:      9999;
+	border: dashed #F00 4px;
+	z-index:      999;
 }
-
-.R0 { border-image: url("../img/mod-bgR0.png") 1 1 1 1 fill; }
-.R1 { border-image: url("../img/mod-bgR1.png") 1 1 1 1 fill; }
-.R2 { border-image: url("../img/mod-bgR2.png") 1 1 1 1 fill; }
-.R3 { border-image: url("../img/mod-bgR3.png") 1 1 1 1 fill; }
-.Y0 { border-image: url("../img/mod-bgY0.png") 1 1 1 1 fill; }
-.Y1 { border-image: url("../img/mod-bgY1.png") 1 1 1 1 fill; }
-.Y2 { border-image: url("../img/mod-bgY2.png") 1 1 1 1 fill; }
-.Y3 { border-image: url("../img/mod-bgY3.png") 1 1 1 1 fill; }
-.G0 { border-image: url("../img/mod-bgG0.png") 1 1 1 1 fill; }
-.G1 { border-image: url("../img/mod-bgG1.png") 1 1 1 1 fill; }
-.G2 { border-image: url("../img/mod-bgG2.png") 1 1 1 1 fill; }
-.G3 { border-image: url("../img/mod-bgG3.png") 1 1 1 1 fill; }
-.C0 { border-image: url("../img/mod-bgC0.png") 1 1 1 1 fill; }
-.C1 { border-image: url("../img/mod-bgC1.png") 1 1 1 1 fill; }
-.C2 { border-image: url("../img/mod-bgC2.png") 1 1 1 1 fill; }
-.C3 { border-image: url("../img/mod-bgC3.png") 1 1 1 1 fill; }
-.B0 { border-image: url("../img/mod-bgB0.png") 1 1 1 1 fill; }
-.B1 { border-image: url("../img/mod-bgB1.png") 1 1 1 1 fill; }
-.B2 { border-image: url("../img/mod-bgB2.png") 1 1 1 1 fill; }
-.B3 { border-image: url("../img/mod-bgB3.png") 1 1 1 1 fill; }
-.P0 { border-image: url("../img/mod-bgP0.png") 1 1 1 1 fill; }
-.P1 { border-image: url("../img/mod-bgP1.png") 1 1 1 1 fill; }
-.P2 { border-image: url("../img/mod-bgP2.png") 1 1 1 1 fill; }
-.P3 { border-image: url("../img/mod-bgP3.png") 1 1 1 1 fill; }
 
 .connector {
 	position: absolute;
@@ -154,13 +193,32 @@ body {
 	height:   11px;
 }
 
-.connectorNone { background-image: url("../img/out-Y.png"); }
+.eventOut   { background-image: url("../img/out-Y.png"); }
 .eventIn    { background-image: url("../img/in-Y.png");  }
 .audioOut   { background-image: url("../img/out-R.png"); }
 .audioIn    { background-image: url("../img/in-R.png");  }
 .controlOut { background-image: url("../img/out-B.png"); }
 .controlIn  { background-image: url("../img/in-B.png");  }
 
+.moduleButton {
+	width:    20px;
+	height:   20px;
+	position: absolute;
+	border-radius: 30px;
+	border: 2px solid #616161;
+	background-color: #999;
+	text-align: center;
+	color: #616161;
+}
+
+.moduleButtonTitle {
+   margin-top: 4px;
+   font-weight: bold;
+}
+
+.moduleButton:hover { 
+	background-color: #FF0;
+}
 
 .knob {
 	position: absolute;
@@ -179,7 +237,7 @@ body {
 	color: #CCC;
 	background-color: #616161;
 	border-radius: 3px;
-    padding-top: 1px;
+	padding-top: 1px;
 }
 
 .knobLabel {
@@ -189,7 +247,7 @@ body {
 
 .connectorLabel {
 	width: 20px;
-    margin-top: 1px;
-    margin-left: 12px;
-    position: relative;
+	margin-top: 1px;
+	margin-left: 12px;
+	position: relative;
 }

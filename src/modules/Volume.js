@@ -3,20 +3,20 @@ var Module       = require('../core/Module');
 var library      = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Panner() {
-	this.node = audioContext.createStereoPanner();
+function Volume() {
+	this.node = audioContext.createGain();
 	Module.call(this);
 }
-inherits(Panner, Module);
+inherits(Volume, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Panner.prototype.descriptor = {
-	name: 'Pan',
-	size: 2,
-	inputs:  { IN: { type: 'audio', x:3.5,  y:0, endPoint: 'node', label: 'IN' } },
-	outputs: { OUT: { type: 'audio', x:3.5,  y:1,   endPoint: 'node', label: 'OUT' } },
-	params:  { pan: { type: 'knob', x: 1.5, y: 0, min: -1, max: 1, endPoint: 'node.pan', value: 'value' } }
+Volume.prototype.descriptor = {
+	name: 'Volume',
+	size: 3,
+	inputs:  { IN: { type: 'audio', x:3.5,  y:0.2, endPoint: 'node', label: 'IN' } },
+	outputs: { OUT: { type: 'audio', x:3.5,  y:2,   endPoint: 'node', label: 'OUT' } },
+	params:  { volume: { type: 'knob', x: 1.5, y: 0.5, min: 0.0, max: 1.0, endPoint: 'node.gain', value: 'value', label: 'VOL' } }
 };
 
-library.register(Panner);
-module.exports = Panner;
+library.register(Volume);
+module.exports = Volume;

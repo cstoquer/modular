@@ -1,6 +1,5 @@
 var constants = require('./constants');
-var ctx = require('./overlay').ctx;
-var ROOT = require('./root');
+var ctx = require('../ui/overlay').ctx;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Cable
@@ -8,10 +7,10 @@ var ROOT = require('./root');
  *
  * @author Cedric Stoquer
  */
-function Cable(a, b, c) {
+function Cable(a, b, color) {
 	this.endPointA = a;
 	this.endPointB = b;
-	this.color     = c || ROOT.COLOR.A;
+	this.color     = color || '#555';
 	this.id        = this.getId(a, b);
 
 	this.x = 0; // start point x

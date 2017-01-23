@@ -1,46 +1,34 @@
-var constants     = require('./constants');
-var connectors    = require('./connectors');
-var moduleManager = require('./moduleManager');
-var Knob          = require('./Knob');
 var domUtils      = require('domUtils');
 var createDiv     = domUtils.createDiv;
 var createDom     = domUtils.createDom;
 var removeDom     = domUtils.removeDom;
+var constants     = require('./constants');
+var connectors    = require('./connectors');
+var moduleManager = require('./moduleManager');
+
+var CONTROL_CLASS_BY_TYPE = {
+	knob:   require('./Knob'),
+	button: require('./Button')
+};
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Main abstract class for modules. Handle UI display.
  *
  * @author Cedric Stoquer
  */
-function Module(params) {
-	params = params || {};
-
+function Module() {
 	this.id = null; // id of this module in moduleManager
+	this.x  = null;
+	this.y  = null;
 	this.cables = {};
 
 	var dom = createDiv('module x' + this.descriptor.size, null);
 	this._title = createDom('span', '', dom);
 	this._title.textContent = this.descriptor.name;
 	this._dom = dom;
+	dom.style.left = (-10 - constants.MODULE_WIDTH) + 'px';
 
-	for (var id in this.descriptor.inputs) {
-		var input = this.descriptor.inputs[id];
-		var ConnectorClass = connectors.getConnector('input', input.type);
-		if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, input);
-	}
-
-	for (var id in this.descriptor.outputs) {
-		var output = this.descriptor.outputs[id];
-		var ConnectorClass = connectors.getConnector('output', output.type);
-		if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, output);
-	}
-
-	for (var id in this.descriptor.params) {
-		var control = this.descriptor.params[id];
-		switch (control.type) {
-			case 'knob': this['$$' + id] = new Knob(this, id, control); break;
-		}
-	}
+	this.createInterface();
 
 	dom.module = this;
 
@@ -57,6 +45,42 @@ Module.prototype.descriptor = {
 	inputs:  {},
 	outputs: {},
 	params:  {}
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Module.prototype.createInterface = function () {
+	for (var id in this.descriptor.inputs) {
+		var input = this.descriptor.inputs[id];
+		var ConnectorClass = connectors.getConnector('input', input.type);
+		if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, input);
+	}
+
+	for (var id in this.descriptor.outputs) {
+		var output = this.descriptor.outputs[id];
+		var ConnectorClass = connectors.getConnector('output', output.type);
+		if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, output);
+	}
+
+	for (var id in this.descriptor.params) {
+		var controlDescriptor = this.descriptor.params[id];
+		var controlClass = CONTROL_CLASS_BY_TYPE[controlDescriptor.type];
+		this['$$' + id] = new controlClass(this, id, controlDescriptor);
+	}
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Module.prototype.rebind = function () {
+	for (var id in this.descriptor.inputs) {
+		if (this['$' + id]) this['$' + id].bind(this, id, this.descriptor.inputs[id]);
+	}
+
+	for (var id in this.descriptor.outputs) {
+		if (this['$' + id]) this['$' + id].bind(this, id, this.descriptor.outputs[id]);
+	}
+
+	for (var id in this.descriptor.params) {
+		if (this['$$' + id]) this['$$' + id].bind(this, id, this.descriptor.params[id]);
+	}
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -109,13 +133,11 @@ Module.prototype.getState = function () {
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Module.prototype.select = function () {
-	// TODO
 	this._title.className = 'selected';
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Module.prototype.deselect = function () {
-	// TODO
 	this._title.className = '';
 };
 

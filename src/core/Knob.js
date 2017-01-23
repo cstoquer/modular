@@ -1,5 +1,4 @@
 var constants = require('./constants');
-var map       = require('./utils').map;
 var createDiv = require('domUtils').createDiv;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -8,41 +7,24 @@ var createDiv = require('domUtils').createDiv;
  * @author Cedric Stoquer
  */
 function Knob(module, id, descriptor) {
-	var t = this;
+	this.value = 0;
+	this.x     = descriptor.x;
+	this.y     = descriptor.y;
+	this.min   = descriptor.min || 0;
+	this.max   = descriptor.max !== undefined ? descriptor.max : 1;
+	this.int   = descriptor.int || false;
 
-	this.x      = descriptor.x;
-	this.y      = descriptor.y;
-	this.module = module;
-	this.id     = id;
-	this.value  = 0;
-	this.min    = descriptor.min || 0;
-	this.max    = descriptor.max !== undefined ? descriptor.max : 1;
-	this.int    = descriptor.int || false;
-
-	this.valueId = descriptor.value || 'value';
-	this.endPoint = module;
-
-	var endPoint = descriptor.endPoint;
-	if (endPoint) {
-		endPoint = endPoint.split('.');
-		for (var i = 0; i < endPoint.length; i++) {
-			this.endPoint = this.endPoint[endPoint[i]];
-		}
-		// set default min max from AudioParam if exist
-		// if (this.endPoint.minValue !== undefined) this.min = this.endPoint.minValue;
-		// if (this.endPoint.maxValue !== undefined) this.max = this.endPoint.maxValue;
-	}
-
+	// create dom elements
 	var dom = this._dom = createDiv('knob', module._dom);
-
 	dom.style.left = (this.x * constants.CONNECTOR_GRID_SIZE + 2) + 'px';
 	dom.style.top  = (this.y * constants.CONNECTOR_GRID_SIZE + 2) + 'px';
 	this._mark     = createDiv('knob knobMark', dom);
 	if (descriptor.label) createDiv('label knobLabel', dom).innerText = descriptor.label;
-	dom.connector  = this;
 
-	this.setValue();
+	// initialise
+	this.bind(module, id, descriptor);
 
+	var t = this;
 	dom.addEventListener('mousedown', function mouseStart(e) {
 		e.stopPropagation();
 		e.preventDefault();
@@ -73,12 +55,39 @@ function Knob(module, id, descriptor) {
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Knob.prototype.bind = function (module, id, descriptor) {
+	this.id       = id;
+	this.module   = module;
+	this.valueId  = descriptor.value || 'value';
+	this.endPoint = module;
+
+	var endPoint = descriptor.endPoint;
+	if (endPoint) {
+		endPoint = endPoint.split('.');
+		for (var i = 0; i < endPoint.length; i++) {
+			this.endPoint = this.endPoint[endPoint[i]];
+		}
+		// set default min max from AudioParam if exist
+		// if (this.endPoint.minValue !== undefined) this.min = this.endPoint.minValue;
+		// if (this.endPoint.maxValue !== undefined) this.max = this.endPoint.maxValue;
+	}
+
+	this.initValue();
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Knob.prototype.getState = function () {
 	return this.value;
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Knob.prototype.setValue = function () {
+/** Utility function */
+function map(value, iMin, iMax, oMin, oMax) {
+	return oMin + (oMax - oMin) * (value - iMin) / (iMax - iMin);
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Knob.prototype.initValue = function () {
 	var value = this.endPoint[this.valueId];
 	if (value === undefined) value = 0;
 	this.value = map(value, this.min, this.max, -68, 68);

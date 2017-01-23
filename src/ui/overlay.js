@@ -20,10 +20,10 @@ ctx.lineWidth       = 3;
 ctx.shadowOffsetX   = 1; 
 ctx.shadowOffsetY   = 1;
 
-overCtx.lineWidth   = 1;
+overCtx.lineWidth   = 3;
 overCtx.strokeStyle = '#444';
 overCtx.lineCap     = 'butt';
-overCtx.setLineDash([2, 2]);
+overCtx.setLineDash([3, 3]);
 
 exports.ctx     = ctx;
 exports.overCtx = overCtx;

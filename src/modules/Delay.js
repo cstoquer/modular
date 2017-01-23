@@ -3,20 +3,22 @@ var Module       = require('../core/Module');
 var library      = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Panner() {
-	this.node = audioContext.createStereoPanner();
+function Delay() {
+	this.node = audioContext.createDelay(1);
 	Module.call(this);
 }
-inherits(Panner, Module);
+inherits(Delay, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Panner.prototype.descriptor = {
-	name: 'Pan',
-	size: 2,
-	inputs:  { IN: { type: 'audio', x:3.5,  y:0, endPoint: 'node', label: 'IN' } },
-	outputs: { OUT: { type: 'audio', x:3.5,  y:1,   endPoint: 'node', label: 'OUT' } },
-	params:  { pan: { type: 'knob', x: 1.5, y: 0, min: -1, max: 1, endPoint: 'node.pan', value: 'value' } }
+Delay.prototype.descriptor = {
+	name: 'Delay',
+	size: 3,
+	inputs:  { IN:  { type: 'audio', x:0.0,  y:1, endPoint: 'node', label: 'IN' } },
+	outputs: { OUT: { type: 'audio', x:3.6,  y:1, endPoint: 'node', label: 'OUT' } },
+	params:  {
+		delay: { type: 'knob', x: 2.0, y: 0.3, min: 0.01, max: 1.0, endPoint: 'node.delayTime', value: 'value', label: 'TIME' },
+	}
 };
 
-library.register(Panner);
-module.exports = Panner;
+library.register(Delay);
+module.exports = Delay;
