@@ -1,34 +1,15 @@
-var audioContext = require('../core/audioContext');
-var Module       = require('../core/Module');
+var Module  = require('../core/Module');
+var library = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function loadAudioBuffer(path, cb) {
-	var xobj = new XMLHttpRequest();
-	xobj.responseType = 'arraybuffer';
-
-	xobj.onreadystatechange = function onXhrStateChange() {
-		if (~~xobj.readyState !== 4) return;
-		if (~~xobj.status !== 200 && ~~xobj.status !== 0) {
-			return cb('xhrError:' + xobj.status);
-		}
-		audioContext.decodeAudioData(xobj.response, function onSuccess(buffer) {
-			return cb(null, buffer);
-		}, cb);
-	};
-
-	xobj.open('GET', path, true);
-	xobj.send();
-}
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Buffer(bufferData, id) {
-	Module.call(this);
+function Buffer(bufferData) {
+	Module.call(this, bufferData);
 
 	// TODO: create a CSS class
 	this._dom.style.backgroundColor = '#7cd4a7';
 	this._dom.style.borderColor     = '#c1f1d0';
 	this._dom.style.borderRadius    = '4px';
-	this._title.textContent = id;
+	this._title.textContent = bufferData.id;
 
 	this.buffer = null;
 
@@ -36,30 +17,22 @@ function Buffer(bufferData, id) {
 
 	var t = this;
 
-	// check if buffer is already loaded
-	if (bufferData.buffer) {
-		this.buffer = bufferData;
-		window.setTimeout(function () {
-			t.onLoad();
-		}, 0);
-		return;
-	}
-
 	// load buffer
-	loadAudioBuffer(bufferData.uri, function onBufferLoaded(error, buffer) {
+	bufferData.loadAudioBuffer(function onBufferLoaded(error) {
 		if (error) {
 			console.error('Could not load buffer', bufferData, error);
+			// TODO: create a CSS class
 			t._dom.style.backgroundColor = '#ea455c';
 			t._dom.style.borderColor     = '#dc9797';
 			return;
 		}
-		bufferData.buffer = buffer;
 		t.buffer = bufferData;
 		t.onLoad();
 	});
 }
 inherits(Buffer, Module);
 
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Buffer.prototype.onConnect = function (connector) {
 	if (!this.buffer) return;
 	this.$data.emitTo(connector, { _type: 'buffer', buffer: this.buffer });
@@ -71,11 +44,10 @@ Buffer.prototype.onLoad = function () {
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Buffer.prototype.descriptor = {
-	name: 'Buffer',
+	type: 'Buffer',
 	size: 1,
-	inputs:  {},
-	outputs: { data: { type: 'event', x:5,  y:0, label: null, onConnect: 'onConnect' } },
-	params:  {}
+	outputs: { data: { type: 'event', x:5,  y:0, label: null, onConnect: 'onConnect' } }
 };
 
 module.exports = Buffer;
+library.register(Buffer);

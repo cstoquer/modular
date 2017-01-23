@@ -20,11 +20,11 @@ function BufferLibrary() {
 	this.createEntries();
 }
 
-BufferLibrary.prototype.createEntry = function (id, buffer) {
+BufferLibrary.prototype.createEntry = function (bufferData) {
 	var button = createDiv('libraryEntry', this.list);
-	button.textContent = id;
+	button.textContent = bufferData.id;
 	button.addEventListener('mousedown', function onClick(e) {
-		var module = moduleManager.addModule(new BufferModule(buffer, id));
+		var module = moduleManager.addModule(new BufferModule(bufferData));
 		moduleManager.startDrag(module, e);
 	});
 };
@@ -32,7 +32,7 @@ BufferLibrary.prototype.createEntry = function (id, buffer) {
 BufferLibrary.prototype.createEntries = function () {
 	var buffers = window.assets.buffers;
 	for (id in buffers) {
-		this.createEntry(id, buffers[id]);
+		this.createEntry(buffers[id]);
 	}
 };
 

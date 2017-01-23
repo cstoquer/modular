@@ -11,11 +11,12 @@ inherits(Gain, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Gain.prototype.descriptor = {
+	type: 'Gain',
 	name: 'Gain x100',
 	size: 3,
-	inputs:  { IN:  { type: 'audio', x:3.5,  y:0.2, endPoint: 'node', label: 'IN' } },
+	inputs:  { IN:  { type: 'audio', x:3.5,  y:0.2, endPoint: 'node', label: 'IN'  } },
 	outputs: { OUT: { type: 'audio', x:3.5,  y:2,   endPoint: 'node', label: 'OUT' } },
-	params:  { gain: { type: 'knob', x: 1.5, y: 0.5, min: 1.0, max: 100.0, endPoint: 'node.gain', value: 'value', label: 'GAIN' } }
+	controls: { gain: { type: 'knob', x: 1.5, y: 0.5, min: 1.0, max: 100.0, endPoint: 'node.gain', value: 'value', label: 'GAIN' } }
 };
 
 library.register(Gain);

@@ -39,6 +39,7 @@ TestModule.prototype.pushButton = function () {
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 TestModule.prototype.descriptor = {
+	type: 'TestModule',
 	name: 'TestModule',
 	size: 5,
 	inputs: {
@@ -47,7 +48,7 @@ TestModule.prototype.descriptor = {
 	outputs: {
 		B: { type: 'event', x:3.2,  y:1, label: 'B', onConnect: 'onConnect' }
 	},
-	params:  {
+	controls: {
 		a: { type: 'knob',   x: 0.1, y: 2.3, label: 'KNB' },
 		b: { type: 'knob',   x: 2.1, y: 2.3, label: 'KNB' },
 		c: { type: 'button', x: 4.1, y: 2.3, label: 'BTN', endPoint: 'pushButton' }
