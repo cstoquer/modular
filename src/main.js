@@ -12,6 +12,7 @@ require('./core/AudioConnector');
 require('./core/EventConnector');
 require('./ui/bufferLibrary');
 require('./ui/menuHeader');
+require('./ui/audioEditor').setBuffer(window.assets.buffers['damu drums1']);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // TODO: automaticaly require modules from walker

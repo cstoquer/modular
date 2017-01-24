@@ -10,7 +10,7 @@ var makeDragable = domUtils.makeDragable;
  * @author Cedric Stoquer
  */
 function BufferLibrary() {
-	this.dom = createDiv('library');
+	this.dom = createDiv('panel');
 
 	var handle = createDiv('handle', this.dom);
 	makeDragable(handle, this.dom);

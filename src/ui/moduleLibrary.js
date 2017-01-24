@@ -12,7 +12,7 @@ var MODULES_CONSTRUCTOR_BY_ID = {};
  * @author Cedric Stoquer
  */
 function ModuleLibrary() {
-	this.dom = createDiv('library');
+	this.dom = createDiv('panel');
 	this.dom.style.left = '150px'; // TODO
 
 	var handle = createDiv('handle', this.dom);
