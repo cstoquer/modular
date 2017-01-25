@@ -22,6 +22,7 @@ require('./modules/LFO');
 require('./modules/Gain');
 require('./modules/Panner');
 require('./modules/ModPanner');
+require('./modules/RingModulator');
 require('./modules/Sampler');
 require('./modules/Filter');
 require('./modules/Delay');
