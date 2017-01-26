@@ -1,5 +1,6 @@
 var domUtils     = require('domUtils');
 var createDiv    = domUtils.createDiv;
+var makeButton   = domUtils.makeButton;
 var makeDragable = domUtils.makeDragable;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -9,14 +10,28 @@ var makeDragable = domUtils.makeDragable;
  */
 function Panel() {
 	this._dom = createDiv('panel');
+
+	var t = this;
+
+	// handle header for drag & move
 	var handle = createDiv('handle', this._dom);
 	makeDragable(handle, this._dom);
 
-	// TODO: close button
+	// title
+	this.title = createDiv('panelTitle', handle);
 
-	// TODO: title
+	// close button
+	var closeButton = createDiv('panelCloseButton', handle);
+	makeButton(closeButton, function onPress() {
+		t.close();
+	});
 }
 
-// TODO hide and show
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Panel.prototype.close = function () {
+	// TODO update checkbox in menu header
+	this._dom.style.display = 'none';
+};
+
 
 module.exports = Panel;

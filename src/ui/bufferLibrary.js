@@ -17,7 +17,7 @@ function BufferLibrary() {
 inherits(BufferLibrary, Panel);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-BufferLibrary.prototype.createEntry = function (bufferData) {
+BufferLibrary.prototype.add = function (bufferData) {
 	var button = createDiv('libraryEntry', this.list);
 	button.textContent = bufferData.id;
 	button.addEventListener('mousedown', function onClick(e) {
@@ -30,7 +30,7 @@ BufferLibrary.prototype.createEntry = function (bufferData) {
 BufferLibrary.prototype.createEntries = function () {
 	var buffers = window.assets.buffers;
 	for (id in buffers) {
-		this.createEntry(buffers[id]);
+		this.add(buffers[id]);
 	}
 };
 

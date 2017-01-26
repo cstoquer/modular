@@ -10,7 +10,8 @@ BufferData.initializeDatabase(window.assets.buffers);
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 require('./core/AudioConnector');
 require('./core/EventConnector');
-require('./ui/bufferLibrary');
+var ProceduralBuffer = require('./data/ProceduralBuffer');
+require('./ui/bufferLibrary').add(new ProceduralBuffer('whiteNoise', { loop: true, start: 0, end: 0.5 }));
 require('./ui/menuHeader');
 require('./ui/audioEditor').setBuffer(window.assets.buffers['damu drums1']);
 
