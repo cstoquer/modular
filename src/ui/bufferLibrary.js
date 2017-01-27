@@ -1,8 +1,8 @@
+var Panel         = require('./Panel');
 var moduleManager = require('../core/moduleManager');
 var BufferModule  = require('../core/Buffer');
-var domUtils  = require('domUtils');
-var createDiv = domUtils.createDiv;
-var makeDragable = domUtils.makeDragable;
+var domUtils      = require('domUtils');
+var createDiv     = domUtils.createDiv;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** BufferLibrary
@@ -10,17 +10,14 @@ var makeDragable = domUtils.makeDragable;
  * @author Cedric Stoquer
  */
 function BufferLibrary() {
-	this.dom = createDiv('library');
-
-	var handle = createDiv('handle', this.dom);
-	makeDragable(handle, this.dom);
-
-	this.list = createDiv('libraryList', this.dom);
-
+	Panel.call(this);
+	this.list = createDiv('libraryList', this._dom);
 	this.createEntries();
 }
+inherits(BufferLibrary, Panel);
 
-BufferLibrary.prototype.createEntry = function (bufferData) {
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+BufferLibrary.prototype.add = function (bufferData) {
 	var button = createDiv('libraryEntry', this.list);
 	button.textContent = bufferData.id;
 	button.addEventListener('mousedown', function onClick(e) {
@@ -29,12 +26,12 @@ BufferLibrary.prototype.createEntry = function (bufferData) {
 	});
 };
 
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 BufferLibrary.prototype.createEntries = function () {
 	var buffers = window.assets.buffers;
 	for (id in buffers) {
-		this.createEntry(buffers[id]);
+		this.add(buffers[id]);
 	}
 };
-
 
 module.exports = new BufferLibrary();

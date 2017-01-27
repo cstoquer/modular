@@ -5,6 +5,25 @@ var removeDom  = domUtils.removeDom;
 var makeButton = domUtils.makeButton;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+var PANELS = {
+	bufferLibrary: require('./bufferLibrary'),
+	moduleLibrary: require('./moduleLibrary'),
+	audioEditor:   require('./audioEditor')
+};
+
+function openPanel(panel) {
+	return function () {
+		panel.open();
+	}
+}
+
+function closeAllPanels() {
+	for (var id in PANELS) {
+		PANELS[id].close();
+	}
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function exportPatch() {
 	var patch = window.moduleManager.getPatch();
 
@@ -25,27 +44,30 @@ var MENU_TEMPLATE = [
 	{
 		label: 'Patch',
 		submenu: [
-			{ label: 'Load Pacth', click: null },
-			{ label: 'Save Pacth', click: null },
+			{ label: 'Load Patch', click: null },
+			{ label: 'Save Patch', click: null },
 			//--------------------------------------------------------
 			{ type: 'separator' },
 			{ label: 'Import Patch', click: importPatch },
 			{ label: 'Export Patch', click: exportPatch },
 			//--------------------------------------------------------
 			{ type: 'separator' },
-			{ label: 'Clear Patch', click: function clearPatch() { window.moduleManager.clearPatch(); } },
+			{ label: 'Clear', click: function clearPatch() { window.moduleManager.clearPatch(); } },
 		]
 	},
 	{
 		label: 'View',
 		submenu: [
-			{ label: 'Modules',   type: 'checkbox', checked: true },
-			{ label: 'Buffers',   type: 'checkbox', checked: true },
-			{ label: 'Controls',  type: 'checkbox', checked: true },
-			{ label: 'Inspector', type: 'checkbox', checked: true },
+			{ label: 'Modules Library', type: 'checkbox', checked: true, click: openPanel(PANELS.moduleLibrary) },
+			{ label: 'Buffers Library', type: 'checkbox', checked: true, click: openPanel(PANELS.bufferLibrary) },
+			{ label: 'Audio Editor',    type: 'checkbox', checked: true, click: openPanel(PANELS.audioEditor) },
+			// { label: 'Controls',  type: 'checkbox', checked: true },
+			// { label: 'Inspector', type: 'checkbox', checked: true },
 			//--------------------------------------------------------
 			// { label: 'Cascade', click: cascadePanels },
-			// { label: 'Close all' },
+			//--------------------------------------------------------
+			{ type: 'separator' },
+			{ label: 'Close all', click: closeAllPanels },
 		]
 	},
 ];

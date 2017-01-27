@@ -1,17 +1,15 @@
-var domUtils     = require('domUtils');
 var audioContext = require('./core/audioContext');
 var BufferData   = require('./data/BufferData');
-
-// remove pixelbox canvas
-domUtils.removeDom($screen.canvas, document.body);
 
 BufferData.initializeDatabase(window.assets.buffers);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 require('./core/AudioConnector');
 require('./core/EventConnector');
-require('./ui/bufferLibrary');
 require('./ui/menuHeader');
+var ProceduralBuffer = require('./data/ProceduralBuffer');
+require('./ui/bufferLibrary').add(new ProceduralBuffer('whiteNoise', { loop: true, start: 0, end: 0.5 }));
+require('./ui/audioEditor').setBuffer(window.assets.buffers['damu drums1']);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // TODO: automaticaly require modules from walker
@@ -21,6 +19,7 @@ require('./modules/LFO');
 require('./modules/Gain');
 require('./modules/Panner');
 require('./modules/ModPanner');
+require('./modules/RingModulator');
 require('./modules/Sampler');
 require('./modules/Filter');
 require('./modules/Delay');
@@ -30,10 +29,10 @@ require('./modules/Context');
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // drag & drop patch files
 
-document.body.addEventListener('dragover', function handleDragOver(evt) {
-	evt.stopPropagation();
-	evt.preventDefault();
-	evt.dataTransfer.dropEffect = 'copy';
+document.body.addEventListener('dragover', function handleDragOver(e) {
+	e.stopPropagation();
+	e.preventDefault();
+	e.dataTransfer.dropEffect = 'copy';
 }, false);
 
 document.body.addEventListener('drop', function (e) {

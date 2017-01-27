@@ -1,4 +1,12 @@
 {
 	"_type": "maps",
-	"maps": []
+	"maps": [
+		{
+			"w": 0,
+			"h": 0,
+			"name": "",
+			"sheet": "tilesheet",
+			"data": ""
+		}
+	]
 }

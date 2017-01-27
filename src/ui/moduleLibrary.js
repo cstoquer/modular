@@ -1,7 +1,7 @@
+var Panel         = require('./Panel');
 var moduleManager = require('../core/moduleManager');
 var domUtils      = require('domUtils');
 var createDiv     = domUtils.createDiv;
-var makeDragable  = domUtils.makeDragable;
 
 
 var MODULES_CONSTRUCTOR_BY_ID = {};
@@ -12,14 +12,12 @@ var MODULES_CONSTRUCTOR_BY_ID = {};
  * @author Cedric Stoquer
  */
 function ModuleLibrary() {
-	this.dom = createDiv('library');
-	this.dom.style.left = '150px'; // TODO
+	Panel.call(this);
+	this._dom.style.left = '150px'; // TODO
 
-	var handle = createDiv('handle', this.dom);
-	makeDragable(handle, this.dom);
-
-	this.list = createDiv('libraryList', this.dom);
+	this.list = createDiv('libraryList', this._dom);
 }
+inherits(ModuleLibrary, Panel);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 ModuleLibrary.prototype.register = function (ModuleConstructor) {
