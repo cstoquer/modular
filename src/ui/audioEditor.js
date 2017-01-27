@@ -75,7 +75,7 @@ function AudioEditor() {
 		// TODO
 		assetLoader.sendRequest({
 			command: 'audio.saveProperties',
-			bufferData: t.bufferData.id,
+			bufferData: t.bufferData.serialize()
 		});
 	});
 }
