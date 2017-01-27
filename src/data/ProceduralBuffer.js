@@ -38,7 +38,7 @@ ProceduralBuffer.prototype.loadAudioBuffer = function (cb) {
 		var buffer = audioContext.createBuffer(1, 22050, 44100);
 		var bufferData = buffer.getChannelData(0);
 		for (var i = 0; i < bufferData.length; i++) {
-			bufferData[i] = Math.random() * 2 - 1;
+			bufferData[i] = Math.random() - 0.5;
 		}
 
 		this.buffer = buffer;

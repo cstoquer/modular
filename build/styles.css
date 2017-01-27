@@ -118,7 +118,7 @@ body {
 }
 
 .handle {
-	height: 10px;
+	height: 13px;
 	padding: 1px;
 	background-color: #AAA;
 	border-radius: 2px;
@@ -135,8 +135,8 @@ body {
 }
 
 .panelCloseButton {
-	width: 8px;
-	height: 8px;
+	width: 11px;
+	height: 11px;
 	margin: 1px;
 	background-color: #CCC;
 	border-radius: 2px;
@@ -164,9 +164,28 @@ body {
 	box-shadow: 0px 0px 10px #333;
 }
 
-.waveform {
+.waveformCanvas {
 	background-color: #44494c;
+	vertical-align: bottom;
 }
+
+.audioEditorSaveButton {
+    margin: 10px;
+    margin-top: -30px;
+    width: 20px;
+    height: 20px;
+    background-image: url("../img/iconSave.png");
+    border-radius: 3px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: #CCC;
+    position: relative;
+}
+
+.audioEditorSaveButton:hover {
+    background-color: #FF0;
+}
+
 
 .hscroll {
 	overflow-x: scroll;

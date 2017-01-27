@@ -1,9 +1,10 @@
+var assetLoader  = require('assetLoader');
 var Panel        = require('./Panel');
 var domUtils     = require('domUtils');
 var createDom    = domUtils.createDom;
 var createDiv    = domUtils.createDiv;
+var makeButton   = domUtils.makeButton;
 var makeDragable = domUtils.makeDragable;
-
 
 var WAVEFORM_WIDTH  = 600;
 var WAVEFORM_HEIGHT = 200;
@@ -15,6 +16,9 @@ var HALF_HEIGHT     = ~~(WAVEFORM_HEIGHT / 2);
  */
 function AudioEditor() {
 	Panel.call(this);
+	var t = this;
+
+	this.close();
 
 	// waveform view properties
 	this.zoom   = 1; // a percentage of the portion in view : ]0,1]
@@ -34,12 +38,12 @@ function AudioEditor() {
 	this.scrollContent.style.height = '2px';
 
 
-	var t = this;
 	this.scroll.addEventListener('scroll', function () {
 		t.onScroll();
 	});
 
-	this.canvas = createDom('canvas', 'waveform', this._dom);
+	// waveform canvas
+	this.canvas = createDom('canvas', 'waveformCanvas', this._dom);
 	this.canvas.width  = WAVEFORM_WIDTH;
 	this.canvas.height = WAVEFORM_HEIGHT;
 	this.canvas.style.width  = WAVEFORM_WIDTH  + 'px';
@@ -49,7 +53,30 @@ function AudioEditor() {
 	this.ctx = this.canvas.getContext('2d');
 
 	this.canvas.addEventListener('wheel', function (e) {
-		t.onWheel(e.deltaY);
+		t.onWheel(e);
+	});
+
+	this.canvas.addEventListener('mousedown', function (e) {
+		t.onClick(e);
+	});
+
+	// disable right click's context menu
+	this.canvas.oncontextmenu = function () {
+		return false;
+	};
+
+	// save button
+	this.canSave = false;
+	var saveButton = createDiv('audioEditorSaveButton', this._dom);
+	makeButton(saveButton, function sendRequest() {
+		if (!t.canSave) return;
+		t.canSave = false;
+
+		// TODO
+		assetLoader.sendRequest({
+			command: 'audio.saveProperties',
+			bufferData: t.bufferData.id,
+		});
 	});
 }
 inherits(AudioEditor, Panel);
@@ -67,7 +94,9 @@ AudioEditor.prototype.onScroll = function () {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-AudioEditor.prototype.onWheel = function (delta) {
+AudioEditor.prototype.onWheel = function (e) {
+	var delta = e.deltaY;
+
 	if (!this.bufferData || !this.bufferData.buffer) return;
 
 	// TODO min zoom should depend on buffer length
@@ -86,6 +115,27 @@ AudioEditor.prototype.onWheel = function (delta) {
 	this.scrollContent.style.width = ~~(WAVEFORM_WIDTH / this.zoom) + 'px';
 	// TODO: update scrollbar position correctly
 
+	this.drawWaveform();
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+AudioEditor.prototype.onClick = function (e) {
+	if (!this.bufferData || !this.bufferData.buffer) return;
+	var x = e.layerX;
+
+	var bufferLength = this.bufferData.buffer.length;
+	var duration     = this.bufferData.buffer.duration;
+	var chunkSize    = bufferLength * this.zoom / WAVEFORM_WIDTH;
+	var position     = this.offset + x * chunkSize; // in samples
+	position         = position / bufferLength * duration; // in seconds
+
+	if (e.which === 3) {
+		this.bufferData.end = position;
+	} else {
+		this.bufferData.start = position;
+	}
+
+	this.canSave = true;
 	this.drawWaveform();
 };
 
@@ -143,15 +193,16 @@ AudioEditor.prototype.drawWaveform = function () {
 	end          = end / ratio;
 	this.ctx.fillRect(WAVEFORM_WIDTH * start - offset, 0, 1, WAVEFORM_HEIGHT);
 	this.ctx.fillRect(WAVEFORM_WIDTH * end   - offset, 0, 1, WAVEFORM_HEIGHT);
-	
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 AudioEditor.prototype.setBuffer = function (bufferData) {
 	var t = this;
 
+	this.setTitle(bufferData.id);
 	// reset properties
 	this.bufferData = bufferData;
+	this.canSave = false;
 
 	// load buffer
 	bufferData.loadAudioBuffer(function (error) {

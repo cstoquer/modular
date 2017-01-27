@@ -1,18 +1,14 @@
-var domUtils     = require('domUtils');
 var audioContext = require('./core/audioContext');
 var BufferData   = require('./data/BufferData');
-
-// remove pixelbox canvas
-domUtils.removeDom($screen.canvas, document.body);
 
 BufferData.initializeDatabase(window.assets.buffers);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 require('./core/AudioConnector');
 require('./core/EventConnector');
+require('./ui/menuHeader');
 var ProceduralBuffer = require('./data/ProceduralBuffer');
 require('./ui/bufferLibrary').add(new ProceduralBuffer('whiteNoise', { loop: true, start: 0, end: 0.5 }));
-require('./ui/menuHeader');
 require('./ui/audioEditor').setBuffer(window.assets.buffers['damu drums1']);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
