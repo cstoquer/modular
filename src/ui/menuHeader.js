@@ -71,12 +71,6 @@ var MENU_TEMPLATE = [
 			{ label: 'Close all', click: closeAllPanels },
 		]
 	},
-	// {
-	// 	label: 'Libraries',
-	// 	submenu: [
-	// 		{ label: 'Generate audio libraries', click: function () { sendRequest({ command: 'audio.generateLibraries' }); } }
-	// 	]
-	// }
 ];
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

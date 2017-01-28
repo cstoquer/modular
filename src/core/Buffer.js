@@ -5,10 +5,11 @@ var library = require('../ui/moduleLibrary');
 function Buffer(bufferData) {
 	Module.call(this, bufferData);
 
-	// TODO: create a CSS class
-	this._dom.style.backgroundColor = '#7cd4a7';
-	this._dom.style.borderColor     = '#c1f1d0';
-	this._dom.style.borderRadius    = '4px';
+	var className = ' bufferAudio';
+	if (bufferData.ir) className = ' bufferIR';
+	if (bufferData.type === 'ProceduralBuffer') className = ' bufferProcedural';
+	this._dom.className += className;
+
 	this._title.textContent = bufferData.id;
 
 	this.buffer = null;
@@ -22,8 +23,7 @@ function Buffer(bufferData) {
 		if (error) {
 			console.error('Could not load buffer', bufferData, error);
 			// TODO: create a CSS class
-			t._dom.style.backgroundColor = '#ea455c';
-			t._dom.style.borderColor     = '#dc9797';
+			this._dom.className += ' bufferFailed';
 			return;
 		}
 		t.buffer = bufferData;

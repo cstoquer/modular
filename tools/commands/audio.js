@@ -100,7 +100,7 @@ exports.saveProperties = function (params, cb) {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-exports.generateLibraries = function (params, cb) {
+exports.generateLibrary = function (params, cb) {
 	// map all audio files inside the 'audio' folder
 	var audioList = getAssets('audio', [
 		{ ext: ['mp3'], id: 'sound' }
@@ -134,6 +134,7 @@ exports.generateLibraries = function (params, cb) {
 	}
 
 	// generate 'assets/buffers.json' by merging current data with all metafiles in 'audio'
+	// the meta files will override current data in json.
 	var audioMeta = getAssets('audio', [
 		{ ext: ['json'], parser: JSON.parse },
 	]).dat;
@@ -142,9 +143,22 @@ exports.generateLibraries = function (params, cb) {
 		buffers[id] = audioMeta[id];
 	}
 
+	// complete with the data of audio without meta file
+	for (var i = 0; i < audioList.length; i++) {
+		var audioFile = audioList[i];
+		// id is the file name without extension
+		var id = audioFile.split('.');
+		id.pop();
+		id = id.join('.');
+
+		// don't override current buffer data
+		if (buffers[id]) continue;
+		buffers[id] = { _type: 'BufferData', id: id, uri: 'audio/' + audioFile };
+		console.log('adding audio ', id)
+	}
+
 	// write back buffers list on disc
 	fs.writeFileSync(path.join(cwd, 'assets/buffers.json'), JSON.stringify(buffers), 'utf8');
-	// fs.writeFileSync(path.join(cwd, 'assets/audioFiles.json'), JSON.stringify(audioList), 'utf8');
 
 	return cb();
 };

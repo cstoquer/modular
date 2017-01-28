@@ -33,6 +33,7 @@ BufferData.prototype.serialize = function () {
 		id:    this.id,
 		uri:   this.uri,
 		loop:  this.loop,
+		ir:    this.ir,
 		start: this.start,
 		end:   this.end,
 		tag:   this.tag

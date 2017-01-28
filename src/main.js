@@ -23,6 +23,7 @@ require('./modules/ModPanner');
 require('./modules/RingModulator');
 require('./modules/Sampler');
 require('./modules/Filter');
+require('./modules/Convolver');
 require('./modules/Delay');
 require('./modules/Volume');
 require('./modules/Context');

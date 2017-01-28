@@ -1,5 +1,6 @@
 var assetLoader  = require('assetLoader');
 var Panel        = require('./Panel');
+var beforeClose  = require('./beforeClose');
 var domUtils     = require('domUtils');
 var createDom    = domUtils.createDom;
 var createDiv    = domUtils.createDiv;
@@ -94,6 +95,8 @@ function AudioEditor() {
 			command: 'audio.saveProperties',
 			bufferData: t.bufferData.serialize()
 		});
+
+		beforeClose.setFlag('audio');
 	});
 	this.allowSave(false);
 

@@ -272,6 +272,12 @@ body {
 	overflow: hidden;
 }
 
+.bufferAudio      { background-color: #7cd4a7; border-color: #c1f1d0; border-radius: 4px; }
+.bufferFailed     { background-color: #ea455c; border-color: #dc9797; }
+.bufferIR         { background-color: #65c6ff; border-color: #81ecf7; }
+.bufferProcedural { background-color: #efd67b; border-color: #faffae; }
+
+
 .module:hover { 
 	box-shadow: 0px 0px 10px #07818e;
 	z-index: 8;
