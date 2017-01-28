@@ -29,7 +29,7 @@ BufferLibrary.prototype.add = function (bufferData) {
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 BufferLibrary.prototype.createEntries = function () {
 	var buffers = window.assets.buffers;
-	for (id in buffers) {
+	for (var id in buffers) {
 		this.add(buffers[id]);
 	}
 };

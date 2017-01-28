@@ -4,6 +4,7 @@ var domUtils     = require('domUtils');
 var createDom    = domUtils.createDom;
 var createDiv    = domUtils.createDiv;
 var makeButton   = domUtils.makeButton;
+var removeDom    = domUtils.removeDom;
 var makeDragable = domUtils.makeDragable;
 
 var WAVEFORM_WIDTH  = 600;
@@ -25,11 +26,9 @@ function AudioEditor() {
 	this.offset = 0; // sample offsets : [0, bufferLength*(1-zoom)]
 	this.bufferData = null;
 
+	this.canSave = false;
+
 	// dom elements
-
-	// this.menu = createDiv('', this._dom);
-	// this.menu.style.height = '20px';
-
 	this.scroll = createDiv('hscroll', this._dom);
 	this.scroll.style.width = WAVEFORM_WIDTH + 'px';
 
@@ -65,19 +64,52 @@ function AudioEditor() {
 		return false;
 	};
 
-	// save button
-	this.canSave = false;
-	var saveButton = createDiv('audioEditorSaveButton', this._dom);
-	makeButton(saveButton, function sendRequest() {
-		if (!t.canSave) return;
-		t.canSave = false;
+	// buttons menu
+	var menu = createDiv('audioEditorMenu', this._dom);
 
-		// TODO
+	function makePropertyButton(prop) {
+		var button = createDiv('editorButton ' + prop + 'Icon', menu);
+		makeButton(button, function () {
+			if (!t.bufferData) return;
+			t.bufferData[prop] = !t.bufferData[prop];
+			button.style.backgroundColor = t.bufferData[prop] ? '#FFF' : '#777';
+			t.allowSave(true);
+		});
+		return button;
+	}
+
+	this.loopButton = makePropertyButton('loop');
+	this.irButton   = makePropertyButton('ir');
+
+
+	createDiv('flexSpacer', menu);
+
+	// save button
+	this.saveButton = createDiv('editorButton saveIcon', menu);
+	makeButton(this.saveButton, function sendRequest() {
+		if (!t.canSave) return;
+		t.allowSave(false);
+
 		assetLoader.sendRequest({
 			command: 'audio.saveProperties',
 			bufferData: t.bufferData.serialize()
 		});
 	});
+	this.allowSave(false);
+
+	// tags section
+	var tagSection = createDiv('', this._dom);
+	var addTagInput = createDom('input', 'tagInput', tagSection);
+	this.tags = createDiv('tags', tagSection);
+	this.tags.style.width = WAVEFORM_WIDTH - 105 + 'px';
+
+	addTagInput.onkeypress = function (e) {
+		if (e.keyCode !== 13) return;
+		var value = addTagInput.value;
+		if (value === '') return;
+		addTagInput.value = '';
+		t.addNewTag(value);
+	}
 }
 inherits(AudioEditor, Panel);
 
@@ -135,8 +167,15 @@ AudioEditor.prototype.onClick = function (e) {
 		this.bufferData.start = position;
 	}
 
-	this.canSave = true;
+	this.allowSave(true);
 	this.drawWaveform();
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+AudioEditor.prototype.allowSave = function (value) {
+	this.canSave = value;
+	// update save button display
+	this.saveButton.style.opacity = value ? 1 : 0;
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -199,16 +238,72 @@ AudioEditor.prototype.drawWaveform = function () {
 AudioEditor.prototype.setBuffer = function (bufferData) {
 	var t = this;
 
-	this.setTitle(bufferData.id);
 	// reset properties
+	this.zoom    = 1;
+	this.offset  = 0;
+	this.allowSave(false);
+
+	// reset display
+	this.setTitle(bufferData.id);
+	this.scrollContent.style.width = ~~(WAVEFORM_WIDTH / this.zoom) + 'px';
+	this.ctx.clearRect(0, 0, WAVEFORM_WIDTH, WAVEFORM_HEIGHT);
+
+	this.loopButton.style.backgroundColor = bufferData.loop ? '#FFF' : '#777';
+	this.irButton  .style.backgroundColor = bufferData.ir   ? '#FFF' : '#777';
+
+	// set buffer
 	this.bufferData = bufferData;
-	this.canSave = false;
+	this.setTags(bufferData);
 
 	// load buffer
 	bufferData.loadAudioBuffer(function (error) {
 		if (error) return;
 		t.drawWaveform();
 	});
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+AudioEditor.prototype.setTags = function (bufferData) {
+	this.tags.innerHTML = '';
+	for (var i = 0; i < bufferData.tag.length; i++) {
+		this.addTag(bufferData.tag[i])
+	}
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+/**
+ * @param {string} tag - tag name
+ */
+AudioEditor.prototype.addTag = function (tag) {
+	var t = this;
+
+	var container = createDiv('tag', this.tags);
+	createDiv('tagTitle', container).innerText = tag;
+	var closeButton = createDiv('closeButton', container);
+
+	// close button action
+	makeButton(closeButton, function onDelete() {
+		removeDom(container, t.tags);
+		var index = t.bufferData.tag.indexOf(tag);
+		if (index === -1) return;
+		t.bufferData.tag.splice(index, 1);
+		t.allowSave(true);
+	});
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+AudioEditor.prototype.addNewTag = function (tag) {
+	if (!this.bufferData) return;
+
+	// TODO: sanitize tag string (at least remove " and \ characters)
+
+	// don't add an already existing tag
+	if (this.bufferData.tag.indexOf(tag) !== -1) return;
+
+	// adding tag
+	this.bufferData.tag.push(tag);
+	this.addTag(tag);
+	this.allowSave(true);
 };
 
 module.exports = new AudioEditor();

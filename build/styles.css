@@ -134,16 +134,18 @@ body {
 	flex-grow: 1;
 }
 
-.panelCloseButton {
+.closeButton {
+	background-image: url("../img/close.png");
 	width: 11px;
 	height: 11px;
 	margin: 1px;
 	background-color: #CCC;
 	border-radius: 2px;
+	display: inline-block;
 }
 
-.panelCloseButton:hover {
-	background-color: #FF0;
+.closeButton:hover {
+	background-color: #FFF;
 }
 
 .libraryList {
@@ -164,28 +166,74 @@ body {
 	box-shadow: 0px 0px 10px #333;
 }
 
+.tagInput {
+	display: inline-block;
+	vertical-align: top;
+	margin: 2px 0;
+	border-radius: 4px;
+	padding: 0 3px;
+	font-size: 11px;
+	width: 100px;
+}
+
+.tags {
+	display: inline-block;
+	margin: 0 2px;
+}
+
+.tag {
+	display: inline-block;
+	margin: 3px 2px;
+	height: 13px;
+	padding: 1px;
+	border-radius: 3px;
+	background-color: #AAA;
+}
+
+.tagTitle {
+	display: inline-block;
+	margin: 0 3px;
+	overflow: hidden;
+}
+
 .waveformCanvas {
 	background-color: #44494c;
 	vertical-align: bottom;
 }
 
-.audioEditorSaveButton {
-    margin: 10px;
-    margin-top: -30px;
-    width: 20px;
-    height: 20px;
-    background-image: url("../img/iconSave.png");
-    border-radius: 3px;
-    background-repeat: no-repeat;
-    background-position: 50% 50%;
-    background-color: #CCC;
-    position: relative;
+.audioEditorMenu {
+	position: relative;
+	margin: 10px;
+	margin-top: -30px;
+	height: 20px;
+	/*overflow: hidden;*/
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
 }
 
-.audioEditorSaveButton:hover {
-    background-color: #FF0;
+.editorButton {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-color: #CCC;
+	margin: 0 2px;
 }
 
+.editorButton:hover {
+	background-color: #FFF;
+}
+
+.flexSpacer {
+	flex-grow: 1;
+}
+
+.saveIcon { background-image: url("../img/iconSave.png"); }
+.loopIcon { background-image: url("../img/iconLoop.png"); }
+.irIcon   { background-image: url("../img/iconIR.png"); }
 
 .hscroll {
 	overflow-x: scroll;

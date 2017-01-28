@@ -120,7 +120,7 @@ Module.prototype.setPosition = function (x, y) {
 	style.left = (constants.MODULE_WIDTH  * x) + 'px';
 	style.top  = (constants.MODULE_HEIGHT * y) + 'px';
 
-	for (id in this.cables) this.cables[id].update();
+	for (var id in this.cables) this.cables[id].update();
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

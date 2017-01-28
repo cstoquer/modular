@@ -21,7 +21,7 @@ function Panel() {
 	this.title = createDiv('panelTitle', handle);
 
 	// close button
-	var closeButton = createDiv('panelCloseButton', handle);
+	var closeButton = createDiv('closeButton', handle);
 	makeButton(closeButton, function onPress() {
 		t.close();
 	});

@@ -1,8 +1,9 @@
-var domUtils   = require('domUtils');
-var createDiv  = domUtils.createDiv;
-var createDom  = domUtils.createDom;
-var removeDom  = domUtils.removeDom;
-var makeButton = domUtils.makeButton;
+var sendRequest = require('assetLoader').sendRequest;
+var domUtils    = require('domUtils');
+var createDiv   = domUtils.createDiv;
+var createDom   = domUtils.createDom;
+var removeDom   = domUtils.removeDom;
+var makeButton  = domUtils.makeButton;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 var PANELS = {
@@ -70,6 +71,12 @@ var MENU_TEMPLATE = [
 			{ label: 'Close all', click: closeAllPanels },
 		]
 	},
+	// {
+	// 	label: 'Libraries',
+	// 	submenu: [
+	// 		{ label: 'Generate audio libraries', click: function () { sendRequest({ command: 'audio.generateLibraries' }); } }
+	// 	]
+	// }
 ];
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
