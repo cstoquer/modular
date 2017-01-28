@@ -4,20 +4,20 @@ var audioContext = require('../core/audioContext');
 function ProceduralBuffer(id, data) {
 	this.id     = id;
 	this.buffer = undefined;
-	// this.uri    = data.uri;
 	this.loop   = data.loop;
 	this.start  = data.start;
 	this.end    = data.end;
-	// this.tag    = data.tag;
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// static methods
+// static methods & attribute
 
 ProceduralBuffer.deserialize = function (data) {
 	// TODO: check for this ProceduralBuffer existence in the database
 	return new ProceduralBuffer(data.id, data);
 };
+
+ProceduralBuffer.prototype.type = 'ProceduralBuffer';
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 ProceduralBuffer.prototype.serialize = function () {

@@ -9,7 +9,8 @@ require('./core/EventConnector');
 require('./ui/menuHeader');
 var ProceduralBuffer = require('./data/ProceduralBuffer');
 require('./ui/bufferLibrary').add(new ProceduralBuffer('whiteNoise', { loop: true, start: 0, end: 0.5 }));
-require('./ui/audioEditor').setBuffer(window.assets.buffers['damu drums1']);
+var audioEditor = require('./ui/audioEditor');
+// require('./ui/audioLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // TODO: automaticaly require modules from walker
@@ -22,6 +23,7 @@ require('./modules/ModPanner');
 require('./modules/RingModulator');
 require('./modules/Sampler');
 require('./modules/Filter');
+require('./modules/Convolver');
 require('./modules/Delay');
 require('./modules/Volume');
 require('./modules/Context');
@@ -29,18 +31,7 @@ require('./modules/Context');
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // drag & drop patch files
 
-document.body.addEventListener('dragover', function handleDragOver(e) {
-	e.stopPropagation();
-	e.preventDefault();
-	e.dataTransfer.dropEffect = 'copy';
-}, false);
-
-document.body.addEventListener('drop', function (e) {
-	e.stopPropagation();
-	e.preventDefault();
-	var files = e.dataTransfer.files;
-	var file  = files[0];
-
+function readJson(file) {
 	var reader = new FileReader();
 	reader.onload = function (e) {
 		var contents = e.target.result;
@@ -54,4 +45,38 @@ document.body.addEventListener('drop', function (e) {
 		}
 	};
 	reader.readAsText(file);
+}
+
+function readMp3(file) {
+	var id = file.name.split('.');
+	id.pop();
+	id = id.join('.');
+
+	// create a bufferData for this file if it doesn't exist yet
+	var bufferData = window.assets.buffers[id];
+	if (!bufferData) {
+		bufferData = new BufferData(id, { uri: 'audio/' + file.name });
+	}
+	audioEditor.setBuffer(bufferData);
+	audioEditor.open();
+}
+
+document.body.addEventListener('dragover', function handleDragOver(e) {
+	e.stopPropagation();
+	e.preventDefault();
+	e.dataTransfer.dropEffect = 'copy';
+}, false);
+
+document.body.addEventListener('drop', function (e) {
+	e.stopPropagation();
+	e.preventDefault();
+	var files = e.dataTransfer.files;
+	var file  = files[0]; // TODO: all files
+
+	var ext = file.name.split('.').pop();
+
+	switch (ext) {
+		case 'json': readJson(file); break;
+		case 'mp3':  readMp3(file); break;
+	}
 }, false);

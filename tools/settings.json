@@ -3,29 +3,29 @@
 		"assetList": {
 			"x": 0,
 			"y": 25,
-			"viewW": 177,
-			"viewH": 637,
+			"viewW": 168,
+			"viewH": 538,
 			"foldConfig": {
 				"maps": {}
 			}
 		},
 		"mapEditor": {
-			"x": 225,
-			"y": 33,
+			"x": 178,
+			"y": 25,
 			"viewW": 209,
 			"viewH": 185
 		},
 		"tilesheet": {
-			"x": 877,
-			"y": 25,
+			"x": 962,
+			"y": 39,
 			"viewW": 0,
 			"viewH": 0
 		},
 		"customTools": {
-			"x": 941,
-			"y": 480,
-			"viewW": 319,
-			"viewH": 144,
+			"x": 1025,
+			"y": 523,
+			"viewW": 336,
+			"viewH": 198,
 			"foldConfig": {
 				"brush": {}
 			}

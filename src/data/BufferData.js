@@ -5,10 +5,11 @@ function BufferData(id, data) {
 	this.id     = id;
 	this.buffer = undefined;
 	this.uri    = data.uri;
-	this.loop   = data.loop;
-	this.start  = data.start;
-	this.end    = data.end;
-	this.tag    = data.tag;
+	this.loop   = data.loop  || false;
+	this.ir     = data.ir    || false;
+	this.start  = data.start || 0;
+	this.end    = data.end   || 0;
+	this.tag    = data.tag   || [];
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -32,8 +33,10 @@ BufferData.prototype.serialize = function () {
 		id:    this.id,
 		uri:   this.uri,
 		loop:  this.loop,
+		ir:    this.ir,
 		start: this.start,
-		end:   this.end
+		end:   this.end,
+		tag:   this.tag
 	};
 };
 
