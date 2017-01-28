@@ -13,9 +13,18 @@ User Interface is strongly influenced by Clavia's *Nord Modular*'s editor.
 ![modular](https://cloud.githubusercontent.com/assets/2462139/22196853/96e456cc-e192-11e6-873a-3a63371107f5.png)
 
 
-## Online Demo
+# Online Demo
 
 #[HERE](http://cstoquer.github.io/modular/)
 
 Nota: Save and Load features are disabled in this demo. 
 Patch can be exported (`top menu > Patch > Export patch`), and imported by drag & dropping a patch file in the window.
+
+# Features
+
+## Built-in buffer editor
+
+![waveedit](https://cloud.githubusercontent.com/assets/2462139/22394204/e3917d2e-e55c-11e6-9ac7-6904c9961e55.png)
+
+View the waveform of the audio buffers.
+Edit loop points, tags and properties of the audio files and save these as a meta file.
