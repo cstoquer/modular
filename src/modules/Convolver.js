@@ -38,7 +38,7 @@ Convolver.prototype.descriptor = {
 	size: 3,
 	inputs: {
 		IN:     { type: 'audio', x:3, y:1, endPoint: 'node',      label: 'IN' },
-		buffer: { type: 'event', x:0, y:1, endPoint: 'setBuffer', label: 'BUF', singleConnection: true },
+		buffer: { type: 'event', x:0, y:1, endPoint: 'setBuffer', label: 'BUF', /*singleConnection: true*/ },
 	},
 	outputs:  { OUT: { type: 'audio', x:3, y:2, endPoint: 'node', label: 'OUT' } },
 	controls: {}

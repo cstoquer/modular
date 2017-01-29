@@ -1,5 +1,6 @@
-var Module  = require('../core/Module');
-var library = require('../ui/moduleLibrary');
+var Module      = require('../core/Module');
+var library     = require('../ui/moduleLibrary');
+var audioEditor = require('../ui/audioEditor');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Buffer(bufferData) {
@@ -23,11 +24,17 @@ function Buffer(bufferData) {
 		if (error) {
 			console.error('Could not load buffer', bufferData, error);
 			// TODO: create a CSS class
-			this._dom.className += ' bufferFailed';
+			t._dom.className += ' bufferFailed';
 			return;
 		}
 		t.buffer = bufferData;
 		t.onLoad();
+	});
+
+	// edit buffer
+	this._dom.addEventListener('dblclick', function () {
+		audioEditor.setBuffer(bufferData);
+		audioEditor.open();
 	});
 }
 inherits(Buffer, Module);

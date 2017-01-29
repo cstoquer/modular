@@ -32,6 +32,7 @@
 
 	"components": {
 		"pixelboxCore": false,
+		"keyboard": false,
 		"TINA": false,
 		"AudioManager": false
 	}

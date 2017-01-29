@@ -16,5 +16,3 @@ exports.getConnector = function (way, type) {
 	if (!connectors[way]) return undefined;
 	return connectors[way][type];
 };
-
-require('./Connector');

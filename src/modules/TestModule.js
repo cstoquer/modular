@@ -1,22 +1,9 @@
 var Module  = require('../core/Module');
 var library = require('../ui/moduleLibrary');
 
-var domUtils  = require('domUtils');
-var createDiv = domUtils.createDiv;
-var createDom = domUtils.createDom;
-var removeDom = domUtils.removeDom;
-var makeButton = domUtils.makeButton;
-
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function TestModule() {
 	Module.call(this);
-
-	// TODO: extract button in a component
-	// var t = this;
-	// var btn = createDiv('moduleButton', this._dom);
-	// makeButton(btn, function () {
-	// 	t.pushButton();
-	// });
 }
 inherits(TestModule, Module);
 
