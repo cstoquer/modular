@@ -69,6 +69,7 @@ EventOutput.prototype.disconnect = function (connector) {
 };
 
 EventOutput.prototype.emit = function (event) {
+	event = event || {};
 	for (var i = 0; i < this.connections.length; i++) {
 		var connector = this.connections[i];
 		// bind to the correct 'this' value (the connector's module)
