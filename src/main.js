@@ -18,6 +18,7 @@ require('./modules/Oscillator');
 require('./modules/LFO');
 require('./modules/Envelope');
 require('./modules/Fade');
+require('./modules/AutoXFade');
 require('./modules/Amp');
 require('./modules/Gain');
 require('./modules/Panner');
