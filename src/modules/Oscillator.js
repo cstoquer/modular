@@ -17,7 +17,7 @@ Oscillator.prototype.descriptor = {
 	type: 'Oscillator',
 	name: 'Oscillator',
 	size: 3,
-	inputs:   { detune: { type: 'audio', x:0,  y:1, endPoint: 'node.detune', label: 'DTN' } },
+	inputs:   { detune: { type: 'param', x:0,  y:1, endPoint: 'node.detune', label: 'DTN' } },
 	outputs:  { OUT:    { type: 'audio', x:0,  y:2, endPoint: 'node',        label: 'OUT' } },
 	controls: { frequency: { type: 'knob', x: 3.7, y: 0.3, min: 110.0, max: 880.0, endPoint: 'node.frequency', value: 'value', label: 'FREQ' } }
 };

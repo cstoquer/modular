@@ -296,12 +296,12 @@ body {
 	height:   11px;
 }
 
-.eventOut   { background-image: url("../img/out-Y.png"); }
-.eventIn    { background-image: url("../img/in-Y.png");  }
-.audioOut   { background-image: url("../img/out-R.png"); }
-.audioIn    { background-image: url("../img/in-R.png");  }
-.controlOut { background-image: url("../img/out-B.png"); }
-.controlIn  { background-image: url("../img/in-B.png");  }
+.eventOut { background-image: url("../img/out-Y.png"); }
+.eventIn  { background-image: url("../img/in-Y.png");  }
+.audioOut { background-image: url("../img/out-R.png"); }
+.audioIn  { background-image: url("../img/in-R.png");  }
+.paramOut { background-image: url("../img/out-G.png"); }
+.paramIn  { background-image: url("../img/in-G.png");  }
 
 .moduleButton {
 	width:    20px;

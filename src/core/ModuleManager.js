@@ -453,7 +453,8 @@ function construct(constructor, args) {
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 // TODO: register system for data types
 var DATA_MAP = {
-	BufferData: require('../data/BufferData')
+	BufferData:       require('../data/BufferData'),
+	ProceduralBuffer: require('../data/ProceduralBuffer')
 };
 
 function deserialize(data) {

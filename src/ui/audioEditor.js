@@ -268,6 +268,7 @@ AudioEditor.prototype.setBuffer = function (bufferData) {
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 AudioEditor.prototype.setTags = function (bufferData) {
 	this.tags.innerHTML = '';
+	if (!bufferData.tag) return;
 	for (var i = 0; i < bufferData.tag.length; i++) {
 		this.addTag(bufferData.tag[i])
 	}

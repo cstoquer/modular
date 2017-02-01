@@ -3,6 +3,7 @@ var Connector  = require('./Connector');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function AudioConnector(module, id, descriptor) {
+	this.endPoint    = module; // redefined at bind
 	this.connections = [];
 	Connector.call(this, module, id, descriptor);
 }
@@ -81,4 +82,11 @@ AudioOutput.prototype.connect = function (connector) {
 AudioOutput.prototype.disconnect = function (connector) {
 	AudioConnector.prototype.disconnect.call(this, connector);
 	this.endPoint.disconnect(connector.endPoint);
+};
+
+// AudioParam can be connected to AudioNode output
+// the two following functions allow this
+AudioOutput.prototype.isCompatible = function (connector) {
+	if (connector.type === 'param' && connector.way === 'input') return true;
+	return AudioConnector.prototype.isCompatible.call(this, connector);
 };

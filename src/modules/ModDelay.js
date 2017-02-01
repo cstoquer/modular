@@ -3,23 +3,24 @@ var Module       = require('../core/Module');
 var library      = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function RingModulator() {
-	this.node = audioContext.createGain();
+function ModDelay() {
+	this.node = audioContext.createDelay(1);
 	Module.call(this);
 }
-inherits(RingModulator, Module);
+inherits(ModDelay, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-RingModulator.prototype.descriptor = {
-	type: 'RingModulator',
-	name: 'RingMod',
+ModDelay.prototype.descriptor = {
+	type: 'ModDelay',
+	name: 'ModDelay',
 	size: 2,
-	inputs:  { 
-		IN:  { type: 'audio', x:3.5,  y:0, endPoint: 'node',      label: 'IN'  },
-		MOD: { type: 'audio', x:0.0,  y:1, endPoint: 'node.gain', label: 'MOD' },
+	inputs:  {
+		time: { type: 'param', x:0,    y:1, endPoint: 'node.delayTime', label: 'TIME'  },
+		IN:   { type: 'audio', x:3.6,  y:0, endPoint: 'node',           label: 'IN'  },
 	},
-	outputs: { OUT: { type: 'audio', x:3.5,  y:1,   endPoint: 'node', label: 'OUT' } }
+	outputs: { OUT: { type: 'audio', x:3.6,  y:1, endPoint: 'node', label: 'OUT' } },
+	controls: {}
 };
 
-library.register(RingModulator);
-module.exports = RingModulator;
+library.register(ModDelay);
+module.exports = ModDelay;

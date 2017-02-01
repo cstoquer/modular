@@ -3,23 +3,24 @@ var Module       = require('../core/Module');
 var library      = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function ModPanner() {
-	this.node = audioContext.createStereoPanner();
+function Amp() {
+	this.node = audioContext.createGain();
+	this.node.gain.value = 0;
 	Module.call(this);
 }
-inherits(ModPanner, Module);
+inherits(Amp, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-ModPanner.prototype.descriptor = {
-	type: 'ModPanner',
-	name: 'ModPan',
+Amp.prototype.descriptor = {
+	type: 'Amp',
+	name: 'Amp',
 	size: 2,
 	inputs:  { 
-		IN:  { type: 'audio', x:3.5,  y:0, endPoint: 'node',     label: 'IN'  },
-		pan: { type: 'param', x:0.0,  y:1, endPoint: 'node.pan', label: 'PAN' },
+		IN:  { type: 'audio', x:3.5,  y:0, endPoint: 'node',      label: 'IN'  },
+		MOD: { type: 'param', x:0.0,  y:1, endPoint: 'node.gain', label: 'MOD' },
 	},
 	outputs: { OUT: { type: 'audio', x:3.5,  y:1,   endPoint: 'node', label: 'OUT' } }
 };
 
-library.register(ModPanner);
-module.exports = ModPanner;
+library.register(Amp);
+module.exports = Amp;
