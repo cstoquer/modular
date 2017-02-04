@@ -21,6 +21,10 @@ function Knob(module, id, descriptor) {
 	this._mark     = createDiv('knob knobMark', dom);
 	if (descriptor.label) createDiv('label knobLabel', dom).innerText = descriptor.label;
 
+	this.valueDiplay = createDiv('knobValueDisplay', dom);
+	this.valueDiplay.style.display = 'none';
+	if (!descriptor.label) this.valueDiplay.className += ' knobValueNoLabel';
+
 	// initialise
 	this.bind(module, id, descriptor);
 
@@ -32,6 +36,8 @@ function Knob(module, id, descriptor) {
 		// var startX = e.clientX;
 		var startY = e.clientY;
 		var startV = t.value;
+		t.valueDiplay.style.display = '';
+
 
 		function mouseMove(e) {
 			e.preventDefault();
@@ -46,6 +52,7 @@ function Knob(module, id, descriptor) {
 			e.preventDefault();
 			document.removeEventListener('mousemove', mouseMove);
 			document.removeEventListener('mouseup', mouseUp);
+			t.valueDiplay.style.display = 'none';
 			t.updateValue();
 		}
 
@@ -91,11 +98,30 @@ Knob.prototype.initValue = function () {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+function displayValue(value) {
+	var size = 5;
+	var multiplier = '';
+	if (value === 0) {
+		return 0;
+	} else if (Math.abs(value) <= 0.001) {
+		value *= 1000;
+		multiplier = 'm';
+		size = 4;
+	} else if (Math.abs(value) >= 1000) {
+		value /= 1000;
+		multiplier = 'K';
+		size = 4;
+	}
+	return value.toString().substring(0, size) + multiplier;
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Set endPoint value in respect to the knob internal value */
 Knob.prototype.updateValue = function () {
 	var value = map(this.value, -68, 68, this.min, this.max);
 	if (this.int) value = ~~Math.round(value);
 	this.endPoint[this.valueId] = value;
+	this.valueDiplay.innerText = displayValue(value); // TODO: custom display
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

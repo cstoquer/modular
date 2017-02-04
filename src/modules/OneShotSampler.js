@@ -4,7 +4,7 @@ var library      = require('../ui/moduleLibrary');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function OneShotSampler() {
-	this.node = audioContext.createBufferSource();
+	this.node = audioContext.createGain();
 	this.bufferData = null;
 	Module.call(this);
 }
@@ -23,28 +23,23 @@ OneShotSampler.prototype.trigger = function (event) {
 	// - start (startPosition)
 	// - duration (duration)
 
-	this._createBufferSource();
-	this.node.start();
-};
-
-OneShotSampler.prototype._createBufferSource = function () {
-	this.node.disconnect();
-	this.node = audioContext.createBufferSource();
-	this.rebind();
-	this.node.buffer = this.bufferData.buffer;
+	var bufferSource = audioContext.createBufferSource();
+	bufferSource.connect(this.node);
+	bufferSource.buffer = this.bufferData.buffer;
+	bufferSource.start();
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 OneShotSampler.prototype.descriptor = {
 	type: 'OneShotSampler',
-	name: 'OneShotSample',
-	size: 2,
+	name: 'OneShot',
+	size: 3,
 	inputs:   {
 		buffer:  { type: 'event', x:0, y:1, endPoint: 'setBuffer', label: 'BUF'  },
-		trigger: { type: 'event', x:2.5, y:1, endPoint: 'trigger',   label: 'TRIG' }
+		trigger: { type: 'event', x:0, y:2, endPoint: 'trigger',   label: 'TRIG' }
 	},
-	outputs:  { OUT: { type: 'audio', x:5, y:1, endPoint: 'node' } },
-	controls: { }
+	outputs:  { OUT: { type: 'audio', x:5, y:2, endPoint: 'node' } },
+	controls: { volume: { type: 'knob', x: 2.8, y: 0.5, min: 0, max: 1, endPoint: 'node.gain', value: 'value', label: 'VOL' } }
 };
 
 library.register(OneShotSampler);

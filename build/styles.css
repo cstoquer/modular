@@ -348,6 +348,23 @@ body {
 	margin-top: 24px;
 }
 
+.knobValueDisplay {
+	position: relative;
+	text-align: center;
+	padding-top: 1px;
+	top: -10px;
+	width: 23px;
+	height: 10px;
+	font-size: 8px;
+	background-color: #ff0;
+	border-radius: 2px;
+}
+
+.knobValueNoLabel {
+	top: 6px;
+	background-color: rgba(255, 255, 255, 0.4);
+}
+
 .connectorLabel {
 	width: 20px;
 	margin-top: 1px;
