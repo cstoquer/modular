@@ -15,6 +15,7 @@ require('./ui/bufferLibrary').add(new ProceduralBuffer('whiteNoise', { loop: tru
 require('./modules/TestModule');
 require('./modules/Bang');
 require('./modules/AutoBang');
+require('./modules/MidiIn');
 require('./modules/Oscillator');
 require('./modules/LFO');
 require('./modules/Envelope');
