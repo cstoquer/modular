@@ -25,6 +25,7 @@ require('./modules/Gain');
 require('./modules/Panner');
 require('./modules/ModPanner');
 require('./modules/Sampler');
+require('./modules/OneShotSampler');
 require('./modules/Filter');
 require('./modules/Convolver');
 require('./modules/Delay');
