@@ -3,36 +3,36 @@
 		"assetList": {
 			"x": 0,
 			"y": 25,
-			"viewW": 168,
-			"viewH": 538,
+			"viewW": 165,
+			"viewH": 575,
 			"foldConfig": {
 				"maps": {}
 			}
 		},
 		"mapEditor": {
-			"x": 178,
+			"x": 176,
 			"y": 25,
-			"viewW": 209,
-			"viewH": 185
+			"viewW": 256,
+			"viewH": 239
 		},
 		"tilesheet": {
-			"x": 962,
-			"y": 39,
+			"x": 796,
+			"y": 25,
 			"viewW": 0,
 			"viewH": 0
 		},
 		"customTools": {
-			"x": 1025,
-			"y": 523,
-			"viewW": 336,
-			"viewH": 198,
+			"x": 873,
+			"y": 483,
+			"viewW": 417,
+			"viewH": 261,
 			"foldConfig": {
 				"brush": {}
 			}
 		},
 		"palette": {
-			"x": 11,
-			"y": 694,
+			"x": 781,
+			"y": 594,
 			"viewW": 0,
 			"viewH": 0
 		}

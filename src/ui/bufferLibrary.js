@@ -1,5 +1,5 @@
 var Panel         = require('./Panel');
-var moduleManager = require('../core/moduleManager');
+var moduleManager = require('./moduleManager');
 var BufferModule  = require('../core/Buffer');
 var domUtils      = require('domUtils');
 var createDiv     = domUtils.createDiv;

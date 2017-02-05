@@ -1,7 +1,6 @@
-var moduleManager = require('./moduleManager');
-var connectors    = require('./connectors');
-var constants     = require('./constants');
-var createDiv     = require('domUtils').createDiv;
+var connectors = require('./connectors');
+var constants  = require('./constants');
+var createDiv  = require('domUtils').createDiv;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Connector Abstract class
@@ -10,12 +9,14 @@ var createDiv     = require('domUtils').createDiv;
  */
 function Connector(module, id, descriptor) {
 	var t = this;
+
+	this.module = module;
+	this.id     = id;
+
 	this.x = descriptor.x;
 	this.y = descriptor.y;
 	this.singleConnection = descriptor.singleConnection === undefined ? false : !!descriptor.singleConnection;
 
-	this.module = module;
-	this.id     = id;
 
 	var dom = this._dom = createDiv('connector ' + this.cssClassName, module._dom);
 	if (descriptor.label) createDiv('label connectorLabel', dom).innerText = descriptor.label;
@@ -33,7 +34,7 @@ function Connector(module, id, descriptor) {
 	dom.addEventListener('mousedown', function mouseStart(e) {
 		e.stopPropagation();
 		e.preventDefault();
-		moduleManager.startConnection(t, e);
+		window.moduleManager.startConnection(t, e);
 	});
 
 	this.bind(module, id, descriptor);
@@ -52,12 +53,14 @@ Connector.prototype.bind = function (module, id, descriptor) {
 };
 
 Connector.prototype.connect = function (connector) {
+	var patch = this.module.patch;
+
 	// check if one of the connector is a single connection
-	if (this.singleConnection)      moduleManager.disconnect(this);
-	if (connector.singleConnection) moduleManager.disconnect(connector);
+	if (this.singleConnection)      patch.disconnect(this);
+	if (connector.singleConnection) patch.disconnect(connector);
 
 	// add cable
-	moduleManager.addCable(this, connector, this.color);
+	patch.addCable(this, connector, this.color);
 };
 
 Connector.prototype.disconnect = function (connector) {
@@ -65,6 +68,8 @@ Connector.prototype.disconnect = function (connector) {
 };
 
 Connector.prototype.isCompatible = function (connector) {
+	// FIXME: We suppose both connector's modules are in the same patch.
+	//        Do we want patches to be able to connect together ?
 	if (connector === this) return false;
 	if (this.type !== connector.type) return false;
 	if (this.way  === connector.way)  return false;
