@@ -67,5 +67,6 @@ module.exports = MIDI;
 
 MIDI.open = function openMidi() {
 	if (isOpened) return;
+	isOpened = true;
 	navigator.requestMIDIAccess({ sysex: false }).then(onMidiSuccess, onMidiFailure);
 };

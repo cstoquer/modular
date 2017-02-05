@@ -18,15 +18,16 @@ OneShotSampler.prototype.setBuffer = function (event) {
 OneShotSampler.prototype.trigger = function (event) {
 	if (!this.bufferData) return;
 
-	// TODO: event can contain some data to alter the way the sample is player:
-	// - pitch (playbackRate)
-	// - start (startPosition)
-	// - duration (duration)
-
 	var bufferSource = audioContext.createBufferSource();
 	bufferSource.connect(this.node);
 	bufferSource.buffer = this.bufferData.buffer;
-	bufferSource.start();
+
+	// event can contain some data to alter the way the sample is played:
+	if (event.playbackRate) bufferSource.playbackRate.value = event.playbackRate;
+	var offset = event.offset || 0;
+	// TODO: duration (not nullable, must be >= 0)
+
+	bufferSource.start(0, offset);
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
