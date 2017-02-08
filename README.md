@@ -27,3 +27,10 @@ Patch can be exported (`top menu > Patch > Export patch`), and imported by drag 
 
 View the waveform of the audio buffers.
 Edit loop points, tags and properties of the audio files and save these as a meta file.
+
+## MIDI support
+
+If your browser supports webMIDI, you can have your MIDI keyboard or controller send events to modules.
+
+![midi](https://cloud.githubusercontent.com/assets/2462139/22738936/ec574c4c-ee4c-11e6-9ff6-c589e8ee1034.png)
+
