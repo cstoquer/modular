@@ -35,7 +35,7 @@ AutoBang.prototype.descriptor = {
 	inputs:  { IN:  { type: 'event', x:0,  y:1, label: 'DATA', endPoint: 'onDataIn' } },
 	outputs: { OUT: { type: 'event', x:2.3,  y:1 } },
 	controls: {
-		duration: { type: 'knob', x: 4.0, y: 0.1, min: 5, max: 300, value: 'duration' },
+		duration: { type: 'knob', x: 4.0, y: 0.1, min: 1, max: 300, value: 'duration' },
 	}
 };
 

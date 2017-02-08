@@ -115,9 +115,10 @@ Module.prototype.rebind = function () {
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Set module position in UI surface */
 Module.prototype.setPosition = function (x, y) {
-	var style = this._dom.style;
 	this.x = x;
 	this.y = y;
+
+	var style = this._dom.style;
 	style.left = (constants.MODULE_WIDTH  * x) + 'px';
 	style.top  = (constants.MODULE_HEIGHT * y) + 'px';
 

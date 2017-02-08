@@ -14,25 +14,42 @@ var makeButton    = domUtils.makeButton;
  */
 function BufferLibrary() {
 	Panel.call(this);
+	var t = this;
 
 	// buffer list
 	this.bufferDataList = [];
-	this.list = createDiv('libraryList bufferLibrary', this._dom);
+	this.list = createDiv('libraryList', this._dom);
 	this.createEntries();
 
 	// menu
 	var menu = createDiv('', this._dom);
-	var loopBtn = createDiv('editorButton loopIcon', menu);
-	var shotBtn = createDiv('editorButton shotIcon', menu);
-	var irBtn   = createDiv('editorButton irIcon', menu);
+
+	this.categoryFilter = null;
+	var buttons = { loop: null, shot: null, ir: null };
+
+	function onBtnPress(e, btn) {
+		if (t.categoryFilter) buttons[t.categoryFilter].style.backgroundColor = '';
+		var category = btn.category;
+		t.categoryFilter = t.categoryFilter === category ? null : category;
+		if (t.categoryFilter) buttons[t.categoryFilter].style.backgroundColor = '#FF0';
+		t.filter();
+	}
+
+	for (var category in buttons) {
+		var button = createDiv('editorButton ' + category + 'Icon', menu);
+		button.category = category;
+		buttons[category] = button;
+		makeButton(button, onBtnPress);
+	}
+
 	var addTagInput = createDom('input', 'tagInput', menu);
+	
 
 	// tag section
 	this.tagSection = createDiv('bufferLibraryTags', this._dom);
 	this.tags = {};
 
 	// add new tag input
-	var t = this;
 	addTagInput.onkeypress = function (e) {
 		if (e.keyCode !== 13) return;
 		var value = addTagInput.value;
@@ -71,28 +88,36 @@ BufferLibrary.prototype.addTag = function (tag) {
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 BufferLibrary.prototype.filter = function () {
-	var tagKeys = Object.keys(this.tags)
+	var tagKeys = Object.keys(this.tags);
 
-	// remove all filters
+	var loop = null;
+	var ir   = false;
+	if (this.categoryFilter === 'loop') loop = true;
+	if (this.categoryFilter === 'shot') loop = false;
+	if (this.categoryFilter === 'ir')   ir   = true;
+
 	for (var i = 0; i < this.bufferDataList.length; i++) {
-		this.bufferDataList[i].button.style.display = '';
-	}
+		var elem = this.bufferDataList[i];
+		var buffer = elem.buffer;
+		var button = elem.button;
 
-	// TODO: prefilter loop, IR
+		button.style.display = '';
 
-	if (tagKeys.length !== 0) {
+		// prefilter loop, IR
+		if ((loop !== null && !buffer.loop === loop) || (!buffer.ir === ir)) {
+			button.style.display = 'none';
+			continue;
+		}
+
 		// filter with tags
-		for (var i = 0; i < this.bufferDataList.length; i++) {
-			var elem = this.bufferDataList[i];
-			var tags = elem.buffer.tag || [];
-			// needs all this.tags to exists in buffer.tags
-			for (var j = 0; j < tagKeys.length; j++) {
-				var tag = tagKeys[j];
-				var compare = this.tags[tag]; 
-				if ((tags.indexOf(tag) !== -1) ^ compare) {
-					elem.button.style.display = 'none';
-					continue;
-				}
+		var tags = buffer.tag || [];
+
+		// needs all this.tags to exists in buffer.tags
+		for (var j = 0; j < tagKeys.length; j++) {
+			var tag = tagKeys[j];
+			if ((tags.indexOf(tag) !== -1) ^ this.tags[tag]) {
+				button.style.display = 'none';
+				break;
 			}
 		}
 	}
