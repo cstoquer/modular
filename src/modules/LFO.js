@@ -1,6 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 
 WAVEFORM_TYPE_ENUM = [
 	{ id: 'sine',     caption: 'sin' },
@@ -55,5 +55,5 @@ LFO.prototype.descriptor = {
 	persistent: ['waveform']
 };
 
-library.register(LFO);
+modules.register(LFO);
 module.exports = LFO;

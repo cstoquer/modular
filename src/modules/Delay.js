@@ -1,6 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Delay() {
@@ -21,5 +21,5 @@ Delay.prototype.descriptor = {
 	}
 };
 
-library.register(Delay);
+modules.register(Delay);
 module.exports = Delay;

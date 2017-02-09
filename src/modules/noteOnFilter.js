@@ -1,5 +1,5 @@
 var Module  = require('../core/Module');
-var library = require('../ui/moduleLibrary');
+var modules = require('../core/modules');
 
 var MIDI_NOTE_C4 = 60;
 
@@ -31,5 +31,5 @@ noteOnFilter.prototype.descriptor = {
 	}
 };
 
-library.register(noteOnFilter);
+modules.register(noteOnFilter);
 module.exports = noteOnFilter;

@@ -1,6 +1,7 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var map          = require('../core/utils').map;
+var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Fade() {
@@ -16,11 +17,11 @@ Fade.prototype.onTrigger = function () {
 	var target   = this.target;
 	var duration = this.duration;
 
-	this.$OUT.setAutomation(function (param) {
+	this.$OUT.setAutomation(function (param, min, max) {
 		var value = param.value;
 		param.cancelScheduledValues(0);
 		param.setValueAtTime(value, currentTime);
-		param.linearRampToValueAtTime(target, currentTime + duration);
+		param.linearRampToValueAtTime(map(target, 0, 1, min, max), currentTime + duration);
 	});
 };
 
@@ -37,5 +38,5 @@ Fade.prototype.descriptor = {
 	}
 };
 
-library.register(Fade);
+modules.register(Fade);
 module.exports = Fade;

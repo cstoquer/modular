@@ -1,6 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 var map          = require('../core/utils').map;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -10,7 +10,7 @@ function ControlChange() {
 	this.learn = false;
 	this.glide = 0.1;
 	Module.call(this);
-	this.setTitle();
+	this._setTitle();
 }
 inherits(ControlChange, Module);
 
@@ -24,7 +24,7 @@ ControlChange.prototype.onMessage = function (event) {
 		this.control = event.control;
 		this.learn = false;
 		this._dom.style.borderColor = '';
-		this.setTitle();
+		this._setTitle();
 		return;
 	}
 
@@ -48,13 +48,13 @@ ControlChange.prototype.midiLearn = function () {
 	this._dom.style.borderColor = '#F00';
 };
 
-ControlChange.prototype.setTitle = function () {
-	this._title.textContent = 'CC#' + this.channel + ':' + this.control;
+ControlChange.prototype._setTitle = function () {
+	this.setTitle('CC#' + this.channel + ':' + this.control);
 };
 
 ControlChange.prototype.setState = function (state) {
 	Module.prototype.setState.call(this, state);
-	this.setTitle();
+	this._setTitle();
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -71,5 +71,5 @@ ControlChange.prototype.descriptor = {
 	persistent: ['channel', 'control']
 };
 
-library.register(ControlChange);
+modules.register(ControlChange);
 module.exports = ControlChange;

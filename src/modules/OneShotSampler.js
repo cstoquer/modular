@@ -1,6 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function OneShotSampler() {
@@ -43,5 +43,5 @@ OneShotSampler.prototype.descriptor = {
 	controls: { volume: { type: 'knob', x: 2.8, y: 0.5, min: 0, max: 1, endPoint: 'node.gain', value: 'value', label: 'VOL' } }
 };
 
-library.register(OneShotSampler);
+modules.register(OneShotSampler);
 module.exports = OneShotSampler;

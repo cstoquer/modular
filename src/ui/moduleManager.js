@@ -1,6 +1,6 @@
 var Cable         = require('../core/Cable');
 var Patch         = require('../core/Patch');
-var constants     = require('../core/constants');
+var constants     = require('./constants');
 var connectorMenu = require('./connectorMenu');
 var ctx           = require('./overlay').ctx;
 var overCtx       = require('./overlay').overCtx;

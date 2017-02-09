@@ -1,9 +1,4 @@
-var domUtils      = require('domUtils');
-var createDiv     = domUtils.createDiv;
-var createDom     = domUtils.createDom;
-var removeDom     = domUtils.removeDom;
-var constants     = require('./constants');
-var connectors    = require('./connectors');
+var connectors = require('./connectors');
 
 var CONTROL_BY_TYPE = {
 	knob:   require('./Knob'),
@@ -22,20 +17,7 @@ function Module() {
 	this.y      = null;
 	this.cables = {};
 
-	// create UI
-	var dom = createDiv('module x' + this.descriptor.size, null);
-	this._title = createDom('span', '', dom);
-	this._title.textContent = this.descriptor.name;
-	this._dom = dom;
-	dom.style.left = (-10 - constants.MODULE_WIDTH) + 'px';
-
-	dom.module = this;
-
-	var t = this;
-	dom.addEventListener('mousedown', function mouseStart(e) {
-		window.moduleManager.startDrag(t, e);
-	});
-
+	this.initGUI();
 	this.createInterface();
 
 	// if any, keep constructor arguments for serialization
@@ -117,12 +99,6 @@ Module.prototype.rebind = function () {
 Module.prototype.setPosition = function (x, y) {
 	this.x = x;
 	this.y = y;
-
-	var style = this._dom.style;
-	style.left = (constants.MODULE_WIDTH  * x) + 'px';
-	style.top  = (constants.MODULE_HEIGHT * y) + 'px';
-
-	for (var id in this.cables) this.cables[id].update();
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -132,7 +108,6 @@ Module.prototype.remove = function () {
 	for (var id in this.cables) {
 		this.patch.removeCable(this.cables[id]);
 	}
-	removeDom(this._dom, null);
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -202,13 +177,10 @@ Module.prototype.setState = function (state) {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Module.prototype.select = function () {
-	this._title.className = 'selected';
-};
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Module.prototype.deselect = function () {
-	this._title.className = '';
-};
+Module.prototype.initGUI  = function () {};
+Module.prototype.select   = function () {};
+Module.prototype.deselect = function () {};
+Module.prototype.setTitle = function () {};
+Module.prototype.addClassName = function () {};
 
 module.exports = Module;

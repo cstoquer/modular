@@ -1,5 +1,5 @@
 var Module  = require('../core/Module');
-var library = require('../ui/moduleLibrary');
+var modules = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Bang() {
@@ -27,5 +27,5 @@ Bang.prototype.descriptor = {
 	controls: { BTN: { type: 'button', x: 1.8, y: 0.1, endPoint: 'pushButton' } }
 };
 
-library.register(Bang);
+modules.register(Bang);
 module.exports = Bang;
