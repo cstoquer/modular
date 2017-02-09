@@ -177,10 +177,12 @@ Module.prototype.setState = function (state) {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Module.prototype.initGUI  = function () {};
-Module.prototype.select   = function () {};
-Module.prototype.deselect = function () {};
-Module.prototype.setTitle = function () {};
+Module.prototype.initGUI      = function () {};
+Module.prototype.select       = function () {};
+Module.prototype.deselect     = function () {};
+Module.prototype.setTitle     = function () {};
+Module.prototype.setColor     = function () {};
+Module.prototype.setBorder    = function () {};
 Module.prototype.addClassName = function () {};
 
 module.exports = Module;

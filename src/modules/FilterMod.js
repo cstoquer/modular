@@ -1,6 +1,5 @@
 var audioContext = require('../core/audioContext');
 var Filter       = require('./Filter');
-var modules      = require('../core/modules');
 
 var FILTER_TYPE_ENUM = [
 	{ id: 'lowpass',  caption: 'LP' },
@@ -38,5 +37,4 @@ FilterMod.prototype.descriptor = {
 	persistent: ['filterType']
 };
 
-modules.register(FilterMod);
 module.exports = FilterMod;

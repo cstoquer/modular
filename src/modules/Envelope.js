@@ -1,6 +1,5 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Envelope() {
@@ -37,5 +36,4 @@ Envelope.prototype.descriptor = {
 	controls: {}
 };
 
-modules.register(Envelope);
 module.exports = Envelope;

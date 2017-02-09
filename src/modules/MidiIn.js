@@ -1,6 +1,5 @@
 var Module  = require('../core/Module');
 var MIDI    = require('../core/MIDI');
-var modules = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function MidiIn() {
@@ -32,5 +31,4 @@ MidiIn.prototype.descriptor = {
 	controls: {}
 };
 
-modules.register(MidiIn);
 module.exports = MidiIn;

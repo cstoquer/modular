@@ -1,6 +1,5 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Sampler() {
@@ -65,5 +64,4 @@ Sampler.prototype.descriptor = {
 	controls: { rate:   { type: 'knob',  x: 3.7, y: 0.3, min: 0.01, max: 2, endPoint: 'node.playbackRate', value: 'value', label: 'RATE' } }
 };
 
-modules.register(Sampler);
 module.exports = Sampler;

@@ -1,6 +1,5 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function ModDelay() {
@@ -22,5 +21,4 @@ ModDelay.prototype.descriptor = {
 	controls: {}
 };
 
-modules.register(ModDelay);
 module.exports = ModDelay;

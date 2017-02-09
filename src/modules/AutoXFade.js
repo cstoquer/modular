@@ -1,6 +1,5 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function AutoXFade() {
@@ -65,5 +64,4 @@ AutoXFade.prototype.descriptor = {
 	}
 };
 
-modules.register(AutoXFade);
 module.exports = AutoXFade;

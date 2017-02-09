@@ -1,5 +1,4 @@
-var Module  = require('../core/Module');
-var modules = require('../core/modules');
+var Module = require('../core/Module');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function AutoBang() {
@@ -47,5 +46,4 @@ AutoBang.prototype.descriptor = {
 	}
 };
 
-modules.register(AutoBang);
 module.exports = AutoBang;

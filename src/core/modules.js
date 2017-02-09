@@ -1,7 +1,7 @@
 var MODULES_CONSTRUCTOR_BY_ID = {};
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-exports.register = function (ModuleConstructor) {
+exports.add = function (ModuleConstructor) {
 	var descriptor = ModuleConstructor.prototype.descriptor;
 	MODULES_CONSTRUCTOR_BY_ID[descriptor.type] = ModuleConstructor;
 };

@@ -1,5 +1,4 @@
-var Module  = require('./Module');
-var modules = require('./modules');
+var Module = require('./Module');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Buffer(bufferData) {
@@ -48,4 +47,3 @@ Buffer.prototype.descriptor = {
 };
 
 module.exports = Buffer;
-modules.register(Buffer);
