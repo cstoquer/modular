@@ -149,7 +149,13 @@ body {
 }
 
 .libraryList {
-
+	height: 253px;
+	padding: 2px;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	border: inset 2px #e8eae9;
+	margin: 2px 0;
+	border-radius: 4px;
 }
 
 .libraryEntry {
@@ -158,12 +164,22 @@ body {
 	border-radius: 3px;
 	z-index: 11;
 	padding: 1px;
+	border-bottom: solid 1px #c0c0c0;
 }
 
+/*.libraryEntry:nth-child(odd) {
+    background: #C2C2C2;
+}*/
+
 .libraryEntry:hover {
-	transform: scale(1.2, 1.2);
-	background-color: #EEE;
-	box-shadow: 0px 0px 10px #333;
+	/*transform: scale(1.2, 1.2);*/
+	/*border-radius: 3px;*/
+	background-color: #FF0;
+	/*box-shadow: 0px 0px 10px #333;*/
+}
+
+.bufferLibraryTags {
+	width: 175px;
 }
 
 .tagInput {
@@ -199,6 +215,7 @@ body {
 .waveformCanvas {
 	background-color: #44494c;
 	vertical-align: bottom;
+	border-radius: 4px;
 }
 
 .audioEditorMenu {
@@ -233,6 +250,7 @@ body {
 
 .saveIcon { background-image: url("../img/iconSave.png"); }
 .loopIcon { background-image: url("../img/iconLoop.png"); }
+.shotIcon { background-image: url("../img/iconShot.png"); }
 .irIcon   { background-image: url("../img/iconIR.png"); }
 
 .hscroll {
@@ -346,6 +364,23 @@ body {
 .knobLabel {
 	width: 23px;
 	margin-top: 24px;
+}
+
+.knobValueDisplay {
+	position: relative;
+	text-align: center;
+	padding-top: 1px;
+	top: -10px;
+	width: 23px;
+	height: 10px;
+	font-size: 8px;
+	background-color: #ff0;
+	border-radius: 2px;
+}
+
+.knobValueNoLabel {
+	top: 6px;
+	background-color: rgba(255, 255, 255, 0.4);
 }
 
 .connectorLabel {

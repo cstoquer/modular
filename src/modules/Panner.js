@@ -1,6 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Panner() {
@@ -19,5 +19,5 @@ Panner.prototype.descriptor = {
 	controls: { pan: { type: 'knob',  x: 1.5, y: 0, min: -1, max: 1, endPoint: 'node.pan', value: 'value' } }
 };
 
-library.register(Panner);
+modules.register(Panner);
 module.exports = Panner;

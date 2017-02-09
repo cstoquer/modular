@@ -1,6 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Envelope() {
@@ -16,14 +16,14 @@ Envelope.prototype.onTrigger = function () {
 	var SUSTAIN = 1;
 	var RELEASE = 2;
 
-	this.$OUT.setAutomation(function (param) {
+	this.$OUT.setAutomation(function (param, min, max) {
 		var value = param.value;
 		param.cancelScheduledValues(0);
 
 		param.setValueAtTime(value, currentTime);
-		param.linearRampToValueAtTime(1, currentTime + ATTACK);
-		param.setValueAtTime(1, currentTime + ATTACK + SUSTAIN);
-		param.linearRampToValueAtTime(0, currentTime + ATTACK + SUSTAIN + RELEASE);
+		param.linearRampToValueAtTime(max, currentTime + ATTACK);
+		param.setValueAtTime(max, currentTime + ATTACK + SUSTAIN);
+		param.linearRampToValueAtTime(min, currentTime + ATTACK + SUSTAIN + RELEASE);
 	});
 };
 
@@ -37,5 +37,5 @@ Envelope.prototype.descriptor = {
 	controls: {}
 };
 
-library.register(Envelope);
+modules.register(Envelope);
 module.exports = Envelope;

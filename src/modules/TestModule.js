@@ -1,5 +1,5 @@
 var Module  = require('../core/Module');
-var library = require('../ui/moduleLibrary');
+var modules = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function TestModule() {
@@ -10,7 +10,7 @@ inherits(TestModule, Module);
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 TestModule.prototype.doStuff = function (data) {
 	if (data._type === 'color') {
-		this._title.textContent = '#' + data.hex;
+		this.setTitle('#' + data.hex);
 		this._dom.style.backgroundColor = '#' + data.hex;
 	}
 };
@@ -42,5 +42,5 @@ TestModule.prototype.descriptor = {
 	}
 };
 
-library.register(TestModule);
+modules.register(TestModule);
 module.exports = TestModule;

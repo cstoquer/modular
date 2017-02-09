@@ -1,31 +1,35 @@
 var Module  = require('../core/Module');
 var modules = require('../core/modules');
 
+var MIDI_NOTE_C4 = 60;
+
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Bang() {
+function noteOnFilter() {
 	Module.call(this);
-	this.data = null;
 }
-inherits(Bang, Module);
+inherits(noteOnFilter, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Bang.prototype.onDataIn = function (data) {
-	this.data = data;
-};
+noteOnFilter.prototype.onEvent = function (event) {
+	if (event._type !== 'midi message') return;
+	if (event.midiType !== 'note on') return;
 
-Bang.prototype.pushButton = function () {
-	this.$OUT.emit(this.data);
+	var pitch = event.note - MIDI_NOTE_C4;
+	event.playbackRate = Math.pow(2, pitch / 12);
+
+	this.$OUT.emit(event);
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Bang.prototype.descriptor = {
-	type: 'Bang',
-	name: 'Bang',
-	size: 2,
-	inputs:  { IN:  { type: 'event', x:3.5,  y:0, label: 'DATA', endPoint:  'onDataIn' } },
-	outputs: { OUT: { type: 'event', x:3.5,  y:1, label: 'OUT' } },
-	controls: { BTN: { type: 'button', x: 1.8, y: 0.1, endPoint: 'pushButton' } }
+noteOnFilter.prototype.descriptor = {
+	type: 'noteOnFilter',
+	name: 'noteOn',
+	size: 1,
+	inputs:  { IN:  { type: 'event', x:4,  y:0, endPoint: 'onEvent' } },
+	outputs: { OUT: { type: 'event', x:5,  y:0 } },
+	controls: {
+	}
 };
 
-modules.register(Bang);
-module.exports = Bang;
+modules.register(noteOnFilter);
+module.exports = noteOnFilter;

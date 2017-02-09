@@ -1,6 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Volume() {
@@ -19,5 +19,5 @@ Volume.prototype.descriptor = {
 	controls: { volume: { type: 'knob', x: 1.5, y: 0.5, min: 0.0, max: 1.0, endPoint: 'node.gain', value: 'value', label: 'VOL' } }
 };
 
-library.register(Volume);
+modules.register(Volume);
 module.exports = Volume;

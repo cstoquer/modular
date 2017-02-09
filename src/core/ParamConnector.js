@@ -38,6 +38,8 @@ ParamConnector.prototype._removeConnection = function (connector) {
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function ParamInput(module, id, descriptor) {
 	this.endPoint = module; // redefined at bind
+	this.min = descriptor.min === undefined ? 0 : descriptor.min;
+	this.max = descriptor.max === undefined ? 1 : descriptor.max;
 	ParamConnector.call(this, module, id, descriptor);
 }
 inherits(ParamInput, ParamConnector);
@@ -88,7 +90,8 @@ connectors.register(ParamOutput, 'output', 'param');
 ParamOutput.prototype.setAutomation = function (func) {
 	var connections = this.connections;
 	for (var i = 0; i < connections.length; i++) {
-		func(connections[i].endPoint);
+		var connector = connections[i];
+		func(connector.endPoint, connector.min, connector.max);
 	}
 };
 

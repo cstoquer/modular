@@ -1,17 +1,15 @@
-var Module      = require('../core/Module');
-var library     = require('../ui/moduleLibrary');
-var audioEditor = require('../ui/audioEditor');
+var Module  = require('./Module');
+var modules = require('./modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Buffer(bufferData) {
 	Module.call(this, bufferData);
 
-	var className = ' bufferAudio';
-	if (bufferData.ir) className = ' bufferIR';
-	if (bufferData.type === 'ProceduralBuffer') className = ' bufferProcedural';
-	this._dom.className += className;
-
-	this._title.textContent = bufferData.id;
+	var className = 'bufferAudio';
+	if (bufferData.ir) className = 'bufferIR';
+	if (bufferData.type === 'ProceduralBuffer') className = 'bufferProcedural';
+	this.addClassName(className);
+	this.setTitle(bufferData.id);
 
 	this.buffer = null;
 
@@ -23,18 +21,11 @@ function Buffer(bufferData) {
 	bufferData.loadAudioBuffer(function onBufferLoaded(error) {
 		if (error) {
 			console.error('Could not load buffer', bufferData, error);
-			// TODO: create a CSS class
-			t._dom.className += ' bufferFailed';
+			t.addClassName('bufferFailed');
 			return;
 		}
 		t.buffer = bufferData;
 		t.onLoad();
-	});
-
-	// edit buffer
-	this._dom.addEventListener('dblclick', function () {
-		audioEditor.setBuffer(bufferData);
-		audioEditor.open();
 	});
 }
 inherits(Buffer, Module);
@@ -57,4 +48,4 @@ Buffer.prototype.descriptor = {
 };
 
 module.exports = Buffer;
-library.register(Buffer);
+modules.register(Buffer);

@@ -1,10 +1,4 @@
-var domUtils      = require('domUtils');
-var createDiv     = domUtils.createDiv;
-var createDom     = domUtils.createDom;
-var removeDom     = domUtils.removeDom;
-var constants     = require('./constants');
-var connectors    = require('./connectors');
-var moduleManager = require('./moduleManager');
+var connectors = require('./connectors');
 
 var CONTROL_BY_TYPE = {
 	knob:   require('./Knob'),
@@ -17,25 +11,14 @@ var CONTROL_BY_TYPE = {
  * @author Cedric Stoquer
  */
 function Module() {
-	this.id = null; // id of this module in moduleManager
-	this.x  = null;
-	this.y  = null;
+	this.patch  = null; // reference to the patch where the module belong
+	this.id     = null; // id of this module in the patch
+	this.x      = null; // position in patch's grid
+	this.y      = null;
 	this.cables = {};
 
-	var dom = createDiv('module x' + this.descriptor.size, null);
-	this._title = createDom('span', '', dom);
-	this._title.textContent = this.descriptor.name;
-	this._dom = dom;
-	dom.style.left = (-10 - constants.MODULE_WIDTH) + 'px';
-
+	this.initGUI();
 	this.createInterface();
-
-	dom.module = this;
-
-	var t = this;
-	dom.addEventListener('mousedown', function mouseStart(e) {
-		moduleManager.startDrag(t, e);
-	});
 
 	// if any, keep constructor arguments for serialization
 	if (arguments.length) {
@@ -68,24 +51,24 @@ Module.prototype.createInterface = function () {
 	if (this.descriptor.inputs) {
 		for (var id in this.descriptor.inputs) {
 			var input = this.descriptor.inputs[id];
-			var ConnectorClass = connectors.getConnector('input', input.type);
-			if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, input);
+			var ConnectorConstructor = connectors.getConnector('input', input.type);
+			if (ConnectorConstructor) this['$' + id] = new ConnectorConstructor(this, id, input);
 		}
 	}
 
 	if (this.descriptor.outputs) {
 		for (var id in this.descriptor.outputs) {
 			var output = this.descriptor.outputs[id];
-			var ConnectorClass = connectors.getConnector('output', output.type);
-			if (ConnectorClass) this['$' + id] = new ConnectorClass(this, id, output);
+			var ConnectorConstructor = connectors.getConnector('output', output.type);
+			if (ConnectorConstructor) this['$' + id] = new ConnectorConstructor(this, id, output);
 		}
 	}
 
 	if (this.descriptor.controls) {
 		for (var id in this.descriptor.controls) {
 			var controlDescriptor = this.descriptor.controls[id];
-			var controlClass = CONTROL_BY_TYPE[controlDescriptor.type];
-			this['$$' + id] = new controlClass(this, id, controlDescriptor);
+			var controlConstructor = CONTROL_BY_TYPE[controlDescriptor.type];
+			this['$$' + id] = new controlConstructor(this, id, controlDescriptor);
 		}
 	}
 };
@@ -114,13 +97,8 @@ Module.prototype.rebind = function () {
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Set module position in UI surface */
 Module.prototype.setPosition = function (x, y) {
-	var style = this._dom.style;
 	this.x = x;
 	this.y = y;
-	style.left = (constants.MODULE_WIDTH  * x) + 'px';
-	style.top  = (constants.MODULE_HEIGHT * y) + 'px';
-
-	for (var id in this.cables) this.cables[id].update();
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -128,9 +106,8 @@ Module.prototype.setPosition = function (x, y) {
 Module.prototype.remove = function () {
 	// disconnect all connectors
 	for (var id in this.cables) {
-		moduleManager.removeCable(this.cables[id]);
+		this.patch.removeCable(this.cables[id]);
 	}
-	removeDom(this._dom, null);
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -200,13 +177,10 @@ Module.prototype.setState = function (state) {
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Module.prototype.select = function () {
-	this._title.className = 'selected';
-};
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Module.prototype.deselect = function () {
-	this._title.className = '';
-};
+Module.prototype.initGUI  = function () {};
+Module.prototype.select   = function () {};
+Module.prototype.deselect = function () {};
+Module.prototype.setTitle = function () {};
+Module.prototype.addClassName = function () {};
 
 module.exports = Module;

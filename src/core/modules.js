@@ -1,37 +1,17 @@
+var MODULES_CONSTRUCTOR_BY_ID = {};
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-/** Button
- *
- * @author Cedric Stoquer
- */
-function Button(module, id, descriptor) {
-	this.initGUI(module, id, descriptor);
-
-	// init references
-	this.bind(module, id, descriptor);
-}
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Button.prototype.initGUI  = function (module, id, descriptor) {};
-Button.prototype.setTitle = function (text) {};
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Button.prototype.bind = function (module, id, descriptor) {
-	// button action
-	var endPointDescription = descriptor.endPoint;
-	if (!endPointDescription) return;
-
-	// find endPoint function
-	var endPoint = module;
-	endPointDescription = endPointDescription.split('.');
-	var funcName = endPointDescription.pop();
-	for (var i = 0; i < endPointDescription.length; i++) {
-		endPoint = endPoint[endPointDescription[i]];
-	}
-
-	// bind references
-	this.caller = endPoint;
-	this.endPoint = this.caller[funcName];
+exports.register = function (ModuleConstructor) {
+	var descriptor = ModuleConstructor.prototype.descriptor;
+	MODULES_CONSTRUCTOR_BY_ID[descriptor.type] = ModuleConstructor;
 };
 
-module.exports = Button;
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+exports.getModuleConstructor = function (type) {
+	return MODULES_CONSTRUCTOR_BY_ID[type];
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+exports.getLibrary = function () {
+	return MODULES_CONSTRUCTOR_BY_ID;
+};

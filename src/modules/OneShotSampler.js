@@ -1,10 +1,10 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function OneShotSampler() {
-	this.node = audioContext.createBufferSource();
+	this.node = audioContext.createGain();
 	this.bufferData = null;
 	Module.call(this);
 }
@@ -18,34 +18,30 @@ OneShotSampler.prototype.setBuffer = function (event) {
 OneShotSampler.prototype.trigger = function (event) {
 	if (!this.bufferData) return;
 
-	// TODO: event can contain some data to alter the way the sample is player:
-	// - pitch (playbackRate)
-	// - start (startPosition)
-	// - duration (duration)
+	var bufferSource = audioContext.createBufferSource();
+	bufferSource.connect(this.node);
+	bufferSource.buffer = this.bufferData.buffer;
 
-	this._createBufferSource();
-	this.node.start();
-};
+	// event can contain some data to alter the way the sample is played:
+	if (event.playbackRate) bufferSource.playbackRate.value = event.playbackRate;
+	var offset = event.offset || 0;
+	// TODO: duration (not nullable, must be >= 0)
 
-OneShotSampler.prototype._createBufferSource = function () {
-	this.node.disconnect();
-	this.node = audioContext.createBufferSource();
-	this.rebind();
-	this.node.buffer = this.bufferData.buffer;
+	bufferSource.start(0, offset);
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 OneShotSampler.prototype.descriptor = {
 	type: 'OneShotSampler',
-	name: 'OneShotSample',
-	size: 2,
+	name: 'OneShot',
+	size: 3,
 	inputs:   {
 		buffer:  { type: 'event', x:0, y:1, endPoint: 'setBuffer', label: 'BUF'  },
-		trigger: { type: 'event', x:2.5, y:1, endPoint: 'trigger',   label: 'TRIG' }
+		trigger: { type: 'event', x:0, y:2, endPoint: 'trigger',   label: 'TRIG' }
 	},
-	outputs:  { OUT: { type: 'audio', x:5, y:1, endPoint: 'node' } },
-	controls: { }
+	outputs:  { OUT: { type: 'audio', x:5, y:2, endPoint: 'node' } },
+	controls: { volume: { type: 'knob', x: 2.8, y: 0.5, min: 0, max: 1, endPoint: 'node.gain', value: 'value', label: 'VOL' } }
 };
 
-library.register(OneShotSampler);
+modules.register(OneShotSampler);
 module.exports = OneShotSampler;

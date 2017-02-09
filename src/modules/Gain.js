@@ -1,6 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Gain() {
@@ -19,5 +19,5 @@ Gain.prototype.descriptor = {
 	controls: { gain: { type: 'knob', x: 1.5, y: 0.5, min: 1.0, max: 100.0, endPoint: 'node.gain', value: 'value', label: 'GAIN' } }
 };
 
-library.register(Gain);
+modules.register(Gain);
 module.exports = Gain;

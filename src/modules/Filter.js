@@ -1,6 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var library      = require('../ui/moduleLibrary');
+var modules      = require('../core/modules');
 
 var FILTER_TYPE_ENUM = [
 	{ id: 'lowpass',  caption: 'LP' },
@@ -56,5 +56,5 @@ Filter.prototype.descriptor = {
 	persistent: ['filterType']
 };
 
-library.register(Filter);
+modules.register(Filter);
 module.exports = Filter;
