@@ -1,4 +1,5 @@
 var Panel     = require('./Panel');
+var modules   = require('../core/modules')
 var domUtils  = require('domUtils');
 var createDiv = domUtils.createDiv;
 
@@ -12,6 +13,8 @@ function ModuleLibrary() {
 	this._dom.style.left = '150px'; // TODO
 
 	this.list = createDiv('libraryList', this._dom);
+
+	this.addEntries(modules.getList());
 }
 inherits(ModuleLibrary, Panel);
 

@@ -1,15 +1,18 @@
-var audioContext = require('../core/audioContext');
+var synthesizers = require('../synthesizers');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function ProceduralBuffer(id, data) {
-	this.id     = id;
-	this.buffer = undefined;
+	this.id          = id;
+	this.buffer      = undefined;
+	this.synthesizer = data.synthesizer;
+	this.params      = data.params;
+
+	// normal bufferData compatibility
 	this.loop   = data.loop  || false;
 	this.ir     = data.ir    || false;
 	this.start  = data.start || 0;
 	this.end    = data.end   || 0;
-	this.engine = data.engine;
-	this.params = data.params;
+	this.tag    = data.tag   || [];
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -25,32 +28,34 @@ ProceduralBuffer.prototype.type = 'ProceduralBuffer';
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 ProceduralBuffer.prototype.serialize = function () {
 	return {
-		_type: 'ProceduralBuffer',
-		id:     this.id,
-		loop:   this.loop,
-		ir:     this.ir,
-		start:  this.start,
-		end:    this.end,
-		engine: this.engine,
-		params: this.params
+		_type:      'ProceduralBuffer',
+		id:          this.id,
+		synthesizer: this.synthesizer,
+		params:      this.params,
+		loop:        this.loop,
+		ir:          this.ir,
+		start:       this.start,
+		end:         this.end,
+		tag:         this.tag
 	};
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 ProceduralBuffer.prototype.loadAudioBuffer = function (cb) {
-	// TODO: call relevant engine.
-	// check if buffer is already loaded
-	if (!this.buffer) {
-		var buffer = audioContext.createBuffer(1, 22050, 44100);
-		var bufferData = buffer.getChannelData(0);
-		for (var i = 0; i < bufferData.length; i++) {
-			bufferData[i] = Math.random() - 0.5;
-		}
+	// check if buffer is already generated
+	if (this.buffer) return window.setTimeout(cb, 0);
 
-		this.buffer = buffer;
+	// get proper synthesizer
+	var synth = synthesizers.getSynth(this.synthesizer);
+	if (!synth) {
+		// alway defer callback
+		window.setTimeout(function () {
+			cb('Synthesizer ' + this.synthesizer + ' does not exists.');
+		}, 0);
+		return;
 	}
 
-	return window.setTimeout(cb, 0);
-}
+	synth.generate(this, cb);
+};
 
 module.exports = ProceduralBuffer;

@@ -7,9 +7,9 @@ var makeButton  = domUtils.makeButton;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 var PANELS = {
-	bufferLibrary: require('./bufferLibrary'),
+	audioEditor:   require('./audioEditor'),
 	moduleLibrary: require('./moduleLibrary'),
-	audioEditor:   require('./audioEditor')
+	bufferLibrary: require('./bufferLibrary'),
 };
 
 function openPanel(panel) {

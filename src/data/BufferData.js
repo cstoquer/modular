@@ -13,13 +13,7 @@ function BufferData(id, data) {
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// static methods
-
-BufferData.initializeDatabase = function (database) {
-	for (var id in database) {
-		database[id] = new BufferData(id, database[id]);
-	}
-};
+// static method
 
 BufferData.deserialize = function (data) {
 	// TODO: check for this BufferData existence in the database

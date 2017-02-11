@@ -10,6 +10,7 @@ window.inherits = function (Child, Parent) {
 };
 
 require('./src/modules/index.js');
+require('./src/data/dataTypes.js');
 
 window.MODULAR = {
 	Patch: require('./src/core/Patch')

@@ -1,12 +1,6 @@
 var Cable = require('./Cable');
 var moduleLibrary = require('./modules');
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// TODO: register system for data types
-var DATA_MAP = {
-	BufferData:       require('../data/BufferData'),
-	ProceduralBuffer: require('../data/ProceduralBuffer')
-};
+var dataTypes = require('../data/dataTypes');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Patch
@@ -159,15 +153,6 @@ function construct(constructor, args) {
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function deserialize(data) {
-	var type = data._type;
-	if (!type) return data;
-	var DataType = DATA_MAP[type];
-	if (!DataType) return data;
-	return DataType.deserialize(data);
-}
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Patch.prototype.setPatch = function (patchData) {
 	if (!patchData || !patchData._type === 'modularPatch') return console.error('Wrong format');
 	this.clearPatch();
@@ -187,7 +172,7 @@ Patch.prototype.setPatch = function (patchData) {
 			// deserialize arguments
 			var args = moduleDef.arguments;
 			for (var a = 0; a < args.length; a++) {
-				args[a] = deserialize(args[a]);
+				args[a] = dataTypes.deserialize(args[a]);
 			}
 			// create module
 			module = construct(ModuleConstructor, args);
