@@ -1,0 +1,15 @@
+{
+	"_type":"ProceduralBuffer",
+	"synthesizer":"hats",
+	"params": {
+		"uri":"audio/hihat.mp3",
+		"offset": 1050,
+		"pattern":"O.......C.....cCO.......C...c...",
+		"polyphony":2,
+		"tempo":200,
+		"close":0.55,
+		"accent":0.2
+	},
+	"loop":true,
+	"tag":["music", "hats"]
+}

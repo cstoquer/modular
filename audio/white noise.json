@@ -1,0 +1,9 @@
+{
+	"_type":"ProceduralBuffer",
+	"synthesizer":"noize",
+	"params":{
+		"length":0.5
+	},
+	"loop":true,
+	"tag":["noise"]
+}

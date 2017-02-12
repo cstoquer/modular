@@ -1,4 +1,4 @@
-var audioContext = require('../core/audioContext');
+var loadAudioBuffer = require('../core/loadAudioBuffer');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function BufferData(id, data) {
@@ -41,22 +41,11 @@ BufferData.prototype.loadAudioBuffer = function (cb) {
 
 	var t = this;
 
-	var xobj = new XMLHttpRequest();
-	xobj.responseType = 'arraybuffer';
-
-	xobj.onreadystatechange = function onXhrStateChange() {
-		if (~~xobj.readyState !== 4) return;
-		if (~~xobj.status !== 200 && ~~xobj.status !== 0) {
-			return cb('xhrError:' + xobj.status);
-		}
-		audioContext.decodeAudioData(xobj.response, function onSuccess(buffer) {
-			t.buffer = buffer;
-			return cb();
-		}, cb);
-	};
-
-	xobj.open('GET', this.uri, true);
-	xobj.send();
-}
+	loadAudioBuffer(this.uri, function onLoad(error, buffer) {
+		if (error) return cb(error);
+		t.buffer = buffer;
+		return cb();
+	});
+};
 
 module.exports = BufferData;

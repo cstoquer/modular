@@ -1,1 +1,10 @@
-{"_type":"BufferData","id":"tunnel","uri":"audio/tunnel.mp3","loop":false,"ir":true,"start":0,"end":0,"tag":["reverb","real space"]}
+{
+	"_type":"BufferData",
+	"id":"tunnel",
+	"uri":"audio/tunnel.mp3",
+	"loop":false,
+	"ir":true,
+	"start":0,
+	"end":0,
+	"tag":["reverb","real space"]
+}

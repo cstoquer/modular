@@ -4,6 +4,15 @@ var makeButton   = domUtils.makeButton;
 var makeDragable = domUtils.makeDragable;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+var topPanel = null;
+
+function setOnTop(panel) {
+	if (topPanel) topPanel.style.zIndex = null;
+	panel.style.zIndex = 11;
+	topPanel = panel;
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Panel
  *
  * @author Cedric Stoquer
@@ -16,6 +25,11 @@ function Panel() {
 	// handle header for drag & move
 	var handle = createDiv('handle', this._dom);
 	makeDragable(handle, this._dom);
+
+	// zIndex
+	handle.addEventListener('mousedown', function (e) {
+		setOnTop(t._dom);
+	});
 
 	// title
 	this.title = createDiv('panelTitle', handle);
@@ -35,6 +49,7 @@ Panel.prototype.setTitle = function (title) {
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Panel.prototype.open = function () {
 	this._dom.style.display = '';
+	setOnTop(this._dom);
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
