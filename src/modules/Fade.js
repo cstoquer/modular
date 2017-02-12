@@ -1,7 +1,6 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
 var map          = require('../core/utils').map;
-var modules      = require('../core/modules');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function Fade() {
@@ -38,5 +37,4 @@ Fade.prototype.descriptor = {
 	}
 };
 
-modules.register(Fade);
 module.exports = Fade;

@@ -1,3 +1,4 @@
+var EventEmitter = require('EventEmitter');
 
 MIDI_MESSAGE_TYPES = {
 	8:  'note off',

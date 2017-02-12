@@ -1,6 +1,5 @@
 var audioContext = require('../core/audioContext');
 var Module       = require('../core/Module');
-var modules      = require('../core/modules');
 var map          = require('../core/utils').map;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
@@ -23,7 +22,7 @@ ControlChange.prototype.onMessage = function (event) {
 		this.channel = event.channel;
 		this.control = event.control;
 		this.learn = false;
-		this._dom.style.borderColor = '';
+		this.setBorder('');
 		this._setTitle();
 		return;
 	}
@@ -45,7 +44,7 @@ ControlChange.prototype.onMessage = function (event) {
 
 ControlChange.prototype.midiLearn = function () {
 	this.learn = true;
-	this._dom.style.borderColor = '#F00';
+	this.setBorder('#F00');
 };
 
 ControlChange.prototype._setTitle = function () {
@@ -71,5 +70,4 @@ ControlChange.prototype.descriptor = {
 	persistent: ['channel', 'control']
 };
 
-modules.register(ControlChange);
 module.exports = ControlChange;

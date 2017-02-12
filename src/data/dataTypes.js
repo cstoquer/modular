@@ -1,21 +1,24 @@
-var audioContext = require('../core/audioContext');
-var Module       = require('../core/Module');
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Panner() {
-	this.node = audioContext.createStereoPanner();
-	Module.call(this);
-}
-inherits(Panner, Module);
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Panner.prototype.descriptor = {
-	type: 'Panner',
-	name: 'Pan',
-	size: 2,
-	inputs:   { IN:  { type: 'audio', x:3.5,  y: 0, endPoint: 'node', label: 'IN'  } },
-	outputs:  { OUT: { type: 'audio', x:3.5,  y: 1, endPoint: 'node', label: 'OUT' } },
-	controls: { pan: { type: 'knob',  x: 1.5, y: 0, min: -1, max: 1, endPoint: 'node.pan', value: 'value' } }
+var DATA_TYPES = {
+	'BufferData':       require('./BufferData'),
+	'ProceduralBuffer': require('./ProceduralBuffer')
 };
 
-module.exports = Panner;
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+function deserialize(data) {
+	var type = data._type;
+	var DataType = DATA_TYPES[type];
+	if (!DataType) return data;
+	return DataType.deserialize(data);
+}
+
+exports.deserialize = deserialize;
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+exports.initializeDatabase = function (database) {
+	for (var id in database) {
+		var data = database[id];
+		if (!data.id) data.id = id;
+		database[id] = deserialize(data);
+	}
+};
+

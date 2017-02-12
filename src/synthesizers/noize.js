@@ -1,51 +1,53 @@
-var loadAudioBuffer = require('../core/loadAudioBuffer');
+var audioContext = require('../core/audioContext');
+
+var SAMPLE_RATE = 44100;
+var m_brown     = 0.0;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function BufferData(id, data) {
-	this.id     = id;
-	this.buffer = undefined;
-	this.uri    = data.uri;
-	this.loop   = data.loop  || false;
-	this.ir     = data.ir    || false;
-	this.start  = data.start || 0;
-	this.end    = data.end   || 0;
-	this.tag    = data.tag   || [];
+function white() {
+	return Math.random() - 0.5;
 }
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-// static method
-
-BufferData.deserialize = function (data) {
-	// TODO: check for this BufferData existence in the database
-	return new BufferData(data.id, data);
-};
-
-//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-BufferData.prototype.serialize = function () {
-	return {
-		_type: 'BufferData',
-		id:    this.id,
-		uri:   this.uri,
-		loop:  this.loop,
-		ir:    this.ir,
-		start: this.start,
-		end:   this.end,
-		tag:   this.tag
-	};
-};
+function brown() {
+	while (true) {
+		var r = white();
+		m_brown += r;
+		if (m_brown < -8.0 || m_brown > 8.0) m_brown -= r;
+		else break;
+	}
+	return m_brown / 16;
+}
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-BufferData.prototype.loadAudioBuffer = function (cb) {
-	// check if buffer is already loaded
-	if (this.buffer) return window.setTimeout(cb, 0);
+function colored(color) {
+	return brown() * color + white() * (1 - color);
+}
 
-	var t = this;
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+exports.generate = function (bufferData, cb) {
+	// get sound informations
+	var params = bufferData.params;
+	var length = params.length || 1;
+	var color  = params.color  || 0;
+	var noisef = colored;
+	if (color < 0) noisef = white;
+	if (color > 1) noisef = brown;
 
-	loadAudioBuffer(this.uri, function onLoad(error, buffer) {
-		if (error) return cb(error);
-		t.buffer = buffer;
-		return cb();
-	});
-};
+	// create buffer
+	var buffer = audioContext.createBuffer(1, length * SAMPLE_RATE, SAMPLE_RATE);
 
-module.exports = BufferData;
+	// generate buffer data
+	var channelData = buffer.getChannelData(0);
+	for (var i = 0; i < channelData.length; i++) {
+		channelData[i] = noisef(color);
+	}
+
+	// append data
+	bufferData.buffer = buffer;
+	bufferData.start  = 0;
+	bufferData.end    = length;
+
+	// defer the callback
+	return window.setTimeout(cb, 0);
+}
