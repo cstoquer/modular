@@ -1,4 +1,3 @@
-var sendRequest = require('assetLoader').sendRequest;
 var domUtils    = require('domUtils');
 var createDiv   = domUtils.createDiv;
 var createDom   = domUtils.createDom;

@@ -1,4 +1,4 @@
-var sendRequest = require('assetLoader').sendRequest;
+var sendRequest = require('./assetLoader').sendRequest;
 
 var FLAGS = {
 	audio: false

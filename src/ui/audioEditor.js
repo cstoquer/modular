@@ -1,4 +1,4 @@
-var assetLoader  = require('assetLoader');
+var assetLoader  = require('./assetLoader');
 var Panel        = require('./Panel');
 var beforeClose  = require('./beforeClose');
 var domUtils     = require('domUtils');
