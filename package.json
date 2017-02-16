@@ -3,10 +3,12 @@
 	"version": "1.0.0",
 	"description": "modular webAudio",
 	"author": "Cedric Stoquer",
-	"main": "modular.js",
+	"main": "main.js",
 	"scripts": {
 		"start": "pixelbox",
-		"build": "browserify modular.js | derequire | uglifyjs --compress --mangle > modular.min.js"
+		"build": "browserify src/modular.js | derequire | uglifyjs --compress --mangle > build/modular.min.js",
+		"editor": "browserify src/editor.js | derequire | replace-stream /_REQUIRE_/ require | uglifyjs --compress --mangle > build/editor.js",
+   		"pack": "npm run editor && electron-packager ."
 	},
 	"repository": {
 		"type": "git",
@@ -18,7 +20,9 @@
 		"pixelbox": "1.0.4",
 		"browserify": "13.0.0",
 		"uglify-js": "2.7.5",
-		"derequire": "2.0.6"
+		"derequire": "2.0.6",
+		"replace-stream": "0.0.1",
+		"electron": "^1.3.4"
 	},
 	"license": "MIT"
 }

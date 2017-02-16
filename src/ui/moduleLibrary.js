@@ -1,6 +1,6 @@
 var Panel     = require('./Panel');
 var modules   = require('../core/modules')
-var domUtils  = require('domUtils');
+var domUtils  = require('./domUtils');
 var createDiv = domUtils.createDiv;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

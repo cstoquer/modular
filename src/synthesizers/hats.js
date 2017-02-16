@@ -1,5 +1,5 @@
 var audioContext    = require('../core/audioContext');
-var loadAudioBuffer = require('../core/loadAudioBuffer');
+var loadAudioBuffer = require('../loaders/loadAudioBuffer');
 
 var EPSILON = 0.0001;
 

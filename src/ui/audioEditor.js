@@ -1,7 +1,7 @@
-var assetLoader  = require('./assetLoader');
+var sendRequest  = require('../loaders/sendRequest');
 var Panel        = require('./Panel');
 var beforeClose  = require('./beforeClose');
-var domUtils     = require('domUtils');
+var domUtils     = require('./domUtils');
 var createDom    = domUtils.createDom;
 var createDiv    = domUtils.createDiv;
 var makeButton   = domUtils.makeButton;
@@ -87,11 +87,11 @@ function AudioEditor() {
 
 	// save button
 	this.saveButton = createDiv('editorButton saveIcon', menu);
-	makeButton(this.saveButton, function sendRequest() {
+	makeButton(this.saveButton, function makeRequest() {
 		if (!t.canSave) return;
 		t.allowSave(false);
 
-		assetLoader.sendRequest({
+		sendRequest({
 			command: 'audio.saveProperties',
 			bufferData: t.bufferData.serialize()
 		});
