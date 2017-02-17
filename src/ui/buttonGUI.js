@@ -1,6 +1,6 @@
 var Button    = require('../core/Button');
 var constants = require('./constants');
-var domUtils  = require('domUtils');
+var domUtils  = require('./domUtils');
 var createDiv = domUtils.createDiv;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

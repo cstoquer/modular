@@ -1,4 +1,4 @@
-var domUtils   = require('domUtils');
+var domUtils   = require('./domUtils');
 var createDiv  = domUtils.createDiv;
 var makeButton = domUtils.makeButton;
 

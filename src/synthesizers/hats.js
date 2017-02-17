@@ -1,5 +1,5 @@
 var audioContext    = require('../core/audioContext');
-var loadAudioBuffer = require('../core/loadAudioBuffer');
+var loadAudioBuffer = require('../loaders/loadAudioBuffer');
 
 var EPSILON = 0.0001;
 
@@ -54,13 +54,24 @@ exports.generate = function (bufferData, cb) {
 	loadAudioBuffer(params.uri, function onBufferLoaded(error, sample) {
 		if (error) return cb(error);
 
+		// create voices
+		var sampleLength = sample.length - offset;
+		var sampleData = new Float32Array(sampleLength);
+		sample.copyFromChannel(sampleData, 0, offset);
+		var voices = [];
+		for (var i = 0; i < polyphony; i++) {
+			voices.push(new Voice(sampleData));
+		}
+
+		// pattern values
 		var sampleRate = sample.sampleRate;
 		var stepSize   = ~~(sampleRate * 15 / tempo); // 1 step = 1/4 beat
 		var length     = stepSize * pattern.length;
 
-		// note values
-		close = 1 - Math.pow(1 - close, 9); // TODO: should be related to sample.length
+		// close ratio
+		close = Math.pow(close, 10 / sampleLength);
 
+		// note values
 		var NOTES = {
 			'O': { volume: 1,      decay: 1     },
 			'o': { volume: accent, decay: 1     },
@@ -68,15 +79,7 @@ exports.generate = function (bufferData, cb) {
 			'c': { volume: accent, decay: close }
 		};
 
-		// create voices
-		var sampleData = new Float32Array(sample.length - offset);
-		sample.copyFromChannel(sampleData, 0, offset);
-		var voices = [];
-		for (var i = 0; i < polyphony; i++) {
-			voices.push(new Voice(sampleData));
-		}
-
-		// create buffer
+		// create pattern buffer
 		var buffer = audioContext.createBuffer(1, length, sampleRate);
 
 		// generate buffer data
@@ -104,7 +107,7 @@ exports.generate = function (bufferData, cb) {
 			channelData[t] = value;
 		}
 
-		// TODO: continue to fill buffer from start if voices are not stopped
+		// TODO: continue to fill buffer from buffer start if voices are not stopped
 
 		// append data
 		bufferData.buffer = buffer;

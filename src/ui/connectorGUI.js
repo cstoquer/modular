@@ -1,6 +1,6 @@
 var Connector = require('../core/Connector');
 var constants = require('./constants');
-var createDiv = require('domUtils').createDiv;
+var createDiv = require('./domUtils').createDiv;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Connector.prototype.initGUI = function (module, id, descriptor) {

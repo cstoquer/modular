@@ -48,7 +48,7 @@ ProceduralBuffer.prototype.loadAudioBuffer = function (cb) {
 	// get proper synthesizer
 	var synth = synthesizers.getSynth(this.synthesizer);
 	if (!synth) {
-		// alway defer callback
+		// defer callback
 		window.setTimeout(function () {
 			cb('Synthesizer ' + this.synthesizer + ' does not exists.');
 		}, 0);

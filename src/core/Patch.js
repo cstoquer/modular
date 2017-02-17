@@ -1,6 +1,6 @@
-var Cable = require('./Cable');
+var Cable         = require('./Cable');
 var moduleLibrary = require('./modules');
-var dataTypes = require('../data/dataTypes');
+var dataTypes     = require('../data/dataTypes');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 /** Patch

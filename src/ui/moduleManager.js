@@ -4,7 +4,7 @@ var constants     = require('./constants');
 var connectorMenu = require('./connectorMenu');
 var ctx           = require('./overlay').ctx;
 var overCtx       = require('./overlay').overCtx;
-var domUtils      = require('domUtils');
+var domUtils      = require('./domUtils');
 var createDiv     = domUtils.createDiv;
 var removeDom     = domUtils.removeDom;
 

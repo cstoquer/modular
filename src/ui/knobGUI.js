@@ -1,6 +1,6 @@
 var Knob      = require('../core/Knob');
 var constants = require('./constants');
-var createDiv = require('domUtils').createDiv;
+var createDiv = require('./domUtils').createDiv;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Knob.prototype.initGUI  = function (module, id, descriptor) {

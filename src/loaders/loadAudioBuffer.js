@@ -1,4 +1,4 @@
-var audioContext = require('./audioContext');
+var audioContext = require('../core/audioContext');
 
 module.exports = function (uri, cb) {
 	var xobj = new XMLHttpRequest();
