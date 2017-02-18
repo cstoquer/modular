@@ -19,6 +19,8 @@ UI is strongly influenced by Clavia's *Nord Modular*'s editor.
 Nota: Save and Load features are disabled in this demo. 
 Patch can be exported (`top menu > Patch > Export patch`), and imported by drag & dropping a patch file in the window.
 
+![construct](https://cloud.githubusercontent.com/assets/2462139/23090673/19d6b99a-f5e7-11e6-9426-d805ed32de74.gif)
+
 # Features
 
 ## Built-in buffer editor
