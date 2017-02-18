@@ -34,3 +34,8 @@ If your browser supports webMIDI, you can have your MIDI keyboard or controller 
 
 ![midi](https://cloud.githubusercontent.com/assets/2462139/22738936/ec574c4c-ee4c-11e6-9ff6-c589e8ee1034.png)
 
+## Search audio in the library
+
+Filter the audio files in library by type and tag.
+
+![tag](https://cloud.githubusercontent.com/assets/2462139/23090564/12689672-f5e4-11e6-9af2-830282961982.gif)
