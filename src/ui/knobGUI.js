@@ -62,7 +62,7 @@ Knob.prototype.displayValue = function (value) {
 
 	if (value === 0) {
 		return 0;
-	} else if (Math.abs(value) <= 0.001) {
+	} else if (Math.abs(value) < 0.1) {
 		value *= 1000;
 		multiplier = 'm';
 		size = 4;

@@ -35,8 +35,8 @@ OneShotSampler.prototype.descriptor = {
 	name: 'OneShot',
 	size: 3,
 	inputs:   {
-		buffer:  { type: 'event', x:0, y:1, endPoint: 'setBuffer', label: 'BUF'  },
-		trigger: { type: 'event', x:0, y:2, endPoint: 'trigger',   label: 'TRIG' }
+		buffer:  { type: 'event', x:0, y:2, endPoint: 'setBuffer', label: 'BUF'  },
+		trigger: { type: 'event', x:0, y:1, endPoint: 'trigger',   label: 'TRIG' }
 	},
 	outputs:  { OUT: { type: 'audio', x:5, y:2, endPoint: 'node' } },
 	controls: { volume: { type: 'knob', x: 2.8, y: 0.5, min: 0, max: 1, endPoint: 'node.gain', value: 'value', label: 'VOL' } }
