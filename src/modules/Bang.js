@@ -21,7 +21,7 @@ Bang.prototype.descriptor = {
 	type: 'Bang',
 	name: 'Bang',
 	size: 2,
-	inputs:  { IN:  { type: 'event', x:3.5,  y:0, label: 'DATA', endPoint:  'onDataIn' } },
+	inputs:  { IN:  { type: 'event', x:3.5,  y:0, label: 'DATA', endPoint: 'onDataIn' } },
 	outputs: { OUT: { type: 'event', x:3.5,  y:1, label: 'OUT' } },
 	controls: { BTN: { type: 'button', x: 1.8, y: 0.1, endPoint: 'pushButton' } }
 };

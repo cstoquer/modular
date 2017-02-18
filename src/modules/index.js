@@ -4,6 +4,7 @@ modules.add(require('../core/Buffer'));
 modules.add(require('./TestModule'));
 modules.add(require('./Bang'));
 modules.add(require('./AutoBang'));
+modules.add(require('./RandomBang'));
 modules.add(require('./MidiIn'));
 modules.add(require('./NoteOnFilter'));
 modules.add(require('./ControlChange'));
