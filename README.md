@@ -19,6 +19,8 @@ UI is strongly influenced by Clavia's *Nord Modular*'s editor.
 Nota: Save and Load features are disabled in this demo. 
 Patch can be exported (`top menu > Patch > Export patch`), and imported by drag & dropping a patch file in the window.
 
+![construct](https://cloud.githubusercontent.com/assets/2462139/23090673/19d6b99a-f5e7-11e6-9426-d805ed32de74.gif)
+
 # Features
 
 ## Built-in buffer editor
@@ -34,3 +36,8 @@ If your browser supports webMIDI, you can have your MIDI keyboard or controller 
 
 ![midi](https://cloud.githubusercontent.com/assets/2462139/22738936/ec574c4c-ee4c-11e6-9ff6-c589e8ee1034.png)
 
+## Search audio in the library
+
+Filter the audio files in library by type and tag.
+
+![tag](https://cloud.githubusercontent.com/assets/2462139/23090564/12689672-f5e4-11e6-9af2-830282961982.gif)

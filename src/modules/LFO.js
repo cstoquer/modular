@@ -3,11 +3,11 @@ var Module       = require('../core/Module');
 
 WAVEFORM_TYPE_ENUM = [
 	{ id: 'sine',     caption: 'sin' },
-    { id: 'square',   caption: 'sqr' },
-    { id: 'sawtooth', caption: 'saw' },
-    { id: 'triangle', caption: 'tri' },
-    // { id: 'custom',   caption: 'usr' }
-]
+	{ id: 'square',   caption: 'sqr' },
+	{ id: 'sawtooth', caption: 'saw' },
+	{ id: 'triangle', caption: 'tri' },
+	// { id: 'custom',   caption: 'usr' }
+];
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function LFO() {

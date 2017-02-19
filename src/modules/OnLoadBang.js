@@ -1,29 +1,29 @@
 var Module = require('../core/Module');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Bang() {
+function OnLoadBang() {
 	Module.call(this);
 	this.data = null;
+	var t = this;
+	window.setTimeout(function () {
+		t.$OUT.emit(t.data);
+	}, 0)
 }
-inherits(Bang, Module);
+inherits(OnLoadBang, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Bang.prototype.onDataIn = function (data) {
+OnLoadBang.prototype.onDataIn = function (data) {
 	this.data = data;
 };
 
-Bang.prototype.pushButton = function () {
-	this.$OUT.emit(this.data);
-};
-
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Bang.prototype.descriptor = {
-	type: 'Bang',
-	name: 'Bang',
-	size: 2,
-	inputs:  { IN:  { type: 'event', x:3.5,  y:0, label: 'DATA', endPoint: 'onDataIn', singleConnection: true } },
-	outputs: { OUT: { type: 'event', x:3.5,  y:1, label: 'OUT' } },
-	controls: { BTN: { type: 'button', x: 1.8, y: 0.1, endPoint: 'pushButton' } }
+OnLoadBang.prototype.descriptor = {
+	type: 'OnLoadBang',
+	name: 'OnLoad',
+	size: 1,
+	inputs:  { IN:  { type: 'event', x:4,  y:0, endPoint: 'onDataIn', singleConnection: true } },
+	outputs: { OUT: { type: 'event', x:5,  y:0 } },
+	controls: {}
 };
 
-module.exports = Bang;
+module.exports = OnLoadBang;

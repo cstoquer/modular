@@ -1,29 +1,34 @@
 var Module = require('../core/Module');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-function Bang() {
+function EventDelay() {
+	this.delay = 10;
 	Module.call(this);
-	this.data = null;
 }
-inherits(Bang, Module);
+inherits(EventDelay, Module);
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Bang.prototype.onDataIn = function (data) {
-	this.data = data;
-};
+EventDelay.prototype.onDataIn = function (event) {
+	var t = this;
 
-Bang.prototype.pushButton = function () {
-	this.$OUT.emit(this.data);
+	// FIXME: cancel timeout on destroy
+	window.setTimeout(function () {
+		try {
+			t.$OUT.emit(event);
+		} catch (e) {
+			// noop
+		}
+	}, this.delay * 1000);
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Bang.prototype.descriptor = {
-	type: 'Bang',
-	name: 'Bang',
+EventDelay.prototype.descriptor = {
+	type: 'EventDelay',
+	name: 'EventDelay',
 	size: 2,
-	inputs:  { IN:  { type: 'event', x:3.5,  y:0, label: 'DATA', endPoint: 'onDataIn', singleConnection: true } },
-	outputs: { OUT: { type: 'event', x:3.5,  y:1, label: 'OUT' } },
-	controls: { BTN: { type: 'button', x: 1.8, y: 0.1, endPoint: 'pushButton' } }
+	inputs:  { IN:  { type: 'event', x:0,  y:0.9, label: 'IN', endPoint: 'onDataIn' } },
+	outputs: { OUT: { type: 'event', x:2,  y:0.9, label: 'OUT' } },
+	controls: { delay: { type: 'knob',  x: 4, y: 0, min: 1, max: 200, int: true, endPoint: null, value: 'delay' } }
 };
 
-module.exports = Bang;
+module.exports = EventDelay;

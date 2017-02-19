@@ -16,8 +16,10 @@ function getEndPoint(module, endPointDescriptor) {
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function EventInput(module, id, descriptor) {
-	this.module = module;
+	// this.module = module;
 	Connector.call(this, module, id, descriptor);
+	this.onConnect    = descriptor.onConnect    ? getEndPoint(module, descriptor.onConnect)    : null;
+	this.onDisconnect = descriptor.onDisconnect ? getEndPoint(module, descriptor.onDisconnect) : null;
 }
 inherits(EventInput, Connector);
 EventInput.prototype.cssClassName = 'eventIn';
@@ -35,17 +37,20 @@ EventInput.prototype.bind = function (module, id, descriptor) {
 EventInput.prototype.connect = function (connector) {
 	// Connector.prototype.connect.call(this, connector);
 	connector.connect(this);
+	if (this.onConnect) this.onConnect.call(this.module, connector);
+};
+
+EventInput.prototype.disconnect = function (connector) {
+	if (this.onDisconnect) this.onDisconnect.call(this.module, connector);
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function EventOutput(module, id, descriptor) {
 	Connector.call(this, module, id, descriptor);
 	// event output endPoints is an array of EventInput connector references.
-	this.connections = [];
-	this.onConnect = null;
-	if (descriptor.onConnect) {
-		this.onConnect = getEndPoint(module, descriptor.onConnect);
-	}
+	this.connections  = [];
+	this.onConnect    = descriptor.onConnect    ? getEndPoint(module, descriptor.onConnect)    : null;
+	this.onDisconnect = descriptor.onDisconnect ? getEndPoint(module, descriptor.onDisconnect) : null;
 }
 inherits(EventOutput, Connector);
 EventOutput.prototype.cssClassName = 'eventOut';
@@ -57,15 +62,14 @@ connectors.register(EventOutput, 'output', 'event');
 EventOutput.prototype.connect = function (connector) {
 	Connector.prototype.connect.call(this, connector);
 	this.connections.push(connector);
-	if (this.onConnect) {
-		this.onConnect.call(this.module, connector);
-	}
+	if (this.onConnect) this.onConnect.call(this.module, connector);
 };
 
 EventOutput.prototype.disconnect = function (connector) {
 	var index = this.connections.indexOf(connector);
 	if (index === -1) return;
 	this.connections.splice(index, 1);
+	if (this.onDisconnect) this.onDisconnect.call(this.module, connector);
 };
 
 EventOutput.prototype.emit = function (event) {
@@ -73,10 +77,10 @@ EventOutput.prototype.emit = function (event) {
 	for (var i = 0; i < this.connections.length; i++) {
 		var connector = this.connections[i];
 		// bind to the correct 'this' value (the connector's module)
-		connector.endPoint.call(connector.module, event);
+		connector.endPoint.call(connector.module, event, this);
 	}
 };
 
 EventOutput.prototype.emitTo = function (connector, event) {
-	connector.endPoint.call(connector.module, event);
+	connector.endPoint.call(connector.module, event, this);
 };
