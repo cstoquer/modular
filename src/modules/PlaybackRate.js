@@ -11,9 +11,9 @@ inherits(PlaybackRate, Module);
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 PlaybackRate.prototype.onDataIn = function (event) {
 	// adding circular check object
-	if (!event._circular) event._circular = {};
-	if (event._circular[this.id]) return; // circular loop detected
-	event._circular[this.id] = true;
+	// if (!event._circular) event._circular = {};
+	// if (event._circular[this.id]) return; // circular loop detected
+	// event._circular[this.id] = true;
 
 	// adding or overwriting attribute
 	event.playbackRate = this.playbackRate;
