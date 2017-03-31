@@ -3,6 +3,7 @@ var modules = require('../core/modules');
 modules.add(require('../core/Buffer'));
 modules.add(require('./TestModule'));
 modules.add(require('./BufferTrim'));
+modules.add(require('./BufferSlice'));
 
 // event
 modules.add(require('./Bang'));
@@ -18,6 +19,7 @@ modules.add(require('./PlaybackRate'));
 modules.add(require('./MidiIn'));
 modules.add(require('./NoteOnFilter'));
 modules.add(require('./ControlChange'));
+modules.add(require('./NoteDetect'));
 
 // Oscillator, LFO
 modules.add(require('./Oscillator'));
