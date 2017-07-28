@@ -148,8 +148,28 @@ body {
 	background-color: #FFF;
 }
 
+.libraryTabHolder {
+	margin-top: 1px;
+	width: 180px;
+}
+
+.libraryTab {
+	margin: 1px;
+	width: 58px;
+	overflow: hidden;
+	border-radius: 3px;
+	background-color: #AAA;
+	text-align: center;
+	display: inline-block;
+}
+
+.libraryListHolder {
+
+}
+
 .libraryList {
-	height: 253px;
+	/*max-height: 253px;*/
+	height: 150px;
 	padding: 2px;
 	overflow-x: hidden;
 	overflow-y: scroll;

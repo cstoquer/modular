@@ -1,56 +1,58 @@
-var modules = require('../core/modules');
+var modules  = require('../core/modules');
+var CATEGORY = require('../core/moduleCategories');
 
-modules.add(require('../core/Buffer'));
-modules.add(require('./TestModule'));
-modules.add(require('./BufferTrim'));
-modules.add(require('./BufferSlice'));
+
+modules.add(require('../core/Buffer'),   CATEGORY.DATA);
+modules.add(require('./BufferTrim'),     CATEGORY.DATA);
+modules.add(require('./BufferSlice'),    CATEGORY.DATA);
+modules.add(require('./TestModule'),     CATEGORY.DATA);
 
 // event
-modules.add(require('./Bang'));
-modules.add(require('./AutoBang'));
-modules.add(require('./RandomBang'));
-modules.add(require('./DateBang'));
-modules.add(require('./OnLoadBang'));
-modules.add(require('./EventPool'));
-modules.add(require('./EventDelay'));
-modules.add(require('./PlaybackRate'));
+modules.add(require('./Bang'),           CATEGORY.CONTROL);
+modules.add(require('./AutoBang'),       CATEGORY.CONTROL);
+modules.add(require('./RandomBang'),     CATEGORY.CONTROL);
+modules.add(require('./DateBang'),       CATEGORY.CONTROL);
+modules.add(require('./OnLoadBang'),     CATEGORY.CONTROL);
+modules.add(require('./EventPool'),      CATEGORY.CONTROL);
+modules.add(require('./EventDelay'),     CATEGORY.CONTROL);
+modules.add(require('./PlaybackRate'),   CATEGORY.CONTROL);
 
 // MIDI
-modules.add(require('./MidiIn'));
-modules.add(require('./NoteOnFilter'));
-modules.add(require('./ControlChange'));
-modules.add(require('./NoteDetect'));
+modules.add(require('./MidiIn'),         CATEGORY.CONTROL);
+modules.add(require('./NoteOnFilter'),   CATEGORY.CONTROL);
+modules.add(require('./ControlChange'),  CATEGORY.CONTROL);
+modules.add(require('./NoteDetect'),     CATEGORY.CONTROL);
 
 // Oscillator, LFO
-modules.add(require('./Oscillator'));
-modules.add(require('./LFO'));
-modules.add(require('./SlowLFO'));
+modules.add(require('./Oscillator'),     CATEGORY.OSC);
+modules.add(require('./LFO'),            CATEGORY.OSC);
+modules.add(require('./SlowLFO'),        CATEGORY.OSC);
 
 // envelope
-modules.add(require('./Envelope'));
-modules.add(require('./Fade'));
+modules.add(require('./Envelope'),       CATEGORY.ENVELOPE);
+modules.add(require('./Fade'),           CATEGORY.ENVELOPE);
 
 // amp, pan
-modules.add(require('./Volume'));
-modules.add(require('./Amp'));
-modules.add(require('./AutoXFade'));
-modules.add(require('./Gain'));
-modules.add(require('./Panner'));
-modules.add(require('./ModPanner'));
+modules.add(require('./Volume'),         CATEGORY.GAIN);
+modules.add(require('./Amp'),            CATEGORY.GAIN);
+modules.add(require('./AutoXFade'),      CATEGORY.GAIN);
+modules.add(require('./Gain'),           CATEGORY.GAIN);
+modules.add(require('./Panner'),         CATEGORY.GAIN);
+modules.add(require('./ModPanner'),      CATEGORY.GAIN);
 
 // sampler
-modules.add(require('./Sampler'));
-modules.add(require('./OneShotSampler'));
-modules.add(require('./XFadeSampler'));
+modules.add(require('./Sampler'),        CATEGORY.SAMPLER);
+modules.add(require('./OneShotSampler'), CATEGORY.SAMPLER);
+modules.add(require('./XFadeSampler'),   CATEGORY.SAMPLER);
 
 // filter
-modules.add(require('./Filter'));
-modules.add(require('./FilterMod'));
+modules.add(require('./Filter'),         CATEGORY.FILTER);
+modules.add(require('./FilterMod'),      CATEGORY.FILTER);
 
 // reverb, delay, fx
-modules.add(require('./Convolver'));
-modules.add(require('./Delay'));
-modules.add(require('./ModDelay'));
+modules.add(require('./Convolver'),      CATEGORY.EFFECT);
+modules.add(require('./Delay'),          CATEGORY.EFFECT);
+modules.add(require('./ModDelay'),       CATEGORY.EFFECT);
 
 // out
-modules.add(require('./Context'));
+modules.add(require('./Context'),        CATEGORY.IN_OUT);

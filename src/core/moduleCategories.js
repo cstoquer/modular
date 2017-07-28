@@ -1,0 +1,10 @@
+exports.SAMPLER  = 'Sampler';
+exports.OSC      = 'Osc';
+exports.GAIN     = 'Gain';
+exports.FILTER   = 'Filter';
+exports.ENVELOPE = 'Envelope';
+exports.EFFECT   = 'Effect';
+exports.DATA     = 'Data';
+exports.CONTROL  = 'Control';
+exports.IN_OUT   = 'In/Out';
+// exports.OTHER    = 'misc';
