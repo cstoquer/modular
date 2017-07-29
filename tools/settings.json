@@ -1,40 +1,39 @@
 {
 	"disposition": {
-		"assetList": {
-			"x": 0,
-			"y": 25,
-			"viewW": 165,
-			"viewH": 575,
-			"foldConfig": {
-				"maps": {}
-			}
-		},
 		"mapEditor": {
-			"x": 176,
-			"y": 25,
-			"viewW": 256,
-			"viewH": 239
+			"x": 160,
+			"y": 21,
+			"width": 280,
+			"height": 392
 		},
 		"tilesheet": {
-			"x": 796,
-			"y": 25,
-			"viewW": 0,
-			"viewH": 0
+			"x": 448,
+			"y": 21,
+			"zoom": 2
 		},
-		"customTools": {
-			"x": 873,
-			"y": 483,
-			"viewW": 417,
-			"viewH": 261,
-			"foldConfig": {
-				"brush": {}
-			}
+		"tileBrush": {
+			"x": 0,
+			"y": 277,
+			"width": 152,
+			"height": 136,
+			"foldConfig": {}
 		},
 		"palette": {
-			"x": 781,
-			"y": 594,
-			"viewW": 0,
-			"viewH": 0
+			"x": 448,
+			"y": 325
+		},
+		"fileExplorer": {
+			"x": 0,
+			"y": 21,
+			"width": 152,
+			"height": 232,
+			"assets": {
+				"maps.json": {}
+			}
 		}
+	},
+	"windowSize": {
+		"width": 872,
+		"height": 491
 	}
 }

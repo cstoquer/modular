@@ -16,3 +16,4 @@ require('./ui/buttonGUI');
 require('./ui/menuHeader');
 require('./ui/moduleManager');
 require('./ui/dropFile');
+require('./ui/onWindowResize');

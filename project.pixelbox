@@ -2,8 +2,8 @@
 	"name": "Modular",
 	"version": "2.0.0",
 	"screen": {
-		"width": 600,
-		"height": 400,
+		"width": 800,
+		"height": 600,
 		"pixelSize": {
 			"width": 1,
 			"height": 1

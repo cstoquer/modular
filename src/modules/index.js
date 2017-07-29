@@ -6,6 +6,9 @@ modules.add(require('../core/Buffer'),   CATEGORY.DATA);
 modules.add(require('./BufferTrim'),     CATEGORY.DATA);
 modules.add(require('./BufferSlice'),    CATEGORY.DATA);
 modules.add(require('./TestModule'),     CATEGORY.DATA);
+modules.add(require('./EventPool'),      CATEGORY.DATA);
+modules.add(require('./EventDelay'),     CATEGORY.DATA);
+modules.add(require('./PlaybackRate'),   CATEGORY.DATA);
 
 // event
 modules.add(require('./Bang'),           CATEGORY.CONTROL);
@@ -13,9 +16,6 @@ modules.add(require('./AutoBang'),       CATEGORY.CONTROL);
 modules.add(require('./RandomBang'),     CATEGORY.CONTROL);
 modules.add(require('./DateBang'),       CATEGORY.CONTROL);
 modules.add(require('./OnLoadBang'),     CATEGORY.CONTROL);
-modules.add(require('./EventPool'),      CATEGORY.CONTROL);
-modules.add(require('./EventDelay'),     CATEGORY.CONTROL);
-modules.add(require('./PlaybackRate'),   CATEGORY.CONTROL);
 
 // MIDI
 modules.add(require('./MidiIn'),         CATEGORY.CONTROL);

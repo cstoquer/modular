@@ -35,6 +35,7 @@ ModuleLibrary.prototype.addTab = function (id) {
 	if (this.tabs[id]) return this.tabs[id];
 	var tab  = createDiv('libraryTab',  this.tabHolder);
 	var list = createDiv('libraryList', this.listHolder);
+	list.style.height  = '150px';
 	list.style.display = 'none';
 
 	tab.innerText = id;

@@ -1,11 +1,4 @@
 body {
-	font-family: verdana;
-	background-color: #7F7F7F;
-	background-repeat: repeat;
-	background-image: url("../img/background.png");
-}
-
-body {
 	font-family: "Arial", "Verdana";
 	font-weight: bold;
 	font-size: 11px;
@@ -13,6 +6,10 @@ body {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
+	background-color: #7F7F7F;
+	background-image: url("../img/background.png");
+	background-repeat: repeat;
+    overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -161,6 +158,11 @@ body {
 	background-color: #AAA;
 	text-align: center;
 	display: inline-block;
+	cursor: pointer;
+}
+
+.libraryTab:hover {
+	background-color: #BBB;
 }
 
 .libraryListHolder {
@@ -169,7 +171,7 @@ body {
 
 .libraryList {
 	/*max-height: 253px;*/
-	height: 150px;
+	height: 253px;
 	padding: 2px;
 	overflow-x: hidden;
 	overflow-y: scroll;
