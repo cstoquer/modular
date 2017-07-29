@@ -1,0 +1,45 @@
+{
+	"name": "Modular",
+	"version": "2.0.0",
+	"screen": {
+		"width": 600,
+		"height": 400,
+		"pixelSize": {
+			"width": 1,
+			"height": 1
+		},
+		"fullscreen": false,
+		"resizable": true
+	},
+
+	"tileSize": [8, 8],
+
+	"palette": [
+		"rgba(0, 0, 0, 0)",
+		"rgba(0, 0, 0, 0.1)"
+	],
+
+	"controls": {
+		"up": 38,
+		"down": 40,
+		"left": 37,
+		"right": 39,
+		"A": 32,
+		"B": 88
+	},
+
+	"touchEvent": {
+		"multiTouch": false,
+		"disableContextMenu": false,
+		"hideMousePointer": false
+	},
+
+	"loaderColors": [0, 1],
+
+	"components": {
+		"pixelboxCore": false,
+		"keyboard": false,
+		"TINA": false,
+		"AudioManager": false
+	}
+}
