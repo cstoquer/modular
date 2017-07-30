@@ -336,12 +336,19 @@ body {
 	height:   11px;
 }
 
-.eventOut { background-image: url("../img/out-Y.png"); }
-.eventIn  { background-image: url("../img/in-Y.png");  }
-.audioOut { background-image: url("../img/out-R.png"); }
-.audioIn  { background-image: url("../img/in-R.png");  }
-.paramOut { background-image: url("../img/out-G.png"); }
-.paramIn  { background-image: url("../img/in-G.png");  }
+.eventIn       { background-image: url("../img/connector/in-Y.png");  }
+.audioIn       { background-image: url("../img/connector/in-R.png");  }
+.paramIn       { background-image: url("../img/connector/in-G.png");  }
+.eventOut      { background-image: url("../img/connector/out-Y.png"); }
+.audioOut      { background-image: url("../img/connector/out-R.png"); }
+.paramOut      { background-image: url("../img/connector/out-G.png"); }
+.eventIn-fill  { background-image: url("../img/connector/in-Y-fill.png");  }
+.audioIn-fill  { background-image: url("../img/connector/in-R-fill.png");  }
+.paramIn-fill  { background-image: url("../img/connector/in-G-fill.png");  }
+.eventOut-fill { background-image: url("../img/connector/out-Y-fill.png"); }
+.audioOut-fill { background-image: url("../img/connector/out-R-fill.png"); }
+.paramOut-fill { background-image: url("../img/connector/out-G-fill.png"); }
+
 
 .moduleButton {
 	width:    20px;
