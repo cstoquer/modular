@@ -18,7 +18,7 @@ require('./ui/cableGUI');
 require('./ui/knobGUI');
 require('./ui/buttonGUI');
 
-require('./ui/menuHeader');
+require('./ui/menuHeader'); // require all panelsy
 require('./ui/moduleManager');
 require('./ui/dropFile');
 require('./ui/onWindowResize');

@@ -4,7 +4,7 @@
 			"x": 160,
 			"y": 21,
 			"width": 280,
-			"height": 392
+			"height": 232
 		},
 		"tilesheet": {
 			"x": 448,
@@ -33,7 +33,7 @@
 		}
 	},
 	"windowSize": {
-		"width": 872,
-		"height": 491
+		"width": 726,
+		"height": 448
 	}
 }

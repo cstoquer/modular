@@ -9,6 +9,7 @@ var PANELS = {
 	audioEditor:   require('./audioEditor'),
 	moduleLibrary: require('./moduleLibrary'),
 	bufferLibrary: require('./bufferLibrary'),
+	synthEditor:   require('./synthEditor'),
 };
 
 function openPanel(panel) {

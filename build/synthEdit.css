@@ -1,0 +1,45 @@
+@font-face {
+	font-family: "monospace";
+	src: url("../fonts/telegrama.otf") format("woff");
+}
+
+.synthEdit-root {
+	background-color: #313536;
+	background-image: url(../img/syntheditBG.png);
+	position: relative;
+	overflow: hidden;
+}
+
+.synthEdit-container {
+	border: solid 4px #BBB;
+	margin: 6px;
+	/*padding: 6px;*/
+	position: absolute;
+	border-radius: 8px;
+}
+
+.synthEdit-knob {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+}
+
+.synthEdit-knob-canvas {
+	width: 32px;
+	height: 32px;
+}
+
+.synthEdit-toggle {
+	width: 28px;
+	height: 28px;
+	border: solid 2px;
+	position: absolute;
+}
+
+.synthEdit-label {
+	position: absolute;
+	font-family: "monospace";
+	font-size: 13px;
+	color: #BBB;
+	text-align: center;
+}

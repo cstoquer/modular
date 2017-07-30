@@ -7,7 +7,7 @@ body {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	background-color: #7F7F7F;
-	background-image: url("../img/background.png");
+	background-image: url(../img/background.png);
 	background-repeat: repeat;
     overflow: hidden;
 }
@@ -132,7 +132,7 @@ body {
 }
 
 .closeButton {
-	background-image: url("../img/close.png");
+	background-image: url(../img/close.png);
 	width: 11px;
 	height: 11px;
 	margin: 1px;
@@ -270,10 +270,10 @@ body {
 	flex-grow: 1;
 }
 
-.saveIcon { background-image: url("../img/iconSave.png"); }
-.loopIcon { background-image: url("../img/iconLoop.png"); }
-.shotIcon { background-image: url("../img/iconShot.png"); }
-.irIcon   { background-image: url("../img/iconIR.png"); }
+.saveIcon { background-image: url(../img/iconSave.png); }
+.loopIcon { background-image: url(../img/iconLoop.png); }
+.shotIcon { background-image: url(../img/iconShot.png); }
+.irIcon   { background-image: url(../img/iconIR.png); }
 
 .hscroll {
 	overflow-x: scroll;
@@ -336,18 +336,18 @@ body {
 	height:   11px;
 }
 
-.eventIn       { background-image: url("../img/connector/in-Y.png");  }
-.audioIn       { background-image: url("../img/connector/in-R.png");  }
-.paramIn       { background-image: url("../img/connector/in-G.png");  }
-.eventOut      { background-image: url("../img/connector/out-Y.png"); }
-.audioOut      { background-image: url("../img/connector/out-R.png"); }
-.paramOut      { background-image: url("../img/connector/out-G.png"); }
-.eventIn-fill  { background-image: url("../img/connector/in-Y-fill.png");  }
-.audioIn-fill  { background-image: url("../img/connector/in-R-fill.png");  }
-.paramIn-fill  { background-image: url("../img/connector/in-G-fill.png");  }
-.eventOut-fill { background-image: url("../img/connector/out-Y-fill.png"); }
-.audioOut-fill { background-image: url("../img/connector/out-R-fill.png"); }
-.paramOut-fill { background-image: url("../img/connector/out-G-fill.png"); }
+.eventIn       { background-image: url(../img/connector/in-Y.png);  }
+.audioIn       { background-image: url(../img/connector/in-R.png);  }
+.paramIn       { background-image: url(../img/connector/in-G.png);  }
+.eventOut      { background-image: url(../img/connector/out-Y.png); }
+.audioOut      { background-image: url(../img/connector/out-R.png); }
+.paramOut      { background-image: url(../img/connector/out-G.png); }
+.eventIn-fill  { background-image: url(../img/connector/in-Y-fill.png);  }
+.audioIn-fill  { background-image: url(../img/connector/in-R-fill.png);  }
+.paramIn-fill  { background-image: url(../img/connector/in-G-fill.png);  }
+.eventOut-fill { background-image: url(../img/connector/out-Y-fill.png); }
+.audioOut-fill { background-image: url(../img/connector/out-R-fill.png); }
+.paramOut-fill { background-image: url(../img/connector/out-G-fill.png); }
 
 
 .moduleButton {
@@ -374,11 +374,11 @@ body {
 	position: absolute;
 	width:    23px;
 	height:   23px;
-	background-image: url("../img/knob.png");
+	background-image: url(../img/knob.png);
 }
 
 .knobMark {
-	background-image: url("../img/knobMark.png");
+	background-image: url(../img/knobMark.png);
 }
 
 .label {
