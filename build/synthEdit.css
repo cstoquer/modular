@@ -10,6 +10,25 @@
 	overflow: hidden;
 }
 
+.synthEdit-header {
+}
+
+.synthedit-button {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+	border-radius: 3px;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-color: #AAA;
+	margin: 2px;
+}
+
+.synthedit-button:hover {
+	background-color: #FF0;
+}
+
+
 .synthEdit-container {
 	border: solid 4px #BBB;
 	margin: 6px;

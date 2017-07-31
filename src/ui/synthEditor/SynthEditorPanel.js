@@ -8,30 +8,64 @@ var GRID_SIZE    = require('./constants').GRID_SIZE;
 var Container    = require('./Container');
 var Knob         = require('./Knob');
 var Label        = require('./Label');
+var audioEditor  = require('../audioEditor');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function SynthEditorPanel() {
 	Panel.call(this);
-	// this.close();
 	var header = createDiv('synthEdit-header', this._dom);
+
+	var self = this;
+
+	// TODO: auto update when a modification is done
+	var updateBtn = createDiv('synthedit-button', header);
+	makeButton(updateBtn, function () {
+		self.updateBuffer();
+	});
+
+	var audioBtn = createDiv('synthedit-button', header);
+	makeButton(audioBtn, function () {
+		audioEditor.setBuffer(self.bufferData);
+		audioEditor.open();
+	});
+
 
 	// TODO: menu
 	// - synth name
 	// - loop toggle
 	// - play/generate
+	// - open audio editor
 	// - tags ?
 
 	this.dom = createDiv('synthEdit-root', this._dom);
 
 	this.bufferData = null; // the (procedural) buffer data currently edited
+	
+	this.close();
 }
 inherits(SynthEditorPanel, Panel);
 module.exports = SynthEditorPanel;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-SynthEditorPanel.prototype.reset = function () {
+SynthEditorPanel.prototype.init = function (synthId, bufferData) {
 	this.dom.innerHTML = '';
+	// TODO: destroy (and cleanup) all components that are there
+
+	this.bufferData = bufferData;
+
+	// TODO update header menu (loop, synthId)
 	return this;
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+SynthEditorPanel.prototype.updateBuffer = function () {
+	var bufferData = this.bufferData;
+
+	bufferData.generateBuffer(function () {
+		// TODO: make BufferModule emit
+		// TODO: refactor, this should belong to Buffer
+		// bufferModule.$data.emit({ _type: 'buffer', buffer: bufferData.buffer });
+	});
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

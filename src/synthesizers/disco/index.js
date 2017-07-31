@@ -71,9 +71,19 @@ Synth.prototype.tic = function () {
 var synth = new Synth();
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+var DEFAULT_PARAMS = {
+	freq:         440,
+	mod:          300,
+	ampDuration:  0.7,
+	ampCurve:     0.2,
+	modDuration:  0.7,
+	modCurve:     0.5
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 exports.generate = function (bufferData, cb) {
 	// get sound informations
-	var params = bufferData.params;
+	var params = bufferData.params  || DEFAULT_PARAMS;
 	var length = params.ampDuration || 1;
 
 	// set synth params
