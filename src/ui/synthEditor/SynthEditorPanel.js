@@ -13,6 +13,14 @@ var Label        = require('./Label');
 function SynthEditorPanel() {
 	Panel.call(this);
 	// this.close();
+	var header = createDiv('synthEdit-header', this._dom);
+
+	// TODO: menu
+	// - synth name
+	// - loop toggle
+	// - play/generate
+	// - tags ?
+
 	this.dom = createDiv('synthEdit-root', this._dom);
 
 	this.bufferData = null; // the (procedural) buffer data currently edited

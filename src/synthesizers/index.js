@@ -15,6 +15,7 @@
 var SYNTHESIZERS = {
 	'noize': require('./noize'),
 	'hats':  require('./hats'),
+	'disco': require('./disco'),
 };
 
 exports.getSynth = function (id) {
