@@ -27,6 +27,7 @@ require('./ui/onWindowResize');
 // register synthesizer editors
 var synthEditor = require('./ui/synthEditor');
 synthEditor.register('disco', require('./synthesizers/disco/editor'));
+synthEditor.register('hats',  require('./synthesizers/hats/editor'));
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 require('./modular');

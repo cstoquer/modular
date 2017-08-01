@@ -17,24 +17,34 @@ function SynthEditorPanel() {
 
 	var self = this;
 
-	// TODO: auto update when a modification is done
-	var updateBtn = createDiv('synthedit-button', header);
-	makeButton(updateBtn, function () {
-		self.updateBuffer();
+	// var updateBtn = createDiv('synthedit-button', header);
+	// makeButton(updateBtn, function () {
+	// 	self.updateBuffer();
+	// });
+
+	this.loopBtn = createDiv('synthedit-button', header);
+	makeButton(this.loopBtn, function () {
+		if (!self.bufferData) return;
+		self.bufferData.loop = !self.bufferData.loop;
+		// TODO: make Buffer module reemit
+		self.toggleLoop();
 	});
 
 	var audioBtn = createDiv('synthedit-button', header);
+	audioBtn.style.backgroundImage = 'url(../img/iconSine.png)';
 	makeButton(audioBtn, function () {
 		audioEditor.setBuffer(self.bufferData);
 		audioEditor.open();
 	});
 
+	createDiv('synthedit-header-spacer', header);
+
+	this.synthName = createDiv('synthedit-header-synthName', header);
+
 
 	// TODO: menu
 	// - synth name
-	// - loop toggle
 	// - play/generate
-	// - open audio editor
 	// - tags ?
 
 	this.dom = createDiv('synthEdit-root', this._dom);
@@ -48,12 +58,16 @@ module.exports = SynthEditorPanel;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 SynthEditorPanel.prototype.init = function (synthId, bufferData) {
+	this.synthName.innerText = synthId;
 	this.dom.innerHTML = '';
 	// TODO: destroy (and cleanup) all components that are there
 
 	this.bufferData = bufferData;
 
-	// TODO update header menu (loop, synthId)
+	// update header menu (loop, synthId)
+	this.toggleLoop();
+
+
 	return this;
 };
 
@@ -62,10 +76,15 @@ SynthEditorPanel.prototype.updateBuffer = function () {
 	var bufferData = this.bufferData;
 
 	bufferData.generateBuffer(function () {
-		// TODO: make BufferModule emit
+		// TODO: make BufferModule emit for loop samplers (only if buffer has loop on?)
 		// TODO: refactor, this should belong to Buffer
 		// bufferModule.$data.emit({ _type: 'buffer', buffer: bufferData.buffer });
 	});
+};
+
+SynthEditorPanel.prototype.toggleLoop = function () {
+	var loop = this.bufferData.loop;
+	this.loopBtn.style.backgroundImage = loop ? 'url(../img/iconLoop.png)' : 'url(../img/iconShot.png)';
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

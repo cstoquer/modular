@@ -3,9 +3,6 @@ body {
 	font-weight: bold;
 	font-size: 11px;
 	user-select: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
 	background-color: #7F7F7F;
 	background-image: url(../img/background.png);
 	background-repeat: repeat;

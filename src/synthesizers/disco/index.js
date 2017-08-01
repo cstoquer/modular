@@ -1,4 +1,5 @@
 var audioContext = require('../../core/audioContext');
+var copyObject   = require('../../core/utils').copyObject;
 
 var SAMPLE_RATE = 44100;
 var PI2 = Math.PI * 2;
@@ -74,26 +75,25 @@ var synth = new Synth();
 var DEFAULT_PARAMS = {
 	freq:         440,
 	mod:          300,
-	ampDuration:  0.7,
+	envDuration:  0.7,
 	ampCurve:     0.2,
-	modDuration:  0.7,
 	modCurve:     0.5
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 exports.generate = function (bufferData, cb) {
 	// get sound informations
-	var params = bufferData.params  || DEFAULT_PARAMS;
+	var params = bufferData.params  || copyObject(DEFAULT_PARAMS);
 	var length = params.ampDuration || 1;
 
 	// set synth params
 	synth.reset();
-	synth.freq            = params.freq;
-	synth.fmod            = params.mod;
-	synth.ampEnv.duration = params.ampDuration;
-	synth.ampEnv.curve    = params.ampCurve;
-	synth.modEnv.duration = params.modDuration;
-	synth.modEnv.curve    = params.modCurve;
+	synth.freq            = params.freq        || DEFAULT_PARAMS.freq;
+	synth.fmod            = params.mod         || DEFAULT_PARAMS.mod;
+	synth.ampEnv.duration = params.envDuration || DEFAULT_PARAMS.envDuration;
+	synth.modEnv.duration = params.envDuration || DEFAULT_PARAMS.envDuration;
+	synth.ampEnv.curve    = params.ampCurve    || DEFAULT_PARAMS.ampCurve;
+	synth.modEnv.curve    = params.modCurve    || DEFAULT_PARAMS.modCurve;
 
 	// create buffer
 	var buffer = audioContext.createBuffer(1, length * SAMPLE_RATE, SAMPLE_RATE);

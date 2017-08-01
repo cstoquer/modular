@@ -12,6 +12,8 @@
  * to be consistent with Buffer API that needs to load audio.
  */
 
+var synthEditor = require('../ui/synthEditor');
+
 var SYNTHESIZERS = {
 	'noize': require('./noize'),
 	'hats':  require('./hats'),
@@ -22,6 +24,7 @@ exports.getSynth = function (id) {
 	return SYNTHESIZERS[id];
 };
 
-exports.addSynth = function (synth, id) {
+exports.addSynth = function (id, synth, editor) {
 	SYNTHESIZERS[id] = synth;
+	if (editor) synthEditor.register(id, editor);
 };

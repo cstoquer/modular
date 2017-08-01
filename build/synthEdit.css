@@ -11,6 +11,27 @@
 }
 
 .synthEdit-header {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+}
+
+.synthEdit-header-spacer {
+	display: inline-block;
+	flex-grow: 1;
+}
+
+.synthedit-header-synthName {
+	user-select: none;
+	cursor: default;
+	display: inline-block;
+	height: 20px;
+	border-radius: 3px;
+	background-color: #AAA;
+	margin: 2px;
+    vertical-align: top;
+    line-height: 20px;
+    padding: 0 6px;
 }
 
 .synthedit-button {
@@ -41,6 +62,7 @@
 	width: 32px;
 	height: 32px;
 	position: absolute;
+	cursor: pointer;
 }
 
 .synthEdit-knob-canvas {
@@ -56,9 +78,14 @@
 }
 
 .synthEdit-label {
+	user-select: none;
+	cursor: default;
 	position: absolute;
 	font-family: "monospace";
 	font-size: 13px;
 	color: #BBB;
 	text-align: center;
+	height: 16px;
+    line-height: 20px;
+    vertical-align: middle;
 }
