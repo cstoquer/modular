@@ -1,6 +1,5 @@
 var fs   = require('fs');
 var path = require('path');
-var cwd  = process.cwd();
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 var commands = {};
@@ -27,7 +26,7 @@ function getCommandModules(dir) {
 	}
 }
 
-getCommandModules(path.join(cwd, 'tools/commands')); // project's custom commands
+getCommandModules(path.join(process.cwd(), 'tools/commands')); // project's custom commands
 
 function noop() {};
 

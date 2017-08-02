@@ -1,0 +1,14 @@
+{
+	"_type":"ProceduralBuffer",
+	"synthesizer":"disco",
+	"params": {
+		"freq":440,
+		"mod":300,
+		"ampDuration": 0.7,
+		"ampCurve": 0.2,
+		"modDuration": 0.7,
+		"modCurve": 0.5
+	},
+	"loop":false,
+	"tag":["music", "synth", "sfx"]
+}

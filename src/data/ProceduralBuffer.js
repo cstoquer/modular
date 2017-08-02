@@ -3,9 +3,9 @@ var synthesizers = require('../synthesizers');
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function ProceduralBuffer(id, data) {
 	this.id          = id;
-	this.buffer      = undefined;
-	this.synthesizer = data.synthesizer;
-	this.params      = data.params;
+	this.buffer      = undefined;        // audio buffer
+	this.synthesizer = data.synthesizer; // synthesizer id
+	this.params      = data.params;      // synth parameters
 
 	// normal bufferData compatibility
 	this.loop   = data.loop  || false;
@@ -44,7 +44,11 @@ ProceduralBuffer.prototype.serialize = function () {
 ProceduralBuffer.prototype.loadAudioBuffer = function (cb) {
 	// check if buffer is already generated
 	if (this.buffer) return window.setTimeout(cb, 0);
+	this.generateBuffer(cb);
+};
 
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+ProceduralBuffer.prototype.generateBuffer = function (cb) {
 	// get proper synthesizer
 	var synth = synthesizers.getSynth(this.synthesizer);
 	if (!synth) {

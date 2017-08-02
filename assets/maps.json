@@ -2,11 +2,11 @@
 	"_type": "maps",
 	"maps": [
 		{
-			"w": 0,
-			"h": 0,
-			"name": "",
+			"w": 8,
+			"h": 4,
+			"name": "map",
 			"sheet": "",
-			"data": ""
+			"data": "!!|J"
 		}
 	]
 }

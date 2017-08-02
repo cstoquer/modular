@@ -24,3 +24,8 @@ Connector.prototype.initGUI = function (module, id, descriptor) {
 		window.moduleManager.startConnection(t, e);
 	});
 };
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+Connector.prototype.setState = function () {
+	this._dom.className = 'connector ' + this.cssClassName + (this._nConnection > 0 ? '-fill' : '');
+};

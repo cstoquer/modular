@@ -6,6 +6,7 @@ var audioEditor = require('./audioEditor');
 var constants   = require('./constants');
 var Module      = require('../core/Module');
 var Buffer      = require('../core/Buffer');
+var synthEditor = require('./synthEditor');
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 Module.prototype.initGUI = function () {
@@ -32,6 +33,15 @@ Buffer.prototype.initGUI = function () {
 	// edit buffer
 	this._dom.addEventListener('dblclick', function () {
 		if (!t.buffer) return;
+
+		// if (t.buffer.type === 'ProceduralBuffer') {
+		var synthId = t.buffer.synthesizer;
+		if (synthId && synthEditor.hasEditor(synthId)) {
+			// this is a procedural buffer with an editor
+			synthEditor.open(synthId, t.buffer);
+			return;
+		}
+
 		audioEditor.setBuffer(t.buffer);
 		audioEditor.open();
 	});

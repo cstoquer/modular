@@ -8,7 +8,7 @@
 		"start": "pixelbox",
 		"build": "browserify src/modular.js | derequire | uglifyjs --compress --mangle > build/modular.min.js",
 		"editor": "browserify src/editor.js | derequire | replace-stream /_REQUIRE_/ require | uglifyjs --compress --mangle > build/editor.js",
-   		"pack": "npm run editor && electron-packager ."
+   		"build": "npm run editor && electron-packager . --icon=icon.ico"
 	},
 	"repository": {
 		"type": "git",

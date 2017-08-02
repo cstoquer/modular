@@ -15,7 +15,16 @@ BufferTrim.prototype.setBuffer = function (event) {
 	var numberOfChannels = sourceBuffer.numberOfChannels;
 	var sampleRate       = sourceBuffer.sampleRate;
 	var offset           = event.buffer.start * sampleRate;
-	var bufferLength     = sourceBuffer.length - offset; // TODO: trim end
+	var bufferLength     = sourceBuffer.length - offset;
+
+	// trim end
+	if (event.buffer.end) {
+		if (event.buffer.end > 0) {
+			bufferLength = (event.buffer.end - event.buffer.start) * sampleRate;
+		} else {
+			bufferLength += event.buffer.end * sampleRate;
+		}
+	}
 
 	var buffer = audioContext.createBuffer(numberOfChannels, bufferLength, sampleRate);
 

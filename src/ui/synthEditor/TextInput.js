@@ -1,60 +1,56 @@
-var domUtils     = require('./domUtils');
+var constants    = require('./constants');
+var domUtils     = require('../domUtils');
+var map          = require('../../core/utils').map;
+var createDom    = domUtils.createDom;
 var createDiv    = domUtils.createDiv;
 var makeButton   = domUtils.makeButton;
-var makeDragable = domUtils.makeDragable;
+var GRID_SIZE    = constants.GRID_SIZE;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-/** Panel
- *
- * @author Cedric Stoquer
- */
-function Panel() {
-	this._dom = createDiv('panel');
+function TextInput(parent) {
+	this.editor      = parent; // TODO: should we allow parent to be any else than editor?
+	this.dom         = createDom('input', 'synthEdit-textInput', parent.dom);
+	this._obj        = null;
+	this._attribute  = null;
+	this._autoUpdate = false;
 
-	var t = this;
-
-	// handle header for drag & move
-	var handle = createDiv('handle', this._dom);
-	makeDragable(handle, this._dom);
-
-	// zIndex
-	handle.addEventListener('mousedown', function (e) {
-		t.setOnTop();
-	});
-
-	// title
-	this.title = createDiv('panelTitle', handle);
-
-	// close button
-	var closeButton = createDiv('closeButton', handle);
-	makeButton(closeButton, function onPress() {
-		t.close();
-	});
+	this.dom.type = 'text';
+	this._initMouseEvents();
 }
+module.exports = TextInput;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-var topPanel = null;
-Panel.prototype.setOnTop = function () {
-	if (topPanel) topPanel.style.zIndex = null;
-	this._dom.style.zIndex = 11;
-	topPanel = this._dom;
+TextInput.prototype.bind = function (obj, attribute) {
+	this._obj = obj;
+	this._attribute = attribute;
+
+	this.dom.value = obj[attribute];
+	return this;
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Panel.prototype.setTitle = function (title) {
-	this.title.innerText = title;
+TextInput.prototype.autoUpdate = function () {
+	this._autoUpdate = true;
+	return this;
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Panel.prototype.open = function () {
-	this._dom.style.display = '';
-	this.setOnTop();
+TextInput.prototype.position = function (x, y, w) {
+	this.dom.style.left  = x * GRID_SIZE + 'px';
+	this.dom.style.top   = y * GRID_SIZE + 'px';
+	this.dom.style.width = w * GRID_SIZE + 'px';
+	return this;
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
-Panel.prototype.close = function () {
-	// TODO update checkbox in menu header
-	this._dom.style.display = 'none';
+TextInput.prototype._initMouseEvents = function () {
+	var self = this;
+	this.dom.addEventListener('change', function (e) {
+		if (!self._obj) return;
+		self._obj[self._attribute] = self.dom.value;
+		if (self._autoUpdate) {
+			self.editor.updateBuffer();
+		}
+	});
 };
 
-module.exports = Panel;

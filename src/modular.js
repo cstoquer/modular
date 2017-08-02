@@ -1,17 +1,12 @@
-window.inherits = function (Child, Parent) {
-	Child.prototype = Object.create(Parent.prototype, {
-		constructor: {
-			value:        Child,
-			enumerable:   false,
-			writable:     true,
-			configurable: true
-		}
-	});
-};
+/**
+ * main file being builded for Electron
+ */
+window.inherits = require('inherits');
 
-require('./modules/index.js');
-require('./data/dataTypes.js');
+// require('./modules');
+// require('./data/dataTypes');
 
 window.MODULAR = {
-	Patch: require('./core/Patch')
+	Patch: require('./core/Patch'),    // for loading patch
+	Synths: require('./synthesizers'), // for adding external synthesizers
 };
