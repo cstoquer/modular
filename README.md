@@ -30,6 +30,12 @@ Patch can be exported (`top menu > Patch > Export patch`), and imported by drag 
 View the waveform of the audio buffers.
 Edit loop points, tags and properties of the audio files and save these as a meta file.
 
+## Procedural buffer and synth editor
+
+![gif](https://user-images.githubusercontent.com/2462139/28860257-c719a258-7796-11e7-8681-baffa629dcae.gif)
+
+Generate audio buffer with built-in synthesizers, or program your own synth with their own GUI using a simple `SynthEditor` API.
+
 ## MIDI support
 
 If your browser supports webMIDI, you can have your MIDI keyboard or controller send events to modules.
