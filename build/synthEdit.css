@@ -1,5 +1,5 @@
 @font-face {
-	font-family: "monospace";
+	font-family: "unispace";
 	src: url("../fonts/telegrama.otf") format("woff");
 }
 
@@ -70,6 +70,17 @@
 	height: 32px;
 }
 
+.synthEdit-textInput {
+	position: absolute;
+	height: 32px;
+	font-family: "unispace";
+	font-size: 13px;
+	background-color: #242f38;
+	color: #9cebff;
+	border-radius: 4px;
+	border-color: #5f5e5e;
+}
+
 .synthEdit-toggle {
 	width: 28px;
 	height: 28px;
@@ -81,11 +92,11 @@
 	user-select: none;
 	cursor: default;
 	position: absolute;
-	font-family: "monospace";
+	font-family: "unispace";
 	font-size: 13px;
 	color: #BBB;
 	text-align: center;
 	height: 16px;
-    line-height: 20px;
+    line-height: 17px;
     vertical-align: middle;
 }

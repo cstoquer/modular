@@ -7,6 +7,7 @@ var removeDom    = domUtils.removeDom;
 var GRID_SIZE    = require('./constants').GRID_SIZE;
 var Container    = require('./Container');
 var Knob         = require('./Knob');
+var TextInput    = require('./TextInput');
 var Label        = require('./Label');
 var audioEditor  = require('../audioEditor');
 
@@ -105,6 +106,12 @@ SynthEditorPanel.prototype.addContainer = function (x, y, w, h) {
 SynthEditorPanel.prototype.addKnob = function (x, y) {
 	var knob = new Knob(this).position(x, y);
 	return knob;
+};
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+SynthEditorPanel.prototype.addTextInput = function (x, y, w) {
+	var input = new TextInput(this).position(x, y, w);
+	return input;
 };
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄

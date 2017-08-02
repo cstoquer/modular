@@ -1,39 +1,39 @@
 {
 	"disposition": {
 		"mapEditor": {
-			"x": 0,
-			"y": 37,
-			"width": -2,
-			"height": -2
+			"x": 128,
+			"y": 21,
+			"width": 280,
+			"height": 216
 		},
 		"tilesheet": {
-			"x": 0,
-			"y": 69,
+			"x": 416,
+			"y": 21,
 			"zoom": 2
 		},
 		"tileBrush": {
 			"x": 0,
-			"y": 53,
-			"width": -2,
-			"height": -2,
+			"y": 181,
+			"width": 120,
+			"height": 56,
 			"foldConfig": {}
 		},
 		"palette": {
 			"x": 0,
-			"y": 85
+			"y": 261
 		},
 		"fileExplorer": {
 			"x": 0,
 			"y": 21,
-			"width": -2,
-			"height": -2,
+			"width": 120,
+			"height": 136,
 			"assets": {
 				"maps.json": {}
 			}
 		}
 	},
 	"windowSize": {
-		"width": 540,
-		"height": 287
+		"width": 685,
+		"height": 331
 	}
 }
