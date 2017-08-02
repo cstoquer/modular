@@ -14,7 +14,7 @@ UI is strongly influenced by Clavia's *Nord Modular*'s editor.
 ![modular](https://cloud.githubusercontent.com/assets/2462139/22196853/96e456cc-e192-11e6-873a-3a63371107f5.png)
 
 
-# [Online Demo](http://cstoquer.github.io/modular/)
+# [Try the Online Demo!](http://cstoquer.github.io/modular/)
 
 Nota: Save and Load features are disabled in this demo. 
 Patch can be exported (`top menu > Patch > Export patch`), and imported by drag & dropping a patch file in the window.
