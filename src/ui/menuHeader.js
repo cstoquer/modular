@@ -40,10 +40,31 @@ function importPatch() {
 	// TODO
 }
 
+function openPatch(patchData) {
+	return function () {
+		window.moduleManager.setPatch(patchData);
+	}
+}
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+// read patches folder and populate the "Patches" menu
+
+var patchList = assets.patches || {};
+var patchMenu = [];
+
+for (var patchId in patchList) {
+	patchMenu.push({ label: patchId, click: openPatch(patchList[patchId]) });
+}
+
+// open first patch if exist
+if (patchMenu.length) {
+	patchMenu[0].click();
+}
+
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 var MENU_TEMPLATE = [
 	{
-		label: 'Patch',
+		label: 'File',
 		submenu: [
 			{ label: 'Load Patch', click: null },
 			{ label: 'Save Patch', click: null },
@@ -55,6 +76,10 @@ var MENU_TEMPLATE = [
 			{ type: 'separator' },
 			{ label: 'Clear', click: function clearPatch() { window.moduleManager.clearPatch(); } },
 		]
+	},
+	{
+		label: 'Patches',
+		submenu: patchMenu,
 	},
 	{
 		label: 'View',
